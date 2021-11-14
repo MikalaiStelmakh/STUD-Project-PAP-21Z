@@ -3,7 +3,7 @@ Zespół 11:
 - Denys Savytskyi
 - Roman Ishchuk
 # System wypożyczania książek
-Celem projektu jest symulacja aplikacji zarządzania biblioteką.
+Celem projektu jest stworzenie aplikacji zarządzania biblioteką.
 ## Wymagania funkcjonalne
 - Użytkownicy z różnymi poziomami uprawnień
 - Aplikacja przechowuje dane o książkach, autorach, roku wydania i inne kluczowe informacje
