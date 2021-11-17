@@ -25,7 +25,7 @@ Celem projektu jest stworzenie aplikacji zarządzania biblioteką.
 - Dane przechowywane w bazie danych
 - Używanie protokołu MQTT do komunikacji między elementami systemu
 ## Wstępne zadania
-1. Zaprojektowanie, stworzenie bazy danych oraz podłączenie jej do programu - .
-1. Zaprojektowanie oraz stworzenie GUI - .
-1. Implementacja wstępna, do poruszania się po programie - .
+1. Zaprojektowanie, stworzenie bazy danych oraz podłączenie jej do programu - Denys Savytskyi.
+1. Zaprojektowanie oraz stworzenie GUI - Mikalai Stelmakh.
+1. Implementacja wstępna, do poruszania się po programie - Roman Ishchuk.
 #### Wszystkie zadania robimy razem, ale do każdego z nich jest przypisana jedna osóba odpowiedzialna, która kontroluje proces wykonania danego zadania.
