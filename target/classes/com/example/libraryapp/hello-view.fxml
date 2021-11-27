@@ -7,11 +7,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.libraryapp.controllers.Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.libraryapp.controllers.Controller">
    <children>
       <AnchorPane prefHeight="85.0" prefWidth="700.0" style="-fx-background-color: grey;">
          <children>
-            <Label layoutX="260.0" layoutY="21.0" text="MyLibrary" textFill="#2e3053">
+            <Label layoutX="260.0" layoutY="18.0" text="MyLibrary" textFill="#2e3053">
                <font>
                   <Font name="Bookman Old Style" size="36.0" />
                </font>
@@ -24,7 +24,7 @@
          </children>
       </AnchorPane>
       <PasswordField fx:id="passField" layoutX="197.0" layoutY="215.0" prefHeight="26.0" prefWidth="306.0" promptText="password" />
-      <Label layoutX="261.0" layoutY="110.0" text="Authorization" textFill="#1a1b28b5">
+      <Label layoutX="274.0" layoutY="118.0" text="Login Form" textFill="#1a1b28b5">
          <font>
             <Font name="Arial" size="30.0" />
          </font>
@@ -35,5 +35,6 @@
          </font>
       </Button>
       <TextField fx:id="loginField" layoutX="196.0" layoutY="175.0" prefHeight="26.0" prefWidth="306.0" promptText="login" />
+      <Label fx:id="errorLabel" layoutX="197.0" layoutY="249.0" textFill="RED" />
    </children>
 </AnchorPane>

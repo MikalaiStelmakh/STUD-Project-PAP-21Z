@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.libraryapp.controllers.MainController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.libraryapp.controllers.MainController">
     <children>
         <AnchorPane prefHeight="85.0" prefWidth="700.0" style="-fx-background-color: grey;">
             <children>
@@ -18,16 +18,16 @@
                         <Font name="Bookman Old Style" size="36.0" />
                     </font>
                 </Label>
-            <TextField fx:id="fieldSearch" layoutX="270.0" layoutY="30.0" prefHeight="26.0" prefWidth="190.0" />
-            <Button fx:id="searchButton" layoutX="460.0" layoutY="30.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="30.0" text="🔍" />
-            <MenuButton fx:id="chooseAction" layoutX="586.0" layoutY="29.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="89.0" text="username">
-              <items>
-                <MenuItem mnemonicParsing="false" text="Options" />
-                <MenuItem mnemonicParsing="false" text="Log Out" />
-              </items>
-            </MenuButton>
+                <TextField fx:id="fieldSearch" layoutX="323.0" layoutY="30.0" prefHeight="26.0" prefWidth="190.0" />
+                <Button fx:id="searchButton" layoutX="514.0" layoutY="30.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="30.0" text="🔍" />
+                <MenuButton fx:id="chooseAction" layoutX="586.0" layoutY="29.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="89.0" text="username">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Options" />
+                        <MenuItem mnemonicParsing="false" text="Log Out" />
+                    </items>
+                </MenuButton>
+                <ChoiceBox layoutX="264.0" layoutY="30.0" prefHeight="26.0" prefWidth="58.0" />
             </children>
         </AnchorPane>
-      <ChoiceBox fx:id="chooseActionTest" layoutX="492.0" layoutY="174.0" prefWidth="150.0" />
     </children>
 </AnchorPane>
