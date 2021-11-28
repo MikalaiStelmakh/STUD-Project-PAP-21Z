@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="890.0" prefWidth="1315.0" stylesheets="@../../../../java/com/example/libraryapp/css/styles.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.libraryapp.controllers.MainWindowController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="890.0" prefWidth="1315.0" stylesheets="@css/styles.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="z11.libraryapp.controllers.MainWindowController">
    <top>
       <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="200.0" spacing="20.0" styleClass="white-background" BorderPane.alignment="CENTER">
          <children>
@@ -38,7 +38,7 @@
                   </TextField>
                   <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../../java/com/example/libraryapp/img/search-icon.png" />
+                        <Image url="@img/search-icon.png" />
                      </image>
                   </ImageView>
                </children>
@@ -71,7 +71,7 @@
                      <children>
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../../java/com/example/libraryapp/img/dashboard-icon.png" />
+                              <Image url="@img/dashboard-icon.png" />
                            </image>
                         </ImageView>
                         <Label text="Dashboard">
@@ -88,7 +88,7 @@
                      <children>
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../../java/com/example/libraryapp/img/user-icon.png" />
+                              <Image url="@img/user-icon.png" />
                            </image>
                         </ImageView>
                         <Label text="Authors">
@@ -105,7 +105,7 @@
                      <children>
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../../java/com/example/libraryapp/img/bar-icon.png" />
+                              <Image url="@img/bar-icon.png" />
                            </image>
                         </ImageView>
                         <Label text="Categories">
@@ -132,7 +132,7 @@
                      <children>
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../../java/com/example/libraryapp/img/open-book-icon.png" />
+                              <Image url="@img/open-book-icon.png" />
                            </image>
                         </ImageView>
                         <Label text="Reading">
@@ -149,7 +149,7 @@
                      <children>
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../../java/com/example/libraryapp/img/history-icon.png" />
+                              <Image url="@img/history-icon.png" />
                            </image>
                         </ImageView>
                         <Label text="History">

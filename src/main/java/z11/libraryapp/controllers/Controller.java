@@ -1,4 +1,4 @@
-package com.example.libraryapp.controllers;
+package z11.libraryapp.controllers;
 
 import java.io.IOException;
 import java.net.URL;
@@ -41,7 +41,7 @@ public class Controller {
         signUpButton.setOnAction(actionEvent -> {
             signUpButton.getScene().getWindow().hide();
 
-            FXMLLoader loader = new FXMLLoader(Controller.class.getResource("/com/example/libraryapp/signUp.fxml"));
+            FXMLLoader loader = new FXMLLoader(Controller.class.getResource("/z11/libraryapp/signUp.fxml"));
             try {
                 loader.load();
             } catch (IOException e) {
@@ -56,7 +56,7 @@ public class Controller {
         logInButton.setOnAction(actionEvent -> {
             logInButton.getScene().getWindow().hide();
 
-            FXMLLoader loader = new FXMLLoader(Controller.class.getResource("/com/example/libraryapp/MainWindow.fxml"));
+            FXMLLoader loader = new FXMLLoader(Controller.class.getResource("/z11/libraryapp/MainWindow.fxml"));
 
             try {
                 loader.load();

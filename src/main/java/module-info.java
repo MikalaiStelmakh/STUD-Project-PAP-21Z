@@ -3,8 +3,8 @@ module com.example.libraryapp {
     requires javafx.fxml;
 
 
-    opens com.example.libraryapp to javafx.fxml;
-    exports com.example.libraryapp;
-    exports com.example.libraryapp.controllers;
-    opens com.example.libraryapp.controllers to javafx.fxml;
+    opens z11.libraryapp to javafx.fxml;
+    exports z11.libraryapp;
+    exports z11.libraryapp.controllers;
+    opens z11.libraryapp.controllers to javafx.fxml;
 }
