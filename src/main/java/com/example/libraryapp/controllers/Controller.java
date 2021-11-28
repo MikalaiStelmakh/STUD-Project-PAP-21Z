@@ -56,7 +56,7 @@ public class Controller {
         logInButton.setOnAction(actionEvent -> {
             logInButton.getScene().getWindow().hide();
 
-            FXMLLoader loader = new FXMLLoader(Controller.class.getResource("/com/example/libraryapp/main.fxml"));
+            FXMLLoader loader = new FXMLLoader(Controller.class.getResource("/com/example/libraryapp/MainWindow.fxml"));
 
             try {
                 loader.load();
