@@ -1,4 +1,4 @@
-module com.example.libraryapp {
+module z11.libraryapp {
     requires javafx.controls;
     requires javafx.fxml;
 

@@ -47,7 +47,7 @@ public class SignUpController {
         cancelButton.setOnAction(actionEvent -> {
             cancelButton.getScene().getWindow().hide();
 
-            FXMLLoader loader = new FXMLLoader(SignUpController.class.getResource("/z11/libraryapp/hello-view.fxml"));
+            FXMLLoader loader = new FXMLLoader(SignUpController.class.getResource("/z11/libraryapp/SignIn.fxml"));
             try {
                 loader.load();
             } catch (IOException e) {

@@ -13,7 +13,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class Controller {
+public class SignInController {
 
     @FXML
     private ResourceBundle resources;
@@ -41,7 +41,7 @@ public class Controller {
         signUpButton.setOnAction(actionEvent -> {
             signUpButton.getScene().getWindow().hide();
 
-            FXMLLoader loader = new FXMLLoader(Controller.class.getResource("/z11/libraryapp/signUp.fxml"));
+            FXMLLoader loader = new FXMLLoader(SignInController.class.getResource("/z11/libraryapp/SignUp.fxml"));
             try {
                 loader.load();
             } catch (IOException e) {
@@ -56,7 +56,7 @@ public class Controller {
         logInButton.setOnAction(actionEvent -> {
             logInButton.getScene().getWindow().hide();
 
-            FXMLLoader loader = new FXMLLoader(Controller.class.getResource("/z11/libraryapp/MainWindow.fxml"));
+            FXMLLoader loader = new FXMLLoader(SignInController.class.getResource("/z11/libraryapp/MainWindow.fxml"));
 
             try {
                 loader.load();
