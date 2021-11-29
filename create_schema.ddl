@@ -1,27 +1,73 @@
+DROP TABLE author CASCADE CONSTRAINTS;
+
+DROP TABLE book CASCADE CONSTRAINTS;
+
+DROP TABLE book_author CASCADE CONSTRAINTS;
+
+DROP TABLE book_genre CASCADE CONSTRAINTS;
+
+DROP TABLE book_instance CASCADE CONSTRAINTS;
+
+DROP TABLE country CASCADE CONSTRAINTS;
+
+DROP TABLE genre CASCADE CONSTRAINTS;
+
+DROP TABLE language CASCADE CONSTRAINTS;
+
+DROP TABLE series CASCADE CONSTRAINTS;
+
+DROP TABLE "user" CASCADE CONSTRAINTS;
+
+DROP SEQUENCE author_author_id_seq;
+
+DROP SEQUENCE book_book_id_seq;
+
+DROP SEQUENCE country_country_id_seq;
+
+DROP SEQUENCE genre_genre_id_seq;
+
+DROP SEQUENCE language_language_id_seq;
+
+DROP SEQUENCE series_series_id_seq;
+
+DROP SEQUENCE user_user_id_seq;
+
+-- predefined type, no DDL - MDSYS.SDO_GEOMETRY
+
+-- predefined type, no DDL - XMLTYPE
+
 CREATE SEQUENCE author_author_id_seq START WITH 1 NOCACHE ORDER;
 
 CREATE SEQUENCE book_book_id_seq START WITH 1 NOCACHE ORDER;
 
 CREATE SEQUENCE country_country_id_seq START WITH 1 NOCACHE ORDER;
 
+CREATE SEQUENCE genre_genre_id_seq START WITH 1 NOCACHE ORDER;
+
+CREATE SEQUENCE language_language_id_seq START WITH 1 NOCACHE ORDER;
+
+CREATE SEQUENCE series_series_id_seq START WITH 1 NOCACHE ORDER;
+
+CREATE SEQUENCE user_user_id_seq START WITH 1 NOCACHE ORDER;
+
 CREATE TABLE author (
     author_id  NUMBER NOT NULL,
-    first_name VARCHAR2(50),
-    last_name  VARCHAR2(255),
-    birth_date DATE,
-    death_date DATE
+    first_name VARCHAR2(50) NOT NULL,
+    last_name  VARCHAR2(255) NOT NULL,
+    birth_year NUMBER NOT NULL,
+    death_year NUMBER
 )
 LOGGING;
 
 ALTER TABLE author ADD CONSTRAINT author_pk PRIMARY KEY ( author_id );
 
 CREATE TABLE book (
-    title                VARCHAR2(255),
+    book_id              NUMBER NOT NULL,
+    title                VARCHAR2(255) NOT NULL,
     summary              LONG,
     published            DATE,
     pages                NUMBER,
     cover                VARCHAR2(255),
-    book_id              NUMBER NOT NULL,
     country_country_id   NUMBER,
     series_series_id     NUMBER NOT NULL,
     language_language_id NUMBER
@@ -31,85 +77,85 @@ LOGGING;
 ALTER TABLE book ADD CONSTRAINT book_pk PRIMARY KEY ( book_id );
 
 CREATE TABLE book_author (
-    book_book_id     NUMBER NOT NULL,
-    author_author_id NUMBER NOT NULL
+    book_id   NUMBER NOT NULL,
+    author_id NUMBER NOT NULL
 )
 LOGGING;
 
-ALTER TABLE book_author ADD CONSTRAINT book_author_pk PRIMARY KEY ( book_book_id,
-                                                                    author_author_id );
+ALTER TABLE book_author ADD CONSTRAINT book_author_pk PRIMARY KEY ( book_id,
+                                                                    author_id );
 
 CREATE TABLE book_genre (
-    genre_genre_id NUMBER NOT NULL,
-    book_book_id   NUMBER NOT NULL
+    genre_id NUMBER NOT NULL,
+    book_id  NUMBER NOT NULL
 )
 LOGGING;
 
-ALTER TABLE book_genre ADD CONSTRAINT book_genre_pk PRIMARY KEY ( genre_genre_id,
-                                                                  book_book_id );
+ALTER TABLE book_genre ADD CONSTRAINT book_genre_pk PRIMARY KEY ( genre_id,
+                                                                  book_id );
 
 CREATE TABLE book_instance (
+    book_instance_id NUMBER NOT NULL,
     book_book_id     NUMBER NOT NULL,
-    user_user_id     NUMBER NOT NULL,
-    book_instance_id NUMBER NOT NULL
+    user_user_id     NUMBER NOT NULL
 )
 LOGGING;
 
 ALTER TABLE book_instance ADD CONSTRAINT book_instance_pk PRIMARY KEY ( book_instance_id );
 
 CREATE TABLE country (
-    name       VARCHAR2(255),
-    country_id NUMBER NOT NULL
+    country_id NUMBER NOT NULL,
+    name       VARCHAR2(255) NOT NULL
 )
 LOGGING;
 
 ALTER TABLE country ADD CONSTRAINT country_pk PRIMARY KEY ( country_id );
 
 CREATE TABLE genre (
-    name     VARCHAR2(50),
-    genre_id NUMBER NOT NULL
+    genre_id NUMBER NOT NULL,
+    name     VARCHAR2(50) NOT NULL
 )
 LOGGING;
 
 ALTER TABLE genre ADD CONSTRAINT genre_pk PRIMARY KEY ( genre_id );
 
 CREATE TABLE language (
-    name        VARCHAR2(255),
-    language_id NUMBER NOT NULL
+    language_id NUMBER NOT NULL,
+    name        VARCHAR2(255) NOT NULL
 )
 LOGGING;
 
 ALTER TABLE language ADD CONSTRAINT language_pk PRIMARY KEY ( language_id );
 
 CREATE TABLE series (
-    name      VARCHAR2(255),
-    series_id NUMBER NOT NULL
+    series_id NUMBER NOT NULL,
+    name      VARCHAR2(255) NOT NULL
 )
 LOGGING;
 
 ALTER TABLE series ADD CONSTRAINT series_pk PRIMARY KEY ( series_id );
 
 CREATE TABLE "user" (
-    first_name VARCHAR2(50),
-    last_name  VARCHAR2(255),
-    login      VARCHAR2(50),
-    password   VARCHAR2(255),
-    salt       VARCHAR2(255),
+    user_id    NUMBER NOT NULL,
+    first_name VARCHAR2(50) NOT NULL,
+    last_name  VARCHAR2(255) NOT NULL,
+    login      VARCHAR2(50) NOT NULL,
+    password   VARCHAR2(255) NOT NULL,
+    salt       VARCHAR2(255) NOT NULL,
     is_admin   CHAR(1),
-    is_stuff   CHAR(1),
-    user_id    NUMBER NOT NULL
+    is_stuff   CHAR(1)
 )
 LOGGING;
 
 ALTER TABLE "user" ADD CONSTRAINT user_pk PRIMARY KEY ( user_id );
 
 ALTER TABLE book_author
-    ADD CONSTRAINT book_author_author_fk FOREIGN KEY ( author_author_id )
+    ADD CONSTRAINT book_author_author_fk FOREIGN KEY ( author_id )
         REFERENCES author ( author_id )
     NOT DEFERRABLE;
 
 ALTER TABLE book_author
-    ADD CONSTRAINT book_author_book_fk FOREIGN KEY ( book_book_id )
+    ADD CONSTRAINT book_author_book_fk FOREIGN KEY ( book_id )
         REFERENCES book ( book_id )
     NOT DEFERRABLE;
 
@@ -119,12 +165,12 @@ ALTER TABLE book
     NOT DEFERRABLE;
 
 ALTER TABLE book_genre
-    ADD CONSTRAINT book_genre_book_fk FOREIGN KEY ( book_book_id )
+    ADD CONSTRAINT book_genre_book_fk FOREIGN KEY ( book_id )
         REFERENCES book ( book_id )
     NOT DEFERRABLE;
 
 ALTER TABLE book_genre
-    ADD CONSTRAINT book_genre_genre_fk FOREIGN KEY ( genre_genre_id )
+    ADD CONSTRAINT book_genre_genre_fk FOREIGN KEY ( genre_id )
         REFERENCES genre ( genre_id )
     NOT DEFERRABLE;
 
@@ -175,8 +221,6 @@ BEGIN
 END;
 /
 
-CREATE SEQUENCE genre_genre_id_seq START WITH 1 NOCACHE ORDER;
-
 CREATE OR REPLACE TRIGGER genre_genre_id_trg BEFORE
     INSERT ON genre
     FOR EACH ROW
@@ -185,8 +229,6 @@ BEGIN
     :new.genre_id := genre_genre_id_seq.nextval;
 END;
 /
-
-CREATE SEQUENCE language_language_id_seq START WITH 1 NOCACHE ORDER;
 
 CREATE OR REPLACE TRIGGER language_language_id_trg BEFORE
     INSERT ON language
@@ -197,8 +239,6 @@ BEGIN
 END;
 /
 
-CREATE SEQUENCE series_series_id_seq START WITH 1 NOCACHE ORDER;
-
 CREATE OR REPLACE TRIGGER series_series_id_trg BEFORE
     INSERT ON series
     FOR EACH ROW
@@ -207,8 +247,6 @@ BEGIN
     :new.series_id := series_series_id_seq.nextval;
 END;
 /
-
-CREATE SEQUENCE user_user_id_seq START WITH 1 NOCACHE ORDER;
 
 CREATE OR REPLACE TRIGGER user_user_id_trg BEFORE
     INSERT ON "user"
