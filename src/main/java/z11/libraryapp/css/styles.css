@@ -14,3 +14,15 @@
 .btn:hover{
     -fx-cursor: hand;
 }
+
+.mouse-moved:hover{
+    -fx-background-color: #E4E4E4;
+}
+
+.selected{
+    -fx-background-color: #F3F3F3;
+}
+
+.shadow{
+    -fx-effect: dropShadow(three-pass-box, rgba(0, 0, 0, 0), 10, 0, 0, 10);
+}
