@@ -22,10 +22,10 @@ public class CardController {
     private HBox box;
 
     public void setData(Book book){
-        Image image = new Image(getClass().getResourceAsStream(book.getImageSrc()));
+        Image image = new Image(getClass().getResourceAsStream(book.getCoverSrc()));
         bookImage.setImage(image);
         bookTitle.setText(book.getTitle());
-        bookAuthor.setText(book.getAuthor());
+        bookAuthor.setText(book.getAuthorsNames());
         box.setStyle("-fx-background-color: #eed7b483; -fx-background-radius: 15; -fx-effect: dropShadow(three-pass-box, rgba(0,0,0,0), 10, 0, 0, 10);");
     }
 }
