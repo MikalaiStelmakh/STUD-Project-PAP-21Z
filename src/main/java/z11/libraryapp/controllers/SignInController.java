@@ -41,7 +41,8 @@ public class SignInController {
         signUpButton.setOnAction(actionEvent -> {
             signUpButton.getScene().getWindow().hide();
 
-            FXMLLoader loader = new FXMLLoader(SignInController.class.getResource("/z11/libraryapp/SignUp.fxml"));
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/z11/libraryapp/SignUp.fxml"));
             try {
                 loader.load();
             } catch (IOException e) {

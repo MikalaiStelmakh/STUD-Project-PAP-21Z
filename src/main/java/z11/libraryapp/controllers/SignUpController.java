@@ -22,25 +22,25 @@ public class SignUpController {
     private URL location;
 
     @FXML
-    private PasswordField signUpPassField;
-
-    @FXML
-    private TextField signUpLoginField;
-
-    @FXML
-    private Button signUpButtonCreate;
-
-    @FXML
-    private TextField signUpUsername;
+    private Button cancelButton;
 
     @FXML
     private TextField confirmSignUpPassField;
 
     @FXML
-    private Button cancelButton;
+    private Label createErrorLabel;
 
     @FXML
-    private Label createErrorLabel;
+    private Button signUpButton;
+
+    @FXML
+    private TextField signUpEmailField;
+
+    @FXML
+    private PasswordField signUpPassField;
+
+    @FXML
+    private TextField signUpUsernameField;
 
     @FXML
     void initialize() {
@@ -59,7 +59,7 @@ public class SignUpController {
             stage.showAndWait();
         });
 
-        signUpButtonCreate.setOnAction(actionEvent -> {
+        signUpButton.setOnAction(actionEvent -> {
             try {
                 checkCreate();
             } catch (IOException e) {
@@ -69,7 +69,7 @@ public class SignUpController {
     }
 
     private void checkCreate() throws IOException {
-        if (signUpLoginField.getText().toString() == "" || signUpPassField.getText().toString() == "" || signUpUsername.getText().toString() == "" || confirmSignUpPassField.getText().toString() == "") {
+        if (signUpEmailField.getText().toString() == "" || signUpPassField.getText().toString() == "" || signUpUsernameField.getText().toString() == "" || confirmSignUpPassField.getText().toString() == "") {
             createErrorLabel.setText("Fill in all the fields");
         } else if (signUpPassField.getText().toString() != confirmSignUpPassField.getText().toString()) {
             createErrorLabel.setText("Password mismatch");
