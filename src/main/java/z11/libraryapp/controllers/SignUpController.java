@@ -3,6 +3,8 @@ package z11.libraryapp.controllers;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -12,6 +14,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javafx.scene.Node;
+
+import static java.lang.Thread.sleep;
 
 public class SignUpController {
 
@@ -28,7 +33,10 @@ public class SignUpController {
     private TextField confirmSignUpPassField;
 
     @FXML
-    private Label createErrorLabel;
+    private Label errorLabel;
+
+    @FXML
+    private Label successLabel;
 
     @FXML
     private Button signUpButton;
@@ -42,37 +50,65 @@ public class SignUpController {
     @FXML
     private TextField signUpUsernameField;
 
-    @FXML
-    void initialize() {
-        cancelButton.setOnAction(actionEvent -> {
-            cancelButton.getScene().getWindow().hide();
+    private Parent root;
+    private Stage stage;
+    private Scene scene;
 
-            FXMLLoader loader = new FXMLLoader(SignUpController.class.getResource("/z11/libraryapp/SignIn.fxml"));
-            try {
-                loader.load();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            Parent root = loader.getRoot();
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.showAndWait();
-        });
+    public void cancelButtonOnAction(ActionEvent event){
 
-        signUpButton.setOnAction(actionEvent -> {
-            try {
-                checkCreate();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
+        cancelButton.getScene().getWindow().hide();
+        FXMLLoader loader = new FXMLLoader(SignUpController.class.getResource("/z11/libraryapp/SignIn.fxml"));
+        try {
+            root = loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 
-    private void checkCreate() throws IOException {
-        if (signUpEmailField.getText().toString() == "" || signUpPassField.getText().toString() == "" || signUpUsernameField.getText().toString() == "" || confirmSignUpPassField.getText().toString() == "") {
-            createErrorLabel.setText("Fill in all the fields");
-        } else if (signUpPassField.getText().toString() != confirmSignUpPassField.getText().toString()) {
-            createErrorLabel.setText("Password mismatch");
+    public void signUpButtonOnAction(ActionEvent event) throws IOException {
+        errorLabel.setText("");
+        successLabel.setText("");
+        if (checkCreate()) {
+
+//            signUpButton.getScene().getWindow().hide();
+//            FXMLLoader loader = new FXMLLoader(SignUpController.class.getResource("/z11/libraryapp/SignIn.fxml"));
+//            try {
+//                root = loader.load();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            SignInController signInController = loader.getController();
+//            signInController.displayName(signUpUsernameField.getText());
+//            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+//            scene = new Scene(root);
+//            stage.setScene(scene);
+//            stage.show();
+        }
+
+    }
+
+    @FXML
+    void initialize() {
+    }
+
+    private boolean checkCreate() throws IOException {
+        if (signUpEmailField.getText() == "" || signUpPassField.getText() == "" || signUpUsernameField.getText().toString() == "" || confirmSignUpPassField.getText().toString() == "") {
+            errorLabel.setText("Fill in all the fields");
+            return false;
+
+        } else if (!signUpPassField.getText().equals(confirmSignUpPassField.getText())) {
+            System.out.println(signUpPassField.getText());
+            System.out.println(confirmSignUpPassField.getText());
+            errorLabel.setText("Password mismatch");
+            return false;
+        }
+        else {
+            successLabel.setText("Success!");
+            return true;
         }
     }
 }

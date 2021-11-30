@@ -30,7 +30,7 @@
                   <String fx:value="transparent" />
                </styleClass>
             </TextField>
-            <Button fx:id="logInButton" layoutX="284.0" layoutY="208.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="152.0" style="-fx-background-color: #F39C63;" text="Log In" textFill="WHITE">
+            <Button fx:id="logInButton" layoutX="284.0" layoutY="208.0" mnemonicParsing="false" onAction="#logInButtonOnAction" prefHeight="34.0" prefWidth="152.0" style="-fx-background-color: #F39C63;" text="Log In" textFill="WHITE">
                <styleClass>
                   <String fx:value="btn" />
                   <String fx:value="berlin-sans-font" />
@@ -59,7 +59,7 @@
             <Font size="50.0" />
          </font>
       </Label>
-      <Button fx:id="signUpButton" layoutX="534.0" layoutY="11.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="152.0" style="-fx-background-color: #F39C63;" text="Sign Up" textFill="WHITE">
+      <Button fx:id="signUpButton" layoutX="534.0" layoutY="11.0" mnemonicParsing="false" onAction="#signUpButtonOnAction" prefHeight="34.0" prefWidth="152.0" style="-fx-background-color: #F39C63;" text="Sign Up" textFill="WHITE">
          <styleClass>
             <String fx:value="btn" />
             <String fx:value="berlin-sans-font" />
