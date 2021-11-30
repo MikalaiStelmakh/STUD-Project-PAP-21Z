@@ -1,3 +1,4 @@
+
 .white-background{
     -fx-background-color: #fff;
 }
@@ -25,4 +26,14 @@
 
 .shadow{
     -fx-effect: dropShadow(three-pass-box, rgba(0, 0, 0, 0), 10, 0, 0, 10);
+}
+
+.berlin-sans-font{
+    -fx-font-family: "Berlin Sans FB";
+}
+
+
+.text:focused{
+    -fx-border-color: silver;
+    -fx-border-radius: 5;
 }
