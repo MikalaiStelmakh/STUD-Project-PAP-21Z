@@ -125,8 +125,11 @@ public class Book {
         String res = "";
         String delimiter = ", ";
 
-        for(Author author : authors){
-            res += delimiter + author.toString();
+        for (int i = 0; i<authors.size(); i++){
+            res += authors.get(i);
+            if (i+1 < authors.size()){
+                res += delimiter;
+            }
         }
         return res;
     }
