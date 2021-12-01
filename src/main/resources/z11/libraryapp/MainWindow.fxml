@@ -240,7 +240,6 @@
       </VBox>
    </center>
    <stylesheets>
-      <URL value="@../../../java/z11/libraryapp/css/styles.css" />
       <URL value="@css/styles.css" />
    </stylesheets>
 </BorderPane>

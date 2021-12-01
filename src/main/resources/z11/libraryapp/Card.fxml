@@ -27,6 +27,5 @@
    </children>
    <stylesheets>
       <URL value="@css/styles.css" />
-      <URL value="@../../../java/z11/libraryapp/css/styles.css" />
    </stylesheets>
 </HBox>

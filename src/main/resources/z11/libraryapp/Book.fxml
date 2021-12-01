@@ -35,7 +35,6 @@
       <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
    </padding>
    <stylesheets>
-      <URL value="@../../../java/z11/libraryapp/css/styles.css" />
       <URL value="@css/styles.css" />
    </stylesheets>
    <styleClass>
