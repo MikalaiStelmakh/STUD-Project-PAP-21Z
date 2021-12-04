@@ -10,9 +10,9 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="700.0" style="-fx-background-color: #2E3348;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="z11.libraryapp.controllers.SignInController">
    <children>
-      <AnchorPane layoutY="97.0" prefHeight="305.0" prefWidth="700.0" styleClass="white-background" stylesheets="@../../../java/z11/libraryapp/css/styles.css">
+      <AnchorPane layoutY="97.0" prefHeight="305.0" prefWidth="700.0" styleClass="white-background">
          <children>
-            <TextField fx:id="loginField" layoutX="207.0" layoutY="72.0" prefHeight="26.0" prefWidth="286.0" promptText="Login" style="-fx-border-radius: 10;" stylesheets="@../../../java/z11/libraryapp/css/styles.css">
+            <TextField fx:id="loginField" layoutX="207.0" layoutY="72.0" prefHeight="26.0" prefWidth="286.0" promptText="Login" style="-fx-border-radius: 10;">
                <font>
                   <Font size="17.0" />
                </font>
@@ -21,7 +21,7 @@
                   <String fx:value="transparent" />
                </styleClass>
             </TextField>
-            <TextField fx:id="passwordField" accessibleRole="PASSWORD_FIELD" layoutX="207.0" layoutY="126.0" prefHeight="26.0" prefWidth="286.0" promptText="Password" style="-fx-border-radius: 10;" stylesheets="@../../../java/z11/libraryapp/css/styles.css">
+            <TextField fx:id="passwordField" accessibleRole="PASSWORD_FIELD" layoutX="207.0" layoutY="126.0" prefHeight="26.0" prefWidth="286.0" promptText="Password" style="-fx-border-radius: 10;">
                <font>
                   <Font size="17.0" />
                </font>
@@ -40,10 +40,6 @@
                </font>
             </Button>
             <Label alignment="CENTER" contentDisplay="CENTER" layoutX="212.0" layoutY="14.0" prefHeight="50.0" prefWidth="276.0" styleClass="berlin-sans-font" text="Authorization">
-               <stylesheets>
-                  <URL value="@css/styles.css" />
-                  <URL value="@../../../java/z11/libraryapp/css/styles.css" />
-               </stylesheets>
                <font>
                   <Font size="30.0" />
                </font>
@@ -51,10 +47,6 @@
          </children>
       </AnchorPane>
       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="212.0" layoutY="28.0" prefHeight="50.0" prefWidth="276.0" styleClass="berlin-sans-font" text="My Library" textFill="WHITE">
-         <stylesheets>
-            <URL value="@css/styles.css" />
-            <URL value="@../../../java/z11/libraryapp/css/styles.css" />
-         </stylesheets>
          <font>
             <Font size="50.0" />
          </font>
@@ -69,8 +61,4 @@
          </font>
       </Button>
    </children>
-   <stylesheets>
-      <URL value="@../../../java/z11/libraryapp/css/styles.css" />
-      <URL value="@css/styles.css" />
-   </stylesheets>
 </AnchorPane>

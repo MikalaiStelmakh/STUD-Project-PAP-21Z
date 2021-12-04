@@ -55,18 +55,14 @@ public class SignUpController {
     private Scene scene;
 
     public void cancelButtonOnAction(ActionEvent event){
-
-        cancelButton.getScene().getWindow().hide();
-        FXMLLoader loader = new FXMLLoader(SignUpController.class.getResource("/z11/libraryapp/SignIn.fxml"));
         try {
-            root = loader.load();
+            Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/z11/libraryapp/fxml/SignIn.fxml")));
+            scene.getStylesheets().add(getClass().getResource("/z11/libraryapp/css/styles.css").toExternalForm());
+            Stage stage = (Stage) cancelButton.getScene().getWindow();
+            stage.setScene(scene);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
     }
 
     public void signUpButtonOnAction(ActionEvent event) throws IOException {

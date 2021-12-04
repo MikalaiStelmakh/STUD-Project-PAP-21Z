@@ -35,7 +35,7 @@ public class MainWindowController implements Initializable {
 
             for (Book book : books){
                 FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(CardController.class.getResource("/z11/libraryapp/Card.fxml"));
+                fxmlLoader.setLocation(CardController.class.getResource("/z11/libraryapp/fxml/Card.fxml"));
                 HBox cardBox = fxmlLoader.load();
                 CardController cardController = fxmlLoader.getController();
                 cardController.setData(book);
@@ -44,7 +44,7 @@ public class MainWindowController implements Initializable {
 
             for(Book book_rom : books){
                 FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(CardController.class.getResource("/z11/libraryapp/Book.fxml"));
+                fxmlLoader.setLocation(CardController.class.getResource("/z11/libraryapp/fxml/Book.fxml"));
                 VBox bookBox = fxmlLoader.load();
                 BookController bookController = fxmlLoader.getController();
                 bookController.setData(book_rom);

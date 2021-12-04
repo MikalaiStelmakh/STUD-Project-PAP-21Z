@@ -22,7 +22,7 @@ public class CardController {
     private HBox box;
 
     public void setData(Book book){
-        Image image = new Image(getClass().getResourceAsStream(book.getCoverSrc()));
+        Image image = new Image(getClass().getResourceAsStream("/z11/libraryapp/img/covers/" + book.getCoverSrc()));
         bookImage.setImage(image);
         bookTitle.setText(book.getTitle());
         bookAuthor.setText(book.getAuthorsNames());

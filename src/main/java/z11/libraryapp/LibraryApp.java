@@ -10,8 +10,9 @@ import java.io.IOException;
 public class LibraryApp extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(LibraryApp.class.getResource("SignIn.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(LibraryApp.class.getResource("fxml/SignIn.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 700, 400);
+        scene.getStylesheets().add(getClass().getResource("css/styles.css").toExternalForm());
         stage.setTitle("LibraryApp");
         stage.setScene(scene);
         stage.show();
