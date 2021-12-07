@@ -106,7 +106,7 @@ public class DbHandler {
                     String summary = rs.getString(3);
                     int publicationYear = rs.getInt(4);
                     int pages = rs.getInt(5);
-                    String coverSrc = "/z11/libraryapp/img/" + rs.getString(6);
+                    String coverSrc = rs.getString(6);
                     String country = rs.getString(7);
                     String series = rs.getString(8);
                     String language = rs.getString(9);

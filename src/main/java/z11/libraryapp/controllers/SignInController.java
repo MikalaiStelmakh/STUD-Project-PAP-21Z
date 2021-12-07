@@ -39,36 +39,30 @@ public class SignInController {
     private Label errorLabel;
 
     public void signUpButtonOnAction(ActionEvent event){
-        signUpButton.getScene().getWindow().hide();
-
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/z11/libraryapp/SignUp.fxml"));
         try {
-            loader.load();
+            Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/z11/libraryapp/fxml/SignUp.fxml")));
+            scene.getStylesheets().add(getClass().getResource("/z11/libraryapp/css/styles.css").toExternalForm());
+            Stage stage = (Stage) signUpButton.getScene().getWindow();
+            stage.setScene(scene);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Parent root = loader.getRoot();
-        Stage stage = new Stage();
-        stage.setScene(new Scene(root));
-        stage.showAndWait();
     }
 
     public void logInButtonOnAction(ActionEvent event){
         logInButton.getScene().getWindow().hide();
 
-        FXMLLoader loader = new FXMLLoader(SignInController.class.getResource("/z11/libraryapp/MainWindow.fxml"));
-
         try {
-            loader.load();
+            Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/z11/libraryapp/fxml/MainWindow.fxml")));
+            scene.getStylesheets().add(getClass().getResource("/z11/libraryapp/css/styles.css").toExternalForm());
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        Parent root = loader.getRoot();
-        Stage stage = new Stage();
-        stage.setScene(new Scene(root));
-        stage.showAndWait();
+
     }
 
     public void displayName(String username){
@@ -77,6 +71,5 @@ public class SignInController {
 
     @FXML
     void initialize() {
-
     }
 }
