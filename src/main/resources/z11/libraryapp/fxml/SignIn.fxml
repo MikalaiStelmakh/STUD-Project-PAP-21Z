@@ -4,12 +4,11 @@
 <?import java.net.URL?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="700.0" style="-fx-background-color: #2E3348;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="z11.libraryapp.controllers.SignInController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="700.0" style="-fx-background-color: #2E3348;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="z11.libraryapp.controllers.SignInController">
    <children>
       <AnchorPane layoutY="97.0" prefHeight="305.0" prefWidth="700.0" styleClass="white-background">
          <children>
@@ -40,36 +39,14 @@
                   <Font size="20.0" />
                </font>
             </Button>
-<<<<<<< HEAD:src/main/resources/z11/libraryapp/SignIn.fxml
-            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="212.0" layoutY="14.0" prefHeight="50.0" prefWidth="276.0" styleClass="berlin-sans-font" text="Login Form">
-               <stylesheets>
-                  <URL value="@css/styles.css" />
-               </stylesheets>
-=======
             <Label alignment="CENTER" contentDisplay="CENTER" layoutX="212.0" layoutY="14.0" prefHeight="50.0" prefWidth="276.0" styleClass="berlin-sans-font" text="Authorization">
->>>>>>> master:src/main/resources/z11/libraryapp/fxml/SignIn.fxml
                <font>
                   <Font size="30.0" />
                </font>
             </Label>
-            <PasswordField fx:id="passwordField" layoutX="207.0" layoutY="126.0" prefHeight="26.0" prefWidth="286.0" promptText="Password" style="-fx-border-radius: 10;" stylesheets="@css/styles.css">
-               <font>
-                  <Font size="17.0" />
-               </font>
-               <styleClass>
-                  <String fx:value="text" />
-                  <String fx:value="transparent" />
-               </styleClass>
-            </PasswordField>
          </children>
       </AnchorPane>
       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="212.0" layoutY="28.0" prefHeight="50.0" prefWidth="276.0" styleClass="berlin-sans-font" text="My Library" textFill="WHITE">
-<<<<<<< HEAD:src/main/resources/z11/libraryapp/SignIn.fxml
-         <stylesheets>
-            <URL value="@css/styles.css" />
-         </stylesheets>
-=======
->>>>>>> master:src/main/resources/z11/libraryapp/fxml/SignIn.fxml
          <font>
             <Font size="50.0" />
          </font>
@@ -84,10 +61,4 @@
          </font>
       </Button>
    </children>
-<<<<<<< HEAD:src/main/resources/z11/libraryapp/SignIn.fxml
-   <stylesheets>
-      <URL value="@css/styles.css" />
-   </stylesheets>
-=======
->>>>>>> master:src/main/resources/z11/libraryapp/fxml/SignIn.fxml
 </AnchorPane>

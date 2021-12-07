@@ -238,7 +238,4 @@
          </children>
       </VBox>
    </center>
-   <stylesheets>
-      <URL value="@css/styles.css" />
-   </stylesheets>
 </BorderPane>

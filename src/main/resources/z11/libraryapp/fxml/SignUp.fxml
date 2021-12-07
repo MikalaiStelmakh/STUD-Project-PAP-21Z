@@ -65,7 +65,4 @@
          </font>
       </Label>
     </children>
-   <stylesheets>
-      <URL value="@css/styles.css" />
-   </stylesheets>
 </AnchorPane>
