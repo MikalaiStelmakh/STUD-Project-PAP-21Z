@@ -52,3 +52,4 @@ Ta strona będzie zawierała historię użytkownika o wypożyczaniu książek.
 ### Wyszukiwanie
 Planowane, że pole wyszukiwania będzię takie same na wszystkich stronach aplikacji i będzie możliwość wyszukiwania dla wszystkich parametrów książki, to znaczy, że na stronie `Authors` można będzie wyszukać książkę też po jej nazwie, a nie tylko autorze.
 ### MQTT
+Planowane, żeby przy pomocy protokołu MQTT książka sama mogła wyznaczyć, czy jest wypożyczona, czy dostępna do wypożyczenia. W takim razie nie jest potrzebny bibliotekarz, bo książka sama będzie przesyłała informację, że została wypożyczona lub zwrócona.
