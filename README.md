@@ -54,6 +54,6 @@ Planowane, że pole wyszukiwania będzię takie same na wszystkich stronach apli
 ### MQTT
 Zakładamy, że przy pomocy protokołu MQTT książka wysyła komunikaty, czy jest wypożyczona lub zwrócona. Zakładamy, że klient bibliotekarza będzie obsługiwać komunikaty od książek. Zostanie stworzona prosta aplikacja, która będzie wysyłać komunikaty o tym, że pewna książka została wypożyczona lub zwrócona.
 ### Podział obowiązków  
-- Mikalai - interfejs aplikacji głównej
-- Denys - baza danych oraz MQTT
-- Roman - interfejs panelu administracyjnego
+- Mikalai Stelmakh - interfejs aplikacji głównej
+- Denys Savytskyi - baza danych oraz MQTT
+- Roman Ishchuk - interfejs panelu administracyjnego
