@@ -96,8 +96,11 @@ ALTER TABLE book_genre ADD CONSTRAINT book_genre_pk PRIMARY KEY ( genre_id,
 
 CREATE TABLE book_instance (
     book_instance_id NUMBER NOT NULL,
-    book_book_id     NUMBER NOT NULL,
-    user_user_id     NUMBER NOT NULL
+    book_id     NUMBER NOT NULL,
+    user_id     NUMBER,
+    lend_date        DATE,
+    return_date      DATE,
+    is_available     NUMBER DEFAULT 1 NOT NULL
 )
 LOGGING;
 
