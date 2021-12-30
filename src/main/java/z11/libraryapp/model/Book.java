@@ -2,8 +2,6 @@ package z11.libraryapp.model;
 
 import java.util.ArrayList;
 
-import javafx.scene.chart.XYChart.Series;
-
 public class Book {
     private int id;
     private String title;
