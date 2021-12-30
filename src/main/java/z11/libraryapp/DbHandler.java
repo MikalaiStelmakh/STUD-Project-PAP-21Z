@@ -1,8 +1,11 @@
 package z11.libraryapp;
 
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.Connection;
 import java.sql.Statement;
+import java.sql.Types;
+import java.time.LocalDate;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.ResultSet;
@@ -57,7 +60,6 @@ public class DbHandler {
     }
 
     public ResultSet ddlQuery(String query) throws  DdlQueryError, UnavailableDB{
-        getConnection();
         try {
             ResultSet rs = con.createStatement().executeQuery(query);
             return rs;
@@ -67,7 +69,6 @@ public class DbHandler {
     }
 
     public void dmlQuery(String query) throws DmlQueryError, UnavailableDB{
-        getConnection();
         try {
             con.createStatement().executeUpdate(query);
         } catch (SQLException e){
@@ -76,7 +77,6 @@ public class DbHandler {
     }
 
     public void dmlTransaction(String[] queries) throws  SQLException, TransactionError, UnavailableDB{
-        getConnection();
         con.setAutoCommit(false);
         try{
             for(String query : queries){
@@ -89,17 +89,61 @@ public class DbHandler {
         }
     }
 
+    public void lendBook(int userId, int bookInstanceId) throws UnavailableDB{
+        String query = "UPDATE book_instance "
+                     + "SET user_id = ?, lend_date = ?, return_date = ?, is_available = 0 "
+                     + "WHERE book_instance_id = ? ";
+        PreparedStatement stmt = null;
+        try {
+            LocalDate currDate = LocalDate.now();
+            LocalDate returnDate = currDate.plusMonths(1);
+            stmt = con.prepareStatement(query);
+            stmt.setInt(1, userId);
+            stmt.setDate(2, java.sql.Date.valueOf(currDate));
+            stmt.setDate(3, java.sql.Date.valueOf(returnDate));
+            stmt.setInt(4, bookInstanceId);
+
+        } catch (SQLException e){
+            e.printStackTrace();
+            throw new UnavailableDB(e);
+        }
+        try {
+            stmt.executeUpdate();
+        } catch (SQLException e){
+            e.printStackTrace();
+            throw new UnavailableDB(e);
+        }
+    }
+
+    public void returnBook(int bookInstanceId) throws UnavailableDB{
+        String query = "UPDATE book_instance "
+                     + "SET user_id = ?, lend_date = ?, return_date = ?, is_available = 1 "
+                     + "WHERE book_instance_id = ? ";
+        try {
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.setNull(1, Types.NUMERIC);
+            stmt.setNull(2, Types.DATE);
+            stmt.setNull(3, Types.DATE);
+            stmt.setInt(4, bookInstanceId);
+            stmt.executeUpdate();
+        } catch (SQLException e){
+            e.printStackTrace();
+            throw new UnavailableDB(e);
+        }
+    }
+
     public ArrayList<Book> getBooks() throws UnavailableDB{
         ArrayList<Book> books = new ArrayList<Book>();
         String query = "SELECT book.book_id, book.title, book.summary, book.publication_year, book.pages, "
-                     + "book.cover, country.name country, series.name series, language.name language "
-                     + "FROM book "
-                     + "JOIN country ON (book.country_id = country.country_id) "
-                     + "JOIN series ON (book.series_id = series.series_id) "
-                     + "JOIN language ON (book.language_id = language.language_id)";
+                + "book.cover, country.name country, series.name series, language.name language "
+                + "FROM book "
+                + "JOIN country ON (book.country_id = country.country_id) "
+                + "JOIN series ON (book.series_id = series.series_id) "
+                + "JOIN language ON (book.language_id = language.language_id)";
         getConnection();
         try{
-            ResultSet rs = ddlQuery(query);
+            PreparedStatement stmt = con.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
             while(rs.next()){
                 try{
                     int id = rs.getInt(1);
@@ -112,55 +156,36 @@ public class DbHandler {
                     String series = rs.getString(8);
                     String language = rs.getString(9);
 
-                    ArrayList<Author> authors = getBookAuthorsQuery(id);
-                    ArrayList<String> genres = getBookGenresQuery(id);
+                    ArrayList<Author> authors = getBookAuthors(id);
+                    ArrayList<String> genres = getBookGenres(id);
 
                     books.add(new Book(id, title, summary, publicationYear, pages, coverSrc, country,
-                                       series, language, authors, genres));
+                            series, language, authors, genres));
                 }
                 catch(SQLException e){
                     continue;
                 }
             }
-        } catch(DdlQueryError | SQLException e){
+        } catch(SQLException e){
             e.printStackTrace();
-            System.exit(1);
+            throw new UnavailableDB(e);
         }
         return books;
     }
 
     public Book getBook(int bookId) throws UnavailableDB{
         Book book = null;
-        getConnection();
-        book = getBookQuery(bookId);
-        return book;
-    }
-
-    public String getGenre(int genreId) throws UnavailableDB{
-        String genre = null;
-        getConnection();
-        genre = getGenreQuery(genreId);
-        return genre;
-    }
-
-    public Author getAuthor(int authorId) throws UnavailableDB{
-        Author author = null;
-        getConnection();
-        author = getAuthorQuery(authorId);
-        return author;
-    }
-
-    private Book getBookQuery(int bookId) throws UnavailableDB{
         String query = "SELECT book.book_id, book.title, book.summary, book.publication_year, book.pages, "
-                     + "book.cover, country.name country, series.name series, language.name language "
-                     + "FROM book "
-                     + "JOIN country ON (book.country_id = country.country_id) "
-                     + "JOIN series ON (book.series_id = series.series_id) "
-                     + "JOIN language ON (book.language_id = language.language_id)"
-                     + "WHERE book_book.id = " + bookId;
-        Book book = null;
+                + "book.cover, country.name country, series.name series, language.name language "
+                + "FROM book "
+                + "JOIN country ON (book.country_id = country.country_id) "
+                + "JOIN series ON (book.series_id = series.series_id) "
+                + "JOIN language ON (book.language_id = language.language_id)"
+                + "WHERE book_book.id = ?";
         try{
-            ResultSet rs = ddlQuery(query);
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.setInt(1, bookId);
+            ResultSet rs = stmt.executeQuery();
             if(rs.next()){
                 int id = rs.getInt(1);
                 String title = rs.getString(2);
@@ -172,26 +197,28 @@ public class DbHandler {
                 String series = rs.getString(8);
                 String language = rs.getString(9);
 
-                ArrayList<Author> authors = getBookAuthorsQuery(id);
-                ArrayList<String> genres = getBookGenresQuery(id);
+                ArrayList<Author> authors = getBookAuthors(id);
+                ArrayList<String> genres = getBookGenres(id);
 
                 book = new Book(id, title, summary, publicationYear, pages, coverSrc, country,
-                                   series, language, authors, genres);
+                        series, language, authors, genres);
             } else{
                 return null;
             }
-        } catch(DdlQueryError | SQLException e){
+        } catch(SQLException e){
             e.printStackTrace();
-            System.exit(1);
+            throw new UnavailableDB(e);
         }
         return book;
     }
 
-    private Author getAuthorQuery(int authorId) throws UnavailableDB{
-        String query = "SELECT genre.name FROM author WHERE genre.id = " + authorId;
+    public Author getAuthor(int authorId) throws UnavailableDB{
         Author author = null;
+        String query = "SELECT author.name FROM author WHERE author.id = ?" ;
         try{
-            ResultSet rs = ddlQuery(query);
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.setInt(1, authorId);
+            ResultSet rs = stmt.executeQuery();
             if(rs.next()){
                 int id = rs.getInt(1);
                 String firstName = rs.getString(2);
@@ -202,55 +229,63 @@ public class DbHandler {
             } else{
                 return null;
             }
-        } catch(DdlQueryError | SQLException e){
+        } catch(SQLException e){
             e.printStackTrace();
-            System.exit(1);
+            throw new UnavailableDB(e);
         }
         return author;
     }
 
-    private String getGenreQuery(int genreId) throws UnavailableDB{
-        String query = "SELECT genre.name FROM genre WHERE genre.id = " + genreId;
+    private String getGenre(int genreId) throws UnavailableDB{
         String genre = null;
+        String query = "SELECT genre.name FROM genre WHERE genre.id = ?";
         try{
-            ResultSet rs = ddlQuery(query);
-            genre = rs.getString(1);
-        } catch(DdlQueryError | SQLException e){
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.setInt(1, genreId);
+            ResultSet rs = stmt.executeQuery();
+            if(rs.next()){
+                genre = rs.getString(1);
+            }
+        } catch(SQLException e){
             e.printStackTrace();
-            System.exit(1);
+            throw new UnavailableDB(e);
         }
         return genre;
     }
 
-    private ArrayList<String> getBookGenresQuery(int bookId) throws UnavailableDB{
-        String query = "SELECT genre.genre_id, genre.name "
-                     + "FROM genre "
-                     + "JOIN book_genre ON (genre.genre_id = book_genre.genre_id) "
-                     + "JOIN book ON (book.book_id = book_genre.book_id) "
-                     + "WHERE book.book_id = " + bookId;
+    public ArrayList<String> getBookGenres(int bookId) throws UnavailableDB{
         ArrayList<String> genres = new ArrayList<String>();
+        String query = "SELECT genre.genre_id, genre.name "
+                + "FROM genre "
+                + "JOIN book_genre ON (genre.genre_id = book_genre.genre_id) "
+                + "JOIN book ON (book.book_id = book_genre.book_id) "
+                + "WHERE book.book_id = ?";
         try{
-            ResultSet rs = ddlQuery(query);
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.setInt(1, bookId);
+            ResultSet rs = stmt.executeQuery();
             while(rs.next()){
                 genres.add(rs.getString(1));
             }
-        } catch(DdlQueryError | SQLException e){
+        } catch(SQLException e){
             e.printStackTrace();
-            System.exit(1);
+            throw new UnavailableDB(e);
         }
         return genres;
     }
 
-    private ArrayList<Author> getBookAuthorsQuery(int bookId) throws UnavailableDB{
+    public ArrayList<Author> getBookAuthors(int bookId) throws UnavailableDB{
+        ArrayList<Author> authors = new ArrayList<>();
         String query = "SELECT author.author_id, author.first_name, author.last_name, author.birth_year, "
-                     + "author.death_year "
-                     + "FROM  author "
-                     + "JOIN book_author ON (author.author_id = book_author.author_id) "
-                     + "JOIN book ON (book.book_id = book_author.book_id) "
-                     + "WHERE book.book_id = " + bookId;
-        ArrayList<Author> authors = new ArrayList<Author>();
+                + "author.death_year "
+                + "FROM  author "
+                + "JOIN book_author ON (author.author_id = book_author.author_id) "
+                + "JOIN book ON (book.book_id = book_author.book_id) "
+                + "WHERE book.book_id = ?";
         try{
-            ResultSet rs = ddlQuery(query);
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.setInt(1, bookId);
+            ResultSet rs = stmt.executeQuery();
             while(rs.next()){
                 int id = rs.getInt(1);
                 String firstName = rs.getString(2);
@@ -259,14 +294,14 @@ public class DbHandler {
                 int deathYear = rs.getInt(5);
                 authors.add(new Author(id, firstName, lastName, birthYear, deathYear));
             }
-        } catch(DdlQueryError | SQLException e){
+        } catch(SQLException e){
             e.printStackTrace();
-            System.exit(1);
+            throw new UnavailableDB(e);
         }
         return authors;
     }
 
-    public void finalize () {
+    protected void finalize () {
         closeConnetion();
     }
 }
