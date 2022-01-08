@@ -84,11 +84,15 @@
                               <Insets left="5.0" />
                            </HBox.margin>
                         </ImageView>
-                        <Label styleClass="btn" text="Dashboard">
+                        <Button fx:id="dashboardButton" mnemonicParsing="false" onAction="#dashboardButtonOnAction" text="Dashboard">
                            <font>
                               <Font name="Berlin Sans FB" size="18.0" />
                            </font>
-                        </Label>
+                           <styleClass>
+                              <String fx:value="btn" />
+                              <String fx:value="transparent" />
+                           </styleClass>
+                        </Button>
                      </children>
                      <VBox.margin>
                         <Insets left="20.0" />
@@ -108,11 +112,15 @@
                               <Insets left="5.0" />
                            </HBox.margin>
                         </ImageView>
-                        <Label styleClass="btn" text="Authors">
+                        <Button fx:id="authorsButton" mnemonicParsing="false" onAction="#authorsButtonOnAction" text="Authors">
+                           <styleClass>
+                              <String fx:value="btn" />
+                              <String fx:value="transparent" />
+                           </styleClass>
                            <font>
                               <Font name="Berlin Sans FB" size="18.0" />
                            </font>
-                        </Label>
+                        </Button>
                      </children>
                      <VBox.margin>
                         <Insets left="20.0" />
@@ -128,11 +136,15 @@
                               <Insets left="5.0" />
                            </HBox.margin>
                         </ImageView>
-                        <Label styleClass="btn" text="Categories">
+                        <Button fx:id="categoriesButton" mnemonicParsing="false" onAction="#categoriesButtonOnAction" text="Categories">
                            <font>
                               <Font name="Berlin Sans FB" size="18.0" />
                            </font>
-                        </Label>
+                           <styleClass>
+                              <String fx:value="btn" />
+                              <String fx:value="transparent" />
+                           </styleClass>
+                        </Button>
                      </children>
                      <VBox.margin>
                         <Insets left="20.0" />
@@ -161,11 +173,15 @@
                               <Insets left="5.0" />
                            </HBox.margin>
                         </ImageView>
-                        <Label styleClass="btn" text="Reading">
+                        <Button fx:id="readingButton" mnemonicParsing="false" onAction="#readingButtonOnAction" text="Reading">
                            <font>
                               <Font name="Berlin Sans FB" size="18.0" />
                            </font>
-                        </Label>
+                           <styleClass>
+                              <String fx:value="btn" />
+                              <String fx:value="transparent" />
+                           </styleClass>
+                        </Button>
                      </children>
                      <VBox.margin>
                         <Insets left="20.0" />
@@ -181,11 +197,15 @@
                               <Insets left="5.0" />
                            </HBox.margin>
                         </ImageView>
-                        <Label styleClass="btn" text="History">
+                        <Button fx:id="historyButton" mnemonicParsing="false" onAction="#historyButtonOnAction" text="History">
                            <font>
                               <Font name="Berlin Sans FB" size="18.0" />
                            </font>
-                        </Label>
+                           <styleClass>
+                              <String fx:value="btn" />
+                              <String fx:value="transparent" />
+                           </styleClass>
+                        </Button>
                      </children>
                      <VBox.margin>
                         <Insets left="20.0" />
