@@ -164,6 +164,22 @@ public class DbHandler {
         return genres;
     }
 
+    public int getNumOfAvailableInstances(int bookId) throws UnavailableDB {
+        int n=0;
+        String query = "select count(*) from book_instance where (book_id = %d and is_available = 1)";
+        query = String.format(query, bookId);
+        try {
+            ResultSet rs = ddlQuery(query);
+            rs.next();
+            n = rs.getInt(1);
+        } catch (DdlQueryError e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return n;
+    }
+
     public ArrayList<Book> getBooksInSameSeries(int bookId) throws UnavailableDB {
         ArrayList<Book> books = new ArrayList<Book>();
         String query = "SELECT b2.book_id, b2.title, b2.summary, b2.publication_year, b2.date_added, "
