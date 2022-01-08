@@ -2,6 +2,7 @@ package z11.libraryapp;
 
 import java.sql.DriverManager;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -91,12 +92,13 @@ public class DbHandler {
 
     public ArrayList<Book> getBooks() throws UnavailableDB{
         ArrayList<Book> books = new ArrayList<Book>();
-        String query = "SELECT book.book_id, book.title, book.summary, book.publication_year, book.pages, "
-                     + "book.cover, country.name country, series.name series, language.name language "
+        String query = "SELECT book.book_id, book.title, book.summary, book.publication_year, book.date_added, "
+                     + "book.pages, book.cover, country.name country, series.name series, language.name language "
                      + "FROM book "
                      + "JOIN country ON (book.country_id = country.country_id) "
                      + "JOIN series ON (book.series_id = series.series_id) "
-                     + "JOIN language ON (book.language_id = language.language_id)";
+                     + "JOIN language ON (book.language_id = language.language_id)"
+                     + "ORDER BY book.date_added DESC";
         try{
             ResultSet rs = ddlQuery(query);
             while(rs.next()){
@@ -105,16 +107,17 @@ public class DbHandler {
                     String title = rs.getString(2);
                     String summary = rs.getString(3);
                     int publicationYear = rs.getInt(4);
-                    int pages = rs.getInt(5);
-                    String coverSrc = rs.getString(6);
-                    String country = rs.getString(7);
-                    String series = rs.getString(8);
-                    String language = rs.getString(9);
+                    Date dateAdded = rs.getDate(5);
+                    int pages = rs.getInt(6);
+                    String coverSrc = rs.getString(7);
+                    String country = rs.getString(8);
+                    String series = rs.getString(9);
+                    String language = rs.getString(10);
 
                     ArrayList<Author> authors = getBookAuthors(id);
                     ArrayList<String> genres = getBookGenres(id);
 
-                    books.add(new Book(id, title, summary, publicationYear, pages, coverSrc, country,
+                    books.add(new Book(id, title, summary, publicationYear, dateAdded, pages, coverSrc, country,
                                        series, language, authors, genres));
                 }
                 catch(SQLException e){
@@ -159,6 +162,48 @@ public class DbHandler {
             System.exit(1);
         }
         return genres;
+    }
+
+    public ArrayList<Book> getBooksInSameSeries(int bookId) throws UnavailableDB {
+        ArrayList<Book> books = new ArrayList<Book>();
+        String query = "SELECT b2.book_id, b2.title, b2.summary, b2.publication_year, b2.date_added, "
+                     + "b2.pages, b2.cover, c.name country, s.name series, l.name language "
+                     + "from book b1 join book b2 on(b1.series_id = b2.series_id) "
+                     + "join country c on (b2.country_id = c.country_id) "
+                     + "join series s on (b2.series_id = s.series_id) "
+                     + "join language l on (b2.language_id = l.language_id) "
+                     + "where (b1.book_id = %d and b1.book_id <> b2.book_id)";
+        query = String.format(query, bookId);
+        try{
+            ResultSet rs = ddlQuery(query);
+            while(rs.next()){
+                try{
+                    int id = rs.getInt(1);
+                    String title = rs.getString(2);
+                    String summary = rs.getString(3);
+                    int publicationYear = rs.getInt(4);
+                    Date dateAdded = rs.getDate(5);
+                    int pages = rs.getInt(6);
+                    String coverSrc = rs.getString(7);
+                    String country = rs.getString(8);
+                    String series = rs.getString(9);
+                    String language = rs.getString(10);
+
+                    ArrayList<Author> authors = getBookAuthors(id);
+                    ArrayList<String> genres = getBookGenres(id);
+
+                    books.add(new Book(id, title, summary, publicationYear, dateAdded, pages, coverSrc, country,
+                                       series, language, authors, genres));
+                }
+                catch(SQLException e){
+                    continue;
+                }
+            }
+        } catch(DdlQueryError | SQLException e){
+            e.printStackTrace();
+            System.exit(1);
+        }
+        return books;
     }
 
     public Author getAuthor(int authorId) throws UnavailableDB{
