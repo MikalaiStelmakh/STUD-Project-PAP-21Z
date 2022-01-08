@@ -15,11 +15,13 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import z11.libraryapp.DbHandler;
 import z11.libraryapp.errors.UnavailableDB;
 
 
 import z11.libraryapp.model.Book;
+import z11.libraryapp.model.Genre;
 
 public class BookViewController {
 
@@ -34,6 +36,9 @@ public class BookViewController {
 
     @FXML
     private Label bookCountry;
+
+    @FXML
+    private HBox bookGenresBox;
 
     @FXML
     private ImageView bookImage;
@@ -109,7 +114,12 @@ public class BookViewController {
         Image image = new Image(getClass().getResourceAsStream("/z11/libraryapp/img/covers/" + book.getCoverSrc()));
         bookImage.setImage(image);
         bookTitle.setText(book.getTitle());
-        bookAuthor.setText(book.getAuthorsNames());
+        if (book.getAuthorsNames().equals("")){
+            bookAuthor.setText("Undefined");
+        }
+        else{
+            bookAuthor.setText(book.getAuthorsNames());
+        }
         bookCountry.setText(book.getCountry());
         bookPublicationYear.setText(Integer.toString(book.getPublicationYear()));
         bookSeries.setText(book.getSeries());
@@ -121,6 +131,24 @@ public class BookViewController {
         else{
             bookSummary.setText("No summary available.\n");
         }
+        ArrayList<Genre> genres = book.getGenres();
+        if (genres.size() > 0){
+            for (int i = 0; i< genres.size(); i++){
+                Hyperlink genre = new Hyperlink();
+                if (i < genres.size()-1){
+                    genre.setText(genres.get(i).getName() + ",");;
+                }
+                else {
+                    genre.setText(genres.get(i).getName());;
+                }
+                genre.setFont(Font.font("Arial", 24));
+                bookGenresBox.getChildren().add(genre);
+            }
+        }
+        else{
+            bookGenresBox.getChildren().add(new Label("-"));
+        }
+
 
         DbHandler dbManager;
         dbManager = new DbHandler();

@@ -304,26 +304,16 @@
                         </Hyperlink>
                      </children>
                   </HBox>
-                  <HBox prefHeight="24.0" prefWidth="200.0">
+                  <HBox fx:id="bookGenresBox" prefHeight="24.0" prefWidth="200.0">
                      <children>
                         <Label text="Genres: ">
                            <font>
                               <Font name="Berlin Sans FB" size="24.0" />
                            </font>
                            <HBox.margin>
-                              <Insets top="10.0" />
+                              <Insets top="5.0" />
                            </HBox.margin>
                         </Label>
-                        <Hyperlink text="Novel,">
-                           <font>
-                              <Font size="24.0" />
-                           </font>
-                        </Hyperlink>
-                        <Hyperlink text="Fantasy">
-                           <font>
-                              <Font size="24.0" />
-                           </font>
-                        </Hyperlink>
                      </children>
                   </HBox>
                   <Label text="Summary: ">
