@@ -17,10 +17,10 @@ public class Book {
     private String series;
     private String language;
     private ArrayList<Author> authors;
-    private ArrayList<String> genres;
+    private ArrayList<Genre> genres;
 
     public Book(int id, String title, String summary, int publicationYear, Date dateAdded, int pages, String coverSrc,
-                String country, String series, String language, ArrayList<Author> authors, ArrayList<String> genres){
+                String country, String series, String language, ArrayList<Author> authors, ArrayList<Genre> genres){
         this.id = id;
         this.title = title;
         this.summary = summary;
@@ -124,12 +124,12 @@ public class Book {
         this.authors.add(author);
     }
 
-    public ArrayList<String> getGenres() {
+    public ArrayList<Genre> getGenres() {
         return genres;
     }
 
-    public void setGenres(String genre) {
-        this.genres.add(genre);
+    public void setGenres(ArrayList<Genre> genres) {
+        this.genres = genres;
     }
 
     public String getAuthorsNames(){

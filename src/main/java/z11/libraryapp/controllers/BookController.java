@@ -32,6 +32,7 @@ public class BookController {
         Image image = new Image(getClass().getResourceAsStream("/z11/libraryapp/img/covers/" + book.getCoverSrc()));
         bookImage.setImage(image);
         bookTitle.setText(book.getTitle());
+        bookTitle.setWrapText(true);
         bookAuthor.setText(book.getAuthorsNames());
     }
 
