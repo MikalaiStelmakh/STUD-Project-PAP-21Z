@@ -1,5 +1,6 @@
 package z11.libraryapp.model;
 
+import java.sql.Date;
 import java.util.ArrayList;
 
 import javafx.scene.chart.XYChart.Series;
@@ -9,6 +10,7 @@ public class Book {
     private String title;
     private String summary;
     private int publicationYear;
+    private Date dateAdded;
     private int pages;
     private String coverSrc;
     private String country;
@@ -17,12 +19,13 @@ public class Book {
     private ArrayList<Author> authors;
     private ArrayList<String> genres;
 
-    public Book(int id, String title, String summary, int publicationYear, int pages, String coverSrc,
+    public Book(int id, String title, String summary, int publicationYear, Date dateAdded, int pages, String coverSrc,
                 String country, String series, String language, ArrayList<Author> authors, ArrayList<String> genres){
         this.id = id;
         this.title = title;
         this.summary = summary;
         this.publicationYear = publicationYear;
+        this.dateAdded = dateAdded;
         this.pages = pages;
         this.coverSrc = coverSrc;
         this.country = country;
@@ -63,6 +66,14 @@ public class Book {
 
     public void setPublicationYear(int publicationYear){
         this.publicationYear = publicationYear;
+    }
+
+    public Date getDateAdded(){
+        return this.dateAdded;
+    }
+
+    public void setDateAdded(Date dateAdded){
+        this.dateAdded = dateAdded;
     }
 
     public int getPages(){
