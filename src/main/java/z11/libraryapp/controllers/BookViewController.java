@@ -42,6 +42,9 @@ public class BookViewController {
     private ImageView bookIsAvailableIcon;
 
     @FXML
+    private Label bookIsAvailableLabel;
+
+    @FXML
     private Label bookPublicationYear;
 
     @FXML
@@ -93,11 +96,13 @@ public class BookViewController {
         MainWindowController.changeScene(event, "/z11/libraryapp/fxml/Reading.fxml");
     }
 
-    private ArrayList<Book> getBooksInSameSeries(int book_id) throws UnavailableDB{
-        DbHandler dbManager;
-        dbManager = new DbHandler();
-        ArrayList<Book> booksInSameSeries = dbManager.getBooksInSameSeries(book_id);
+    private ArrayList<Book> getBooksInSameSeries(int book_id, DbHandler dbHandler) throws UnavailableDB{
+        ArrayList<Book> booksInSameSeries = dbHandler.getBooksInSameSeries(book_id);
         return booksInSameSeries;
+    }
+
+    private int getNumOfAvailableInstances(int book_id, DbHandler dbHandler) throws UnavailableDB{
+        return dbHandler.getNumOfAvailableInstances(book_id);
     }
 
     public void setData(Book book) throws UnavailableDB, IOException{
@@ -117,7 +122,10 @@ public class BookViewController {
             bookSummary.setText("No summary available.\n");
         }
 
-        ArrayList<Book> sameSeriesBooks = getBooksInSameSeries(book.getId());
+        DbHandler dbManager;
+        dbManager = new DbHandler();
+
+        ArrayList<Book> sameSeriesBooks = getBooksInSameSeries(book.getId(), dbManager);
         if (sameSeriesBooks.size() > 0){
             int counter = 1;
             for (Book book_obj : sameSeriesBooks){
@@ -137,6 +145,24 @@ public class BookViewController {
             error.setPadding(new Insets(10, 0, 0, 0));
             bookSameSeriesBooks.getChildren().add(error);
         }
+
+        int nAvailableInstances = getNumOfAvailableInstances(book.getId(), dbManager);
+        Image iconImage;
+        if (nAvailableInstances > 0){
+            iconImage = new Image(getClass().getResourceAsStream("/z11/libraryapp/img/icons/available-icon.png"));
+            bookIsAvailableLabel.setText("Available");
+            bookIsAvailableLabel.getStyleClass().add("available");
+            bookBorrowButton.getStyleClass().add("available");
+
+        }
+        else{
+            iconImage = new Image(getClass().getResourceAsStream("/z11/libraryapp/img/icons/not-available-icon.png"));
+            bookIsAvailableLabel.setText("Not available");
+            bookIsAvailableLabel.getStyleClass().add("not-available");
+            bookBorrowButton.getStyleClass().add("not-available");
+            bookBorrowButton.setDisable(true);
+        }
+        bookIsAvailableIcon.setImage(iconImage);
 
     }
 

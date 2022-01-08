@@ -233,7 +233,6 @@
                      </VBox.margin>
                      <styleClass>
                         <String fx:value="borrow-btn" />
-                        <String fx:value="available" />
                         <String fx:value="btn" />
                      </styleClass>
                      <font>
@@ -247,7 +246,7 @@
                               <Image url="@../img/icons/available-icon.png" />
                            </image>
                         </ImageView>
-                        <Label styleClass="available" text="Available">
+                        <Label fx:id="bookIsAvailableLabel" text="Available">
                            <font>
                               <Font name="System Italic" size="24.0" />
                            </font>
