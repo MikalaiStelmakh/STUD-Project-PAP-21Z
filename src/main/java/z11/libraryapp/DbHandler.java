@@ -115,7 +115,7 @@ public class DbHandler {
                     String language = rs.getString(10);
 
                     ArrayList<Author> authors = getBookAuthors(id);
-                    ArrayList<String> genres = getBookGenres(id);
+                    ArrayList<Genre> genres = getBookGenres(id);
 
                     books.add(new Book(id, title, summary, publicationYear, dateAdded, pages, coverSrc, country,
                                        series, language, authors, genres));
@@ -145,17 +145,19 @@ public class DbHandler {
         return genre;
     }
 
-    public ArrayList<String> getBookGenres(int bookId) throws UnavailableDB{
+    public ArrayList<Genre> getBookGenres(int bookId) throws UnavailableDB{
         String query = "SELECT genre.genre_id, genre.name "
                      + "FROM genre "
                      + "JOIN book_genre ON (genre.genre_id = book_genre.genre_id) "
                      + "JOIN book ON (book.book_id = book_genre.book_id) "
                      + "WHERE book.book_id = " + bookId;
-        ArrayList<String> genres = new ArrayList<String>();
+        ArrayList<Genre> genres = new ArrayList<Genre>();
         try{
             ResultSet rs = ddlQuery(query);
-            while(rs.next()){
-                genres.add(rs.getString(1));
+            while (rs.next()){
+                int id = rs.getInt(1);
+                String name = rs.getString(2);
+                genres.add(new Genre(id, name));
             }
         } catch(DdlQueryError | SQLException e){
             e.printStackTrace();
@@ -206,7 +208,7 @@ public class DbHandler {
                     String language = rs.getString(10);
 
                     ArrayList<Author> authors = getBookAuthors(id);
-                    ArrayList<String> genres = getBookGenres(id);
+                    ArrayList<Genre> genres = getBookGenres(id);
 
                     books.add(new Book(id, title, summary, publicationYear, dateAdded, pages, coverSrc, country,
                                        series, language, authors, genres));
