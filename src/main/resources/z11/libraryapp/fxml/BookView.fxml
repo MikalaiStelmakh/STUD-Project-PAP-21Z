@@ -294,7 +294,7 @@
                               <Font name="Berlin Sans FB" size="24.0" />
                            </font>
                            <HBox.margin>
-                              <Insets top="5.0" />
+                              <Insets top="10.0" />
                            </HBox.margin>
                         </Label>
                         <Hyperlink fx:id="bookAuthor" styleClass="text-link" text="Joanne Rowling">
@@ -311,7 +311,7 @@
                               <Font name="Berlin Sans FB" size="24.0" />
                            </font>
                            <HBox.margin>
-                              <Insets top="5.0" />
+                              <Insets top="10.0" />
                            </HBox.margin>
                         </Label>
                         <Hyperlink text="Novel,">
