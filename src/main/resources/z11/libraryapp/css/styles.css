@@ -37,3 +37,34 @@
     -fx-border-color: silver;
     -fx-border-radius: 5;
 }
+
+.text-link:visited, .text-link:link {
+    -fx-color: blue;
+}
+
+.borrow-btn {
+    -fx-border: none;
+    -fx-text-fill: white;
+    -fx-text-align: center;
+    -fx-text-decoration: none;
+    -fx-display: inline-block;
+    -fx-border-radius: 12px;
+}
+
+.available {
+    -fx-text-fill: #5a8431;
+}
+
+.not-available {
+    -fx-text-fill: #ac2a1e;
+}
+
+.borrow-btn.available {
+    -fx-text-fill: white;
+    -fx-background-color: #5a8431;
+}
+
+.borrow-btn.not-available {
+    -fx-text-fill: white;
+    -fx-background-color: #ac2a1e;
+}
