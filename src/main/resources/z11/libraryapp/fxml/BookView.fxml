@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="890.0" prefWidth="1450.0" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="z11.libraryapp.controllers.BookViewController">
+   <top>
+      <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" prefHeight="60.0" prefWidth="200.0" spacing="20.0" styleClass="white-background" BorderPane.alignment="CENTER">
+         <children>
+            <Button contentDisplay="CENTER" mnemonicParsing="false" prefHeight="60.0" prefWidth="182.0" text="My Library" textFill="#a40000">
+               <styleClass>
+                  <String fx:value="home-btn" />
+                  <String fx:value="transparent" />
+                  <String fx:value="btn" />
+               </styleClass>
+               <font>
+                  <Font name="Segoe UI Light Italic" size="20.0" />
+               </font>
+            </Button>
+            <Separator maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="45.0" prefWidth="2.0" />
+            <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="303.0" styleClass="round-layout">
+               <children>
+                  <TextField prefHeight="31.0" prefWidth="240.0" promptText="Search" style="-: ;" styleClass="transparent">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </TextField>
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" styleClass="btn">
+                     <image>
+                        <Image url="@../img/icons/search-icon.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </HBox>
+            <Pane prefHeight="60.0" prefWidth="294.0" HBox.hgrow="ALWAYS" />
+            <HBox alignment="CENTER_RIGHT" maxHeight="-Infinity" prefHeight="60.0" prefWidth="290.0">
+               <children>
+                  <ChoiceBox prefWidth="150.0" styleClass="transparent" />
+                  <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/icons/user-icon.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </HBox>
+         </children>
+      </HBox>
+   </top>
+   <left>
+      <VBox prefHeight="830.0" prefWidth="204.0" spacing="10.0" styleClass="white-background" BorderPane.alignment="CENTER">
+         <children>
+            <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+               <children>
+                  <Label text="Browse">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets left="5.0" />
+                     </VBox.margin>
+                  </Label>
+                  <HBox alignment="CENTER_LEFT" prefHeight="63.0" prefWidth="204.0" spacing="10.0">
+                     <children>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/icons/dashboard-icon.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                        </ImageView>
+                        <Button fx:id="dashboardButton" mnemonicParsing="false" onAction="#dashboardButtonOnAction" text="Books">
+                           <font>
+                              <Font name="Berlin Sans FB" size="18.0" />
+                           </font>
+                           <styleClass>
+                              <String fx:value="btn" />
+                              <String fx:value="transparent" />
+                           </styleClass>
+                        </Button>
+                     </children>
+                     <VBox.margin>
+                        <Insets left="20.0" />
+                     </VBox.margin>
+                     <styleClass>
+                        <String fx:value="mouse-moved" />
+                        <String fx:value="selected" />
+                     </styleClass>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="42.0" prefHeight="63.0" prefWidth="204.0" spacing="10.0" styleClass="mouse-moved">
+                     <children>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/icons/users-icon.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                        </ImageView>
+                        <Button fx:id="authorsButton" mnemonicParsing="false" onAction="#authorsButtonOnAction" text="Authors">
+                           <styleClass>
+                              <String fx:value="btn" />
+                              <String fx:value="transparent" />
+                           </styleClass>
+                           <font>
+                              <Font name="Berlin Sans FB" size="18.0" />
+                           </font>
+                        </Button>
+                     </children>
+                     <VBox.margin>
+                        <Insets left="20.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="116.0" prefHeight="63.0" prefWidth="204.0" spacing="10.0" styleClass="mouse-moved">
+                     <children>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/icons/bar-icon.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                        </ImageView>
+                        <Button fx:id="categoriesButton" mnemonicParsing="false" onAction="#categoriesButtonOnAction" text="Categories">
+                           <font>
+                              <Font name="Berlin Sans FB" size="18.0" />
+                           </font>
+                           <styleClass>
+                              <String fx:value="btn" />
+                              <String fx:value="transparent" />
+                           </styleClass>
+                        </Button>
+                     </children>
+                     <VBox.margin>
+                        <Insets left="20.0" />
+                     </VBox.margin>
+                  </HBox>
+               </children>
+            </VBox>
+            <Separator prefWidth="200.0" />
+            <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+               <children>
+                  <Label text="Your Books">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets left="5.0" />
+                     </VBox.margin>
+                  </Label>
+                  <HBox alignment="CENTER_LEFT" prefHeight="63.0" prefWidth="204.0" spacing="10.0" styleClass="mouse-moved">
+                     <children>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/icons/open-book-icon.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                        </ImageView>
+                        <Button fx:id="readingButton" mnemonicParsing="false" onAction="#readingButtonOnAction" text="Reading">
+                           <font>
+                              <Font name="Berlin Sans FB" size="18.0" />
+                           </font>
+                           <styleClass>
+                              <String fx:value="btn" />
+                              <String fx:value="transparent" />
+                           </styleClass>
+                        </Button>
+                     </children>
+                     <VBox.margin>
+                        <Insets left="20.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="42.0" prefHeight="63.0" prefWidth="204.0" spacing="10.0" styleClass="mouse-moved">
+                     <children>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/icons/history-icon.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                        </ImageView>
+                        <Button fx:id="historyButton" mnemonicParsing="false" onAction="#historyButtonOnAction" text="History">
+                           <font>
+                              <Font name="Berlin Sans FB" size="18.0" />
+                           </font>
+                           <styleClass>
+                              <String fx:value="btn" />
+                              <String fx:value="transparent" />
+                           </styleClass>
+                        </Button>
+                     </children>
+                     <VBox.margin>
+                        <Insets left="20.0" />
+                     </VBox.margin>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+   </left>
+   <center>
+      <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <VBox alignment="TOP_CENTER" prefHeight="830.0" prefWidth="158.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <ImageView fx:id="bookImage" fitHeight="361.0" fitWidth="251.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/covers/Harry_Potter_and_the_Philosopher's_Stone_Book_Cover.jpg" />
+                     </image>
+                     <VBox.margin>
+                        <Insets top="50.0" />
+                     </VBox.margin>
+                  </ImageView>
+                  <Button fx:id="bookBorrowButton" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="54.0" prefWidth="206.0" text="Borrow" textFill="#f4eded">
+                     <VBox.margin>
+                        <Insets top="40.0" />
+                     </VBox.margin>
+                     <styleClass>
+                        <String fx:value="borrow-btn" />
+                        <String fx:value="available" />
+                        <String fx:value="btn" />
+                     </styleClass>
+                     <font>
+                        <Font name="Berlin Sans FB" size="18.0" />
+                     </font>
+                  </Button>
+                  <HBox alignment="CENTER" prefHeight="49.0" prefWidth="278.0" spacing="10.0">
+                     <children>
+                        <ImageView fx:id="bookIsAvailableIcon" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/icons/available-icon.png" />
+                           </image>
+                        </ImageView>
+                        <Label styleClass="available" text="Available">
+                           <font>
+                              <Font name="System Italic" size="24.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox prefHeight="830.0" prefWidth="886.0" spacing="10.0" HBox.hgrow="ALWAYS">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+               <padding>
+                  <Insets top="50.0" />
+               </padding>
+               <children>
+                  <HBox prefHeight="20.0" prefWidth="940.0">
+                     <children>
+                        <Label fx:id="bookCountry" text="United Kingdom">
+                           <font>
+                              <Font name="Berlin Sans FB" size="20.0" />
+                           </font>
+                        </Label>
+                        <Label text=",  ">
+                           <font>
+                              <Font name="Berlin Sans FB" size="20.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="bookPublicationYear" text="26 June 1997">
+                           <font>
+                              <Font name="Berlin Sans FB" size="20.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <Label fx:id="bookTitle" text="Harry Potter and the Philosopher's Stone">
+                     <font>
+                        <Font name="Berlin Sans FB" size="30.0" />
+                     </font>
+                  </Label>
+                  <HBox prefHeight="24.0" prefWidth="940.0">
+                     <children>
+                        <Label text="by">
+                           <font>
+                              <Font name="Berlin Sans FB" size="24.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets top="5.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Hyperlink fx:id="bookAuthor" styleClass="text-link" text="Joanne Rowling">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Hyperlink>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="24.0" prefWidth="200.0">
+                     <children>
+                        <Label text="Genres: ">
+                           <font>
+                              <Font name="Berlin Sans FB" size="24.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets top="5.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Hyperlink text="Novel,">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Hyperlink>
+                        <Hyperlink text="Fantasy">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Hyperlink>
+                     </children>
+                  </HBox>
+                  <Label text="Summary: ">
+                     <font>
+                        <Font name="Berlin Sans FB" size="24.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Label>
+                  <Label fx:id="bookSummary" alignment="TOP_LEFT" maxHeight="940.0" prefHeight="203.0" prefWidth="940.0" text="Adaptation of the first of J.K. Rowling's popular children's novels about Harry Potter, a boy who learns&#10;on his eleventh birthday that he is the orphaned son of two powerful wizardsand possesses unique &#10;magical powers of his own. He is summoned from his life as an unwanted child to become a student at &#10;Hogwarts, an English boarding school for wizards. There, he meets several friends who become his &#10;closest allies and help him discover the truth about his parents' mysterious deaths.">
+                     <font>
+                        <Font name="Arial" size="20.0" />
+                     </font>
+                  </Label>
+                  <VBox prefHeight="238.0" prefWidth="950.0">
+                     <children>
+                        <HBox prefHeight="24.0" prefWidth="200.0" spacing="5.0">
+                           <children>
+                              <Label alignment="TOP_LEFT" text="More on">
+                                 <font>
+                                    <Font name="Berlin Sans FB" size="24.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="bookSeries" text="Harry Potter">
+                                 <font>
+                                    <Font name="Berlin Sans FB" size="24.0" />
+                                 </font>
+                              </Label>
+                              <Label text="series">
+                                 <font>
+                                    <Font name="Berlin Sans FB" size="24.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <VBox fx:id="bookSameSeriesBooks" prefHeight="200.0" prefWidth="100.0" />
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </center>
+</BorderPane>
