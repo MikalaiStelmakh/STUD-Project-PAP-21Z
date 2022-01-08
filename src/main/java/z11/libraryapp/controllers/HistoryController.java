@@ -28,7 +28,7 @@ public class HistoryController {
 
     @FXML
     void authorsButtonOnAction(ActionEvent event) {
-        MainWindowController.changeScene(event, "/z11/libraryapp/fxml/History.fxml");
+        MainWindowController.changeScene(event, "/z11/libraryapp/fxml/Authors.fxml");
 
     }
 
