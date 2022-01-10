@@ -39,6 +39,7 @@ public class CardController {
         bookTitle.setText(book.getTitle());
         bookAuthor.setText(book.getAuthorsNames());
         bookTitle.setWrapText(true);
+        bookAuthor.setWrapText(true);
         box.setStyle("-fx-background-color: #eed7b483; -fx-background-radius: 15; -fx-effect: dropShadow(three-pass-box, rgba(0,0,0,0), 10, 0, 0, 10);");
     }
 
