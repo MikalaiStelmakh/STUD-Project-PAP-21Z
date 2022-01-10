@@ -77,7 +77,7 @@ public class SignInController {
                 user_object = dbManager.getUserByLogin(login);
                 FXMLLoader fxmlLoader;
                 Scene scene;
-                if (user_object.getPermission() == "User"){
+                if (user_object.getPermission().equals("User")){
                     fxmlLoader = new FXMLLoader(getClass().getResource("/z11/libraryapp/fxml/MainWindow.fxml"));
                     scene = new Scene(fxmlLoader.load());
                     scene.getStylesheets().add(getClass().getResource("/z11/libraryapp/css/styles.css").toExternalForm());
