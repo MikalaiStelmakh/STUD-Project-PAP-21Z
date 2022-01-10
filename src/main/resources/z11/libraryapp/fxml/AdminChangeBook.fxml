@@ -42,7 +42,7 @@
                   <TableColumn fx:id="cover" prefWidth="64.7999267578125" text="cover" />
                   <TableColumn fx:id="country" prefWidth="69.5999755859375" text="country" />
                   <TableColumn fx:id="series" prefWidth="89.60000610351562" text="series" />
-                  <TableColumn fx:id="lengua" prefWidth="94.39990234375" text="lengua" />
+                  <TableColumn fx:id="languages" prefWidth="87.2000732421875" text="languages" />
               </columns>
             </TableView>
             <HBox prefHeight="100.0" prefWidth="200.0">
