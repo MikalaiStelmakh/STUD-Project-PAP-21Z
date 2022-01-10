@@ -4,22 +4,26 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.scene.Scene;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
 import z11.libraryapp.DbHandler;
 import z11.libraryapp.errors.UnavailableDB;
-
-
+import z11.libraryapp.model.Author;
 import z11.libraryapp.model.Book;
 import z11.libraryapp.model.Genre;
 
@@ -38,6 +42,9 @@ public class BookViewController {
     private Label bookCountry;
 
     @FXML
+    private HBox bookAuthorsBox;
+
+    @FXML
     private HBox bookGenresBox;
 
     @FXML
@@ -53,7 +60,7 @@ public class BookViewController {
     private Label bookPublicationYear;
 
     @FXML
-    private VBox bookSameSeriesBooks;
+    private GridPane sameSeriesBooksContainer;
 
     @FXML
     private Label bookSeries;
@@ -78,7 +85,7 @@ public class BookViewController {
 
     @FXML
     void authorsButtonOnAction(ActionEvent event) {
-
+        MainWindowController.changeScene(event, "/z11/libraryapp/fxml/Authors.fxml");
     }
 
     @FXML
@@ -110,71 +117,115 @@ public class BookViewController {
         return dbHandler.getNumOfAvailableInstances(book_id);
     }
 
-    public void setData(Book book) throws UnavailableDB, IOException{
-        Image image = new Image(getClass().getResourceAsStream("/z11/libraryapp/img/covers/" + book.getCoverSrc()));
-        bookImage.setImage(image);
-        bookTitle.setText(book.getTitle());
-        if (book.getAuthorsNames().equals("")){
-            bookAuthor.setText("Undefined");
+    private void setAuthors(ArrayList<Author> authors){
+        if (authors.size() == 0){
+            Label message = new Label("Undefined");
+            message.setPadding(new Insets(5, 0, 0, 5));
+            message.setFont(Font.font("Arial", 24));
+            bookAuthorsBox.getChildren().add(message);
+            return;
+        }
+        else {
+            for (int i = 0; i< authors.size(); i++){
+                Author author = authors.get(i);
+                Hyperlink author_link = new Hyperlink();
+                if (i < authors.size()-1){
+                    author_link.setText(author.getName() + ",");;
+                }
+                else {
+                    author_link.setText(author.getName());;
+                }
+
+                author_link.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        FXMLLoader fxmlLoader = new FXMLLoader(BookViewController.class.getResource("/z11/libraryapp/fxml/AuthorView.fxml"));
+                        Scene scene;
+                        try {
+                            scene = new Scene(fxmlLoader.load());
+                            Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+                            AuthorViewController authorViewController = fxmlLoader.getController();
+                            authorViewController.setData(author);
+                            stage.setScene(scene);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                author_link.setFont(Font.font("Arial", 24));
+                bookAuthorsBox.getChildren().add(author_link);
+            }
+        }
+    }
+
+    private void setGenres(ArrayList<Genre> genres){
+        if (genres.size() > 0){
+            for (int i = 0; i< genres.size(); i++){
+                Genre genre = genres.get(i);
+                Hyperlink genre_link = new Hyperlink();
+                if (i < genres.size()-1){
+                    genre_link.setText(genre.getName() + ",");;
+                }
+                else {
+                    genre_link.setText(genre.getName());;
+                }
+
+                genre_link.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent e) {
+                        System.out.println(genre.getName() + " clicked");
+                    }
+                });
+                genre_link.setFont(Font.font("Arial", 24));
+                bookGenresBox.getChildren().add(genre_link);
+            }
         }
         else{
-            bookAuthor.setText(book.getAuthorsNames());
+            Label message = new Label("Undefined");
+            message.setPadding(new Insets(5, 0, 0, 5));
+            message.setFont(Font.font("Arial", 24));
+            bookGenresBox.getChildren().add(message);
+            return;
         }
-        bookCountry.setText(book.getCountry());
-        bookPublicationYear.setText(Integer.toString(book.getPublicationYear()));
-        bookSeries.setText(book.getSeries());
-        if (book.getSummary() != null)
+    }
+
+    private void setSummary(String summary){
+        if (summary != null)
         {
-            bookSummary.setText(book.getSummary());
+            bookSummary.setText(summary);
             bookSummary.setWrapText(true);
         }
         else{
             bookSummary.setText("No summary available.\n");
         }
-        ArrayList<Genre> genres = book.getGenres();
-        if (genres.size() > 0){
-            for (int i = 0; i< genres.size(); i++){
-                Hyperlink genre = new Hyperlink();
-                if (i < genres.size()-1){
-                    genre.setText(genres.get(i).getName() + ",");;
-                }
-                else {
-                    genre.setText(genres.get(i).getName());;
-                }
-                genre.setFont(Font.font("Arial", 24));
-                bookGenresBox.getChildren().add(genre);
-            }
-        }
-        else{
-            bookGenresBox.getChildren().add(new Label("-"));
-        }
+    }
 
-
-        DbHandler dbManager;
-        dbManager = new DbHandler();
-
-        ArrayList<Book> sameSeriesBooks = getBooksInSameSeries(book.getId(), dbManager);
+    private void setSameSeriesBooks(ArrayList<Book> sameSeriesBooks, Book book) throws IOException{
         if (sameSeriesBooks.size() > 0){
             int counter = 1;
             for (Book book_obj : sameSeriesBooks){
-                if (counter < 4){
-                    FXMLLoader fxmlLoader = new FXMLLoader();
-                    fxmlLoader.setLocation(SameSeriesBookController.class.getResource("/z11/libraryapp/fxml/SameSeriesBook.fxml"));
-                    HBox cardBox = fxmlLoader.load();
-                    SameSeriesBookController bookController = fxmlLoader.getController();
-                    bookController.setData(book_obj, counter);
-                    bookSameSeriesBooks.getChildren().add(cardBox);
-                    counter++;
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                fxmlLoader.setLocation(SameSeriesBookController.class.getResource("/z11/libraryapp/fxml/SameSeriesBook.fxml"));
+                HBox cardBox = fxmlLoader.load();
+                SameSeriesBookController bookController = fxmlLoader.getController();
+                if (book.getId() == book_obj.getId()){
+                    bookController.setData(book_obj, counter, true);
                 }
+                else {
+                    bookController.setData(book_obj, counter, false);
+                }
+                sameSeriesBooksContainer.add(cardBox, 0, counter);
+                counter++;
             }
         }
         else{
             Label error = new Label("No books available in this series :(");
             error.setPadding(new Insets(10, 0, 0, 0));
-            bookSameSeriesBooks.getChildren().add(error);
+            sameSeriesBooksContainer.add(error, 0, 1);
         }
+    }
 
-        int nAvailableInstances = getNumOfAvailableInstances(book.getId(), dbManager);
+    private void setAvailabilityStatus(int nAvailableInstances){
         Image iconImage;
         if (nAvailableInstances > 0){
             iconImage = new Image(getClass().getResourceAsStream("/z11/libraryapp/img/icons/available-icon.png"));
@@ -191,6 +242,34 @@ public class BookViewController {
             bookBorrowButton.setDisable(true);
         }
         bookIsAvailableIcon.setImage(iconImage);
+    }
+
+    public void setData(Book book) throws UnavailableDB, IOException{
+        Image image = new Image(getClass().getResourceAsStream("/z11/libraryapp/img/covers/" + book.getCoverSrc()));
+        bookImage.setImage(image);
+        bookTitle.setText(book.getTitle());
+
+        ArrayList<Author> authors = book.getAuthors();
+        setAuthors(authors);
+
+        bookCountry.setText(book.getCountry());
+        bookPublicationYear.setText(Integer.toString(book.getPublicationYear()));
+        bookSeries.setText(book.getSeries());
+
+        String summary = book.getSummary();
+        setSummary(summary);
+
+        ArrayList<Genre> genres = book.getGenres();
+        setGenres(genres);
+
+        DbHandler dbManager;
+        dbManager = new DbHandler();
+
+        ArrayList<Book> sameSeriesBooks = getBooksInSameSeries(book.getId(), dbManager);
+        setSameSeriesBooks(sameSeriesBooks, book);
+
+        int nAvailableInstances = getNumOfAvailableInstances(book.getId(), dbManager);
+        setAvailabilityStatus(nAvailableInstances);
 
     }
 
