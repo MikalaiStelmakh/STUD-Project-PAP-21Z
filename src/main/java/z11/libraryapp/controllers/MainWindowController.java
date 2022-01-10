@@ -16,6 +16,7 @@ import javafx.scene.Node;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -23,9 +24,15 @@ import javafx.stage.Stage;
 import z11.libraryapp.DbHandler;
 import z11.libraryapp.errors.UnavailableDB;
 import z11.libraryapp.model.Book;
+import z11.libraryapp.model.User;
 
 
 public class MainWindowController implements Initializable {
+
+    private User user_object;
+
+    @FXML
+    private Label usernameLabel;
 
     @FXML
     private Button authorsButton;
@@ -101,6 +108,11 @@ public class MainWindowController implements Initializable {
         }
     }
 
+    public void setData(User user){
+        user_object = user;
+        usernameLabel.setText(user.getLogin());
+    }
+
     @FXML
     void authorsButtonOnAction(ActionEvent event) {
         changeScene(event, "/z11/libraryapp/fxml/Authors.fxml");
@@ -124,5 +136,16 @@ public class MainWindowController implements Initializable {
     @FXML
     void readingButtonOnAction(ActionEvent event) {
         changeScene(event, "/z11/libraryapp/fxml/Reading.fxml");
+    }
+
+    @FXML
+    void logOutButtonOnAction(MouseEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/z11/libraryapp/fxml/SignIn.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        SignInController signInController = fxmlLoader.getController();
+        signInController.setData(user_object);
+        scene.getStylesheets().add(getClass().getResource("/z11/libraryapp/css/styles.css").toExternalForm());
+        Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
     }
 }

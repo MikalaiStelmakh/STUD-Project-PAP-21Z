@@ -271,6 +271,55 @@ public class DbHandler {
         return authors;
     }
 
+    public boolean validateUser(String login, String password) throws UnavailableDB{
+        login = login.toLowerCase();
+        String query = "select count(*) from users where (login='%s' and password='%s')";
+        query = String.format(query, login, password);
+        ResultSet rs;
+        try {
+            rs = ddlQuery(query);
+            rs.next();
+            boolean result;
+            result = rs.getInt(1) == 1;
+            return result;
+        } catch (DdlQueryError e) {
+            e.printStackTrace();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public User getUserByLogin(String login) throws SQLException, DdlQueryError, UnavailableDB{
+        User user;
+        login = login.toLowerCase();
+        String query = "select u.* from users u join permissions p on(u.permission_id = p.permission_id) where u.login='%s'";
+        query = String.format(query, login);
+        ResultSet rs = ddlQuery(query);
+        rs.next();
+        user = new User(rs.getString(1), rs.getString(2), login, rs.getString(4), rs.getString(5));
+        return user;
+    }
+
+    public User createUser(String name, String surname, String login, String password) throws DmlQueryError, UnavailableDB, SQLException, DdlQueryError{
+        login = login.toLowerCase();
+        String query = "insert into users values(null, '%s', '%s', '%s', '%s', 2)";
+        query = String.format(query, name, surname, login, password);
+        dmlQuery(query);
+        return getUserByLogin(login);
+    }
+
+    public boolean isUniqueLogin(String login) throws SQLException, DdlQueryError, UnavailableDB{
+        login = login.toLowerCase();
+        String query = "select count(*) from users where login = '" + login + "'";
+        ResultSet rs = ddlQuery(query);
+        rs.next();
+        return rs.getInt(1) == 0;
+    }
+
+
+
     public void finalize () {
         closeConnetion();
     }

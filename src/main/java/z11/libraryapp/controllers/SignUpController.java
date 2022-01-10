@@ -2,6 +2,7 @@ package z11.libraryapp.controllers;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
@@ -14,45 +15,42 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import z11.libraryapp.DbHandler;
+import z11.libraryapp.errors.DdlQueryError;
+import z11.libraryapp.errors.DmlQueryError;
+import z11.libraryapp.errors.UnavailableDB;
+import z11.libraryapp.model.User;
 import javafx.scene.Node;
 
 import static java.lang.Thread.sleep;
 
 public class SignUpController {
 
-    @FXML
-    private ResourceBundle resources;
-
-    @FXML
-    private URL location;
 
     @FXML
     private Button cancelButton;
 
     @FXML
-    private TextField confirmSignUpPassField;
-
-    @FXML
-    private Label errorLabel;
-
-    @FXML
-    private Label successLabel;
+    private PasswordField confirmSignUpPasswordField;
 
     @FXML
     private Button signUpButton;
 
     @FXML
-    private TextField signUpEmailField;
+    private TextField signUpLoginField;
 
     @FXML
-    private PasswordField signUpPassField;
+    private TextField signUpNameField;
 
     @FXML
-    private TextField signUpUsernameField;
+    private PasswordField signUpPasswordField;
 
-    private Parent root;
-    private Stage stage;
-    private Scene scene;
+    @FXML
+    private TextField signUpSurnameField;
+
+    @FXML
+    private Label messageField;
+
 
     public void cancelButtonOnAction(ActionEvent event){
         try {
@@ -65,24 +63,23 @@ public class SignUpController {
         }
     }
 
-    public void signUpButtonOnAction(ActionEvent event) throws IOException {
-        errorLabel.setText("");
-        successLabel.setText("");
-        if (checkCreate()) {
+    public void signUpButtonOnAction(ActionEvent event) throws IOException, UnavailableDB, DmlQueryError, SQLException, DdlQueryError {
+        String name = signUpNameField.getText();
+        String surname = signUpSurnameField.getText();
+        String login = signUpLoginField.getText();
+        String password = signUpPasswordField.getText();
+        String password_confirm = confirmSignUpPasswordField.getText();
+        if (checkCreate(name, surname, login, password, password_confirm)) {
+            DbHandler dbManager = new DbHandler();
+            User user = dbManager.createUser(name, surname, login, password);
 
-//            signUpButton.getScene().getWindow().hide();
-//            FXMLLoader loader = new FXMLLoader(SignUpController.class.getResource("/z11/libraryapp/SignIn.fxml"));
-//            try {
-//                root = loader.load();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//            SignInController signInController = loader.getController();
-//            signInController.displayName(signUpUsernameField.getText());
-//            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-//            scene = new Scene(root);
-//            stage.setScene(scene);
-//            stage.show();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/z11/libraryapp/fxml/SignIn.fxml"));
+            Scene scene = new Scene(fxmlLoader.load());
+            SignInController signInController = fxmlLoader.getController();
+            signInController.setData(user);
+            scene.getStylesheets().add(getClass().getResource("/z11/libraryapp/css/styles.css").toExternalForm());
+            Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
         }
 
     }
@@ -91,20 +88,25 @@ public class SignUpController {
     void initialize() {
     }
 
-    private boolean checkCreate() throws IOException {
-        if (signUpEmailField.getText() == "" || signUpPassField.getText() == "" || signUpUsernameField.getText().toString() == "" || confirmSignUpPassField.getText().toString() == "") {
-            errorLabel.setText("Fill in all the fields");
+    private boolean checkCreate(String name, String surname, String login, String password, String password_confirm) throws IOException, UnavailableDB {
+        if (name == "" || surname == "" || login == ""
+            || password == "" || password_confirm == "") {
+            messageField.setText("Fill in all the fields");
             return false;
 
-        } else if (!signUpPassField.getText().equals(confirmSignUpPassField.getText())) {
-            System.out.println(signUpPassField.getText());
-            System.out.println(confirmSignUpPassField.getText());
-            errorLabel.setText("Password mismatch");
+        } else if (!password.equals(password_confirm)) {
+            messageField.setText("Password mismatch");
             return false;
         }
-        else {
-            successLabel.setText("Success!");
-            return true;
+        try {
+            DbHandler dbManager = new DbHandler();
+            if (!dbManager.isUniqueLogin(login)){
+                messageField.setText("Username is already taken. Try another one.");
+                return false;
+            }
+        } catch (SQLException | DdlQueryError e) {
+            e.printStackTrace();
         }
+        return true;
     }
 }
