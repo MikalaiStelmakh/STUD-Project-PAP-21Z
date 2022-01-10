@@ -190,7 +190,7 @@ public class DbHandler {
                      + "join country c on (b2.country_id = c.country_id) "
                      + "join series s on (b2.series_id = s.series_id) "
                      + "join language l on (b2.language_id = l.language_id) "
-                     + "where (b1.book_id = %d and b1.book_id <> b2.book_id)";
+                     + "where (b1.book_id = %d)";
         query = String.format(query, bookId);
         try{
             ResultSet rs = ddlQuery(query);
@@ -225,7 +225,7 @@ public class DbHandler {
     }
 
     public Author getAuthor(int authorId) throws UnavailableDB{
-        String query = "SELECT genre.name FROM author WHERE genre.id = " + authorId;
+        String query = "select * from authors where author_id = " + authorId;
         Author author = null;
         try{
             ResultSet rs = ddlQuery(query);
@@ -235,7 +235,9 @@ public class DbHandler {
                 String lastName = rs.getString(3);
                 int birthYear = rs.getInt(4);
                 int deathYear = rs.getInt(5);
-                author = new Author(id, firstName, lastName, birthYear, deathYear);
+                String biography = rs.getString(6);
+                String photoSrc = rs.getString(7);
+                author = new Author(id, firstName, lastName, birthYear, deathYear, biography, photoSrc);
             } else{
                 return null;
             }
@@ -247,8 +249,7 @@ public class DbHandler {
     }
 
     public ArrayList<Author> getBookAuthors(int bookId) throws UnavailableDB{
-        String query = "SELECT author.author_id, author.first_name, author.last_name, author.birth_year, "
-                     + "author.death_year "
+        String query = "SELECT author.*"
                      + "FROM  author "
                      + "JOIN book_author ON (author.author_id = book_author.author_id) "
                      + "JOIN book ON (book.book_id = book_author.book_id) "
@@ -262,7 +263,9 @@ public class DbHandler {
                 String lastName = rs.getString(3);
                 int birthYear = rs.getInt(4);
                 int deathYear = rs.getInt(5);
-                authors.add(new Author(id, firstName, lastName, birthYear, deathYear));
+                String biography = rs.getString(6);
+                String photoSrc = rs.getString(7);
+                authors.add(new Author(id, firstName, lastName, birthYear, deathYear, biography, photoSrc));
             }
         } catch(DdlQueryError | SQLException e){
             e.printStackTrace();
@@ -294,11 +297,12 @@ public class DbHandler {
     public User getUserByLogin(String login) throws SQLException, DdlQueryError, UnavailableDB{
         User user;
         login = login.toLowerCase();
-        String query = "select u.* from users u join permissions p on(u.permission_id = p.permission_id) where u.login='%s'";
+        String query = "select user_id, u.name, surname, login, password, p.name "
+                     + "from users u join permissions p using(permission_id) where u.login='%s'";
         query = String.format(query, login);
         ResultSet rs = ddlQuery(query);
         rs.next();
-        user = new User(rs.getString(1), rs.getString(2), login, rs.getString(4), rs.getString(5));
+        user = new User(rs.getInt(1), rs.getString(2), rs.getString(3), login, rs.getString(5), rs.getString(6));
         return user;
     }
 

@@ -6,6 +6,8 @@ public class Author {
     private String lastName;
     private int birthYear;
     private int deathYear;
+    private String biography;
+    private String photoSrc;
 
     public Author(int id, String firstName, String lastName, int birthYear){
         this.id = id;
@@ -14,12 +16,14 @@ public class Author {
         this.birthYear = birthYear;
     }
 
-    public Author(int id, String firstName, String lastName, int birthYear, int deathYear){
+    public Author(int id, String firstName, String lastName, int birthYear, int deathYear, String biography, String photoSrc){
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthYear = birthYear;
         this.deathYear = deathYear;
+        this.biography = biography;
+        this.photoSrc = photoSrc;
     }
 
     public int getId(){
@@ -64,6 +68,22 @@ public class Author {
 
     public String getName(){
         return String.format("%s %s", firstName, lastName);
+    }
+
+    public String getbiography() {
+        return biography;
+    }
+
+    public void setbiography(String biography) {
+        this.biography = biography;
+    }
+
+    public String getPhotoSrc() {
+        return photoSrc;
+    }
+
+    public void setPhotoSrc(String photoSrc) {
+        this.photoSrc = photoSrc;
     }
 
     @Override
