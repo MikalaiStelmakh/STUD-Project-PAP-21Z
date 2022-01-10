@@ -16,8 +16,16 @@
    <left>
       <VBox prefHeight="257.0" prefWidth="146.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="users" mnemonicParsing="false" prefHeight="51.0" prefWidth="146.0" text="Users" />
-            <Button fx:id="bookStatus" mnemonicParsing="false" prefHeight="52.0" prefWidth="146.0" text="BookStatus" />
+            <HBox prefHeight="66.0" prefWidth="146.0">
+               <children>
+                  <Button fx:id="users" mnemonicParsing="false" prefHeight="51.0" prefWidth="146.0" text="Users" />
+               </children>
+            </HBox>
+            <HBox prefHeight="68.0" prefWidth="146.0">
+               <children>
+                  <Button fx:id="bookStatus" mnemonicParsing="false" prefHeight="52.0" prefWidth="146.0" text="BookStatus" />
+               </children>
+            </HBox>
             <Button fx:id="authors" mnemonicParsing="false" prefHeight="52.0" prefWidth="146.0" text="Authors" />
             <Button fx:id="categories" mnemonicParsing="false" prefHeight="52.0" prefWidth="146.0" text="Categories" />
             <Button mnemonicParsing="false" prefHeight="52.0" prefWidth="146.0" text="Categories" />
