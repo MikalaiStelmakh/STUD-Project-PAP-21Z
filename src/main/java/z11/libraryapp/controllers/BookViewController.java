@@ -135,7 +135,9 @@ public class BookViewController {
         return dbHandler.getNumOfAvailableInstances(book_id);
     }
 
-    private void setAuthors(ArrayList<Author> authors){
+    private void setAuthors(Book book){
+        ArrayList<Author> authors = book.getAuthors();
+
         if (authors.size() == 0){
             Label message = new Label("Undefined");
             message.setPadding(new Insets(5, 0, 0, 5));
@@ -172,7 +174,9 @@ public class BookViewController {
         }
     }
 
-    private void setGenres(ArrayList<Genre> genres){
+    private void setGenres(Book book){
+        ArrayList<Genre> genres = book.getGenres();
+
         if (genres.size() > 0){
             for (int i = 0; i< genres.size(); i++){
                 Genre genre = genres.get(i);
@@ -203,7 +207,8 @@ public class BookViewController {
         }
     }
 
-    private void setSummary(String summary){
+    private void setSummary(Book book){
+        String summary = book.getSummary();
         if (summary != null)
         {
             bookSummary.setText(summary);
@@ -258,25 +263,35 @@ public class BookViewController {
         bookIsAvailableIcon.setImage(iconImage);
     }
 
+    private void setPublicationYear(Book book){
+        if (book.getPublicationYear() != 0)
+            bookPublicationYear.setText(Integer.toString(book.getPublicationYear()));
+    }
+
+    private void setCover(Book book){
+        //TODO: Set to default image if image source is null
+        Image image = new Image(getClass().getResourceAsStream("/z11/libraryapp/img/covers/" + book.getCoverSrc()));
+        bookImage.setImage(image);
+    }
+
+    private void setCountry(Book book){
+        //TODO: Set to undefined if country is null
+        bookCountry.setText(book.getCountry());
+
+    }
+
     public void setData(Book book, User user) throws UnavailableDB, IOException{
         user_object = user;
         usernameLabel.setText(user_object.getLogin());
-        Image image = new Image(getClass().getResourceAsStream("/z11/libraryapp/img/covers/" + book.getCoverSrc()));
-        bookImage.setImage(image);
+
         bookTitle.setText(book.getTitle());
-
-        ArrayList<Author> authors = book.getAuthors();
-        setAuthors(authors);
-
-        bookCountry.setText(book.getCountry());
-        bookPublicationYear.setText(Integer.toString(book.getPublicationYear()));
+        setCover(book);
+        setAuthors(book);
+        setCountry(book);
         bookSeries.setText(book.getSeries());
-
-        String summary = book.getSummary();
-        setSummary(summary);
-
-        ArrayList<Genre> genres = book.getGenres();
-        setGenres(genres);
+        setPublicationYear(book);
+        setSummary(book);
+        setGenres(book);
 
         DbHandler dbManager;
         dbManager = new DbHandler();
