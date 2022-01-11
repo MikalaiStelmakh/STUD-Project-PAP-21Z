@@ -111,7 +111,7 @@ public class AdminBookStatusController {
         genres.setOnAction(actionEvent -> {
 
             try {
-                Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/z11/libraryapp/fxml/AdminGenres.fxml")));
+                Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/z11/libraryapp/fxml/AdminCategories.fxml")));
                 Stage stage = (Stage) genres.getScene().getWindow();
                 stage.setScene(scene);
                 stage.show();

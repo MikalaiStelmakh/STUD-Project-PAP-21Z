@@ -19,14 +19,13 @@ public class User {
         this.permission = permission;
     }
 
-    public User(int id, String name, String surname, String login, String password, int isAdmin, int isStaff) {
+    public User(int id, String name, String surname, String login, String password, int isAdmin) {
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.login = login;
         this.password = password;
         this.isAdmin = isAdmin;
-        this.isStaff = isStaff;
     }
 
     public int getId() {

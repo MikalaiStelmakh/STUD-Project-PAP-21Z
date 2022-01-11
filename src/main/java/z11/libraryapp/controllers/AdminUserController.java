@@ -65,14 +65,14 @@ public class AdminUserController {
     @FXML
     private TableColumn<User, Integer> isAdmin;
 
-    @FXML
-    private TableColumn<User, Integer> isStaff;
 
     ///////////////////////// so far for example,before revision ////////////////////////////////////////////////
     private ObservableList<User> users1 = FXCollections.observableArrayList();
 
     private void initData() {
-        users1.add(new User(1, "John", "WwW", "cgs", "sdsd", 0, 1));
+        users1.add(new User(1, "John", "Brown", "login", "password", 0));
+        users1.add(new User(1, "William", "White", "mylogin", "mypassword", 0));
+        users1.add(new User(1, "Conor", "McChicken", "mma", "mma", 0));
     }
 
     @FXML
@@ -84,7 +84,6 @@ public class AdminUserController {
         login.setCellValueFactory(new PropertyValueFactory<User, String>("login"));
         salt.setCellValueFactory(new PropertyValueFactory<User, String>("password"));
         isAdmin.setCellValueFactory(new PropertyValueFactory<User, Integer>("isAdmin"));
-        isStaff.setCellValueFactory(new PropertyValueFactory<User, Integer>("isStaff"));
 
         userTable.setItems(users1);
 
@@ -141,7 +140,7 @@ public class AdminUserController {
         genres.setOnAction(actionEvent -> {
 
             try {
-                Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/z11/libraryapp/fxml/AdminGenres.fxml")));
+                Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/z11/libraryapp/fxml/AdminCategories.fxml")));
                 Stage stage = (Stage) genres.getScene().getWindow();
                 stage.setScene(scene);
                 stage.show();
