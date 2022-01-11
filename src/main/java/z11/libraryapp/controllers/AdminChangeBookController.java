@@ -2,14 +2,20 @@ package z11.libraryapp.controllers;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Date;
 import java.util.ResourceBundle;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import z11.libraryapp.model.Book;
 
 public class AdminChangeBookController {
 
@@ -38,34 +44,34 @@ public class AdminChangeBookController {
     private Button changesBook;
 
     @FXML
-    private TableView<?> booksTable;
+    private TableView<Book> booksTable;
 
     @FXML
-    private TableColumn<?, ?> bookId;
+    private TableColumn<Book, Integer> bookId;
 
     @FXML
-    private TableColumn<?, ?> title;
+    private TableColumn<Book, String> title;
 
     @FXML
-    private TableColumn<?, ?> summary;
+    private TableColumn<Book, Integer> summary;
 
     @FXML
-    private TableColumn<?, ?> published;
+    private TableColumn<Book, Date> published;
 
     @FXML
-    private TableColumn<?, ?> pages;
+    private TableColumn<Book, Integer> pages;
 
     @FXML
-    private TableColumn<?, ?> cover;
+    private TableColumn<Book, String> cover;
 
     @FXML
-    private TableColumn<?, ?> country;
+    private TableColumn<Book, Integer> country;
 
     @FXML
-    private TableColumn<?, ?> series;
+    private TableColumn<Book, Integer> series;
 
     @FXML
-    private TableColumn<?, ?> lengua;
+    private TableColumn<Book, Integer> languages;
 
     @FXML
     private Button addButton;
@@ -73,8 +79,29 @@ public class AdminChangeBookController {
     @FXML
     private Button deleteButton;
 
+    ///////////////////////// so far for example,before revision ////////////////////////////////////////////////
+    private ObservableList<Book> books = FXCollections.observableArrayList();
+
+    private void initData() {
+        books.add(new Book(5, "dfd", "5", 5, 5, "df", "fdf", "dgdg", "fdf"));
+    }
+
     @FXML
     void initialize() {
+        initData();
+        bookId.setCellValueFactory(new PropertyValueFactory<Book, Integer>("id"));
+        title.setCellValueFactory(new PropertyValueFactory<Book, String>("title"));
+        summary.setCellValueFactory(new PropertyValueFactory<Book, Integer>("summary"));
+        published.setCellValueFactory(new PropertyValueFactory<Book, Date>("publicationYear"));
+        pages.setCellValueFactory(new PropertyValueFactory<Book, Integer>("pages"));
+        cover.setCellValueFactory(new PropertyValueFactory<Book, String>("coverSrc"));
+        country.setCellValueFactory(new PropertyValueFactory<Book, Integer>("country"));
+        series.setCellValueFactory(new PropertyValueFactory<Book, Integer>("series"));
+        languages.setCellValueFactory(new PropertyValueFactory<Book, Integer>("language"));
+
+        booksTable.setItems(books);
+
+    ///////////////////////////////////////////////////////
         AdmPg.setOnAction(actionEvent -> {
 
             try {

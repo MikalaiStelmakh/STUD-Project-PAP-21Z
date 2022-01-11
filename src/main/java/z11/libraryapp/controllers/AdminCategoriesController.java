@@ -3,13 +3,18 @@ package z11.libraryapp.controllers;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import z11.libraryapp.model.Genre;
 
 public class AdminCategoriesController {
 
@@ -38,16 +43,34 @@ public class AdminCategoriesController {
     private Button changesBook;
 
     @FXML
-    private TableView<?> genreTable;
+    private TableView<Genre> genreTable;
 
     @FXML
-    private TableColumn<?, ?> genreId;
+    private TableColumn<Genre, Integer> genreId;
 
     @FXML
-    private TableColumn<?, ?> name;
+    private TableColumn<Genre, String> name;
+
+    ///////////////////////// so far for example,before revision ////////////////////////////////////////////////
+    private ObservableList<Genre> genres = FXCollections.observableArrayList();
+
+    private void initData() {
+        genres.add(new Genre(1, "Alex"));
+        genres.add(new Genre(2, "Bob"));
+        genres.add(new Genre(3, "Jeck"));
+        genres.add(new Genre(4, "Mike"));
+        genres.add(new Genre(5, "colin"));
+    }
 
     @FXML
     void initialize() {
+        initData();
+        genreId.setCellValueFactory(new PropertyValueFactory<Genre, Integer>("id"));
+        name.setCellValueFactory(new PropertyValueFactory<Genre, String>("name"));
+
+        genreTable.setItems(genres);
+    ///////////////////////////////////////////////////////////////////
+
         AdmPg.setOnAction(actionEvent -> {
 
             try {

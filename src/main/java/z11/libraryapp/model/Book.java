@@ -19,6 +19,20 @@ public class Book {
     private ArrayList<Author> authors;
     private ArrayList<Genre> genres;
 
+    public Book(int id, String title, String summary, int publicationYear, int pages, String coverSrc,
+                String country, String series, String language) {
+        this.id = id;
+        this.title = title;
+        this.summary = summary;
+        this.publicationYear = publicationYear;
+
+        this.pages = pages;
+        this.coverSrc = coverSrc;
+        this.country = country;
+        this.series = series;
+        this.language = language;
+    }
+
     public Book(int id, String title, String summary, int publicationYear, Date dateAdded, int pages, String coverSrc,
                 String country, String series, String language, ArrayList<Author> authors, ArrayList<Genre> genres){
         this.id = id;
