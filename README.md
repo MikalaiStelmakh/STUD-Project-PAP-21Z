@@ -43,7 +43,7 @@ Nazwa oraz autor książek są ładowane z bazy danych podłączonej do aplikacj
 Jeśli logujący użytkownik jest administratorem, będzie miał on inny interfejs niż inni użytkownicy. ten interfejs nie musi być tak piękny jak interfejs użytkownika, ale musi być efektywny i łatwy w użyciu.
 ### Sekcja `Authors`
 Strona autorów będzie wyglądać podobnie do strony `Dashboard`, czyli będzie podział na ostatnio dodanych autorów oraz na wszystkich autorów, których książki znajdują się w bibliotece.
-### Sekcja `Categories`
+### Sekcja `Genres`
 Na tej stronie książki będą podzielone na kategorie. Dla każdej kategorii będzie wyświetlonych kilka książek, aby zobaczyć wszystkie książki w tej kategorii użytkownik będzie mógł kliknąć na nazwę kategorii, aby przejść do innej strony.
 ### Sekcja `Reading`
 Na tej stronie będzie znajdowała się lista wypożyczonych przez użytkownika książek. Będzie widoczna data wypożyczenia książki oraz data do której tą książkę należy zwrócić.
@@ -53,7 +53,7 @@ Ta strona będzie zawierała historię użytkownika o wypożyczaniu książek.
 Planowane, że pole wyszukiwania będzię takie same na wszystkich stronach aplikacji i będzie możliwość wyszukiwania dla wszystkich parametrów książki, to znaczy, że na stronie `Authors` można będzie wyszukać książkę też po jej nazwie, a nie tylko autorze.
 ### MQTT
 Zakładamy, że przy pomocy protokołu MQTT książka wysyła komunikaty, czy jest wypożyczona lub zwrócona. Zakładamy, że klient bibliotekarza będzie obsługiwać komunikaty od książek. Zostanie stworzona prosta aplikacja, która będzie wysyłać komunikaty o tym, że pewna książka została wypożyczona lub zwrócona.
-### Podział obowiązków  
+### Podział obowiązków
 - Mikalai Stelmakh - interfejs aplikacji głównej
 - Denys Savytskyi - baza danych oraz MQTT
 - Roman Ishchuk - interfejs panelu administracyjnego

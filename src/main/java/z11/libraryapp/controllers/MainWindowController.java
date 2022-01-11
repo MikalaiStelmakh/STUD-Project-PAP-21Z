@@ -39,7 +39,7 @@ public class MainWindowController{
     private Button authorsButton;
 
     @FXML
-    private Button categoriesButton;
+    private Button genresButton;
 
     @FXML
     private Button dashboardButton;
@@ -116,9 +116,9 @@ public class MainWindowController{
     }
 
     @FXML
-    void categoriesButtonOnAction(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = MainWindowController.changeScene(event, "/z11/libraryapp/fxml/Categories.fxml");
-        CategoriesController controller = fxmlLoader.getController();
+    void genresButtonOnAction(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = MainWindowController.changeScene(event, "/z11/libraryapp/fxml/Genres.fxml");
+        GenresController controller = fxmlLoader.getController();
         controller.setData(user_object);
     }
 

@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="z11.libraryapp.controllers.AdminCategoriesController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="z11.libraryapp.controllers.AdminGenresController">
     <top>
         <HBox prefHeight="58.0" prefWidth="810.0" BorderPane.alignment="CENTER">
             <children>
@@ -22,8 +22,8 @@
                 <Button fx:id="users" mnemonicParsing="false" prefHeight="51.0" prefWidth="146.0" text="Users" />
                 <Button fx:id="bookStatus" mnemonicParsing="false" prefHeight="52.0" prefWidth="146.0" text="BookStatus" />
                 <Button fx:id="authors" mnemonicParsing="false" prefHeight="52.0" prefWidth="146.0" text="Authors" />
-                <Button fx:id="categories" mnemonicParsing="false" prefHeight="52.0" prefWidth="146.0" text="Categories" />
-                <Button mnemonicParsing="false" prefHeight="52.0" prefWidth="146.0" text="Categories" />
+                <Button fx:id="genres" mnemonicParsing="false" prefHeight="52.0" prefWidth="146.0" text="Genres" />
+                <Button mnemonicParsing="false" prefHeight="52.0" prefWidth="146.0" text="Genres" />
                 <Button fx:id="changesBook" layoutX="10.0" layoutY="218.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="146.0" text="Add/delete book" />
             </children>
         </VBox>

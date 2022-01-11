@@ -68,3 +68,7 @@
     -fx-text-fill: white;
     -fx-background-color: #ac2a1e;
 }
+
+.hyperlink {
+    -fx-border-color: transparent;
+}

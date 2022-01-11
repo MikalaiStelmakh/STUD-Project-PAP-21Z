@@ -16,7 +16,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import z11.libraryapp.model.Genre;
 
-public class AdminCategoriesController {
+public class AdminGenresController {
 
     @FXML
     private ResourceBundle resources;
@@ -37,7 +37,7 @@ public class AdminCategoriesController {
     private Button authors;
 
     @FXML
-    private Button categories;
+    private Button genresBtn;
 
     @FXML
     private Button changesBook;
@@ -119,11 +119,11 @@ public class AdminCategoriesController {
             }
         });
 
-        categories.setOnAction(actionEvent -> {
+        genresBtn.setOnAction(actionEvent -> {
 
             try {
-                Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/z11/libraryapp/fxml/AdminCategories.fxml")));
-                Stage stage = (Stage) categories.getScene().getWindow();
+                Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/z11/libraryapp/fxml/AdminGenres.fxml")));
+                Stage stage = (Stage) genresBtn.getScene().getWindow();
                 stage.setScene(scene);
                 stage.show();
             } catch (IOException e) {
