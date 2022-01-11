@@ -7,7 +7,8 @@ public class User {
     private String login;
     private String password;
     private String permission;
-
+    private int isAdmin;
+    private int isStaff;
 
     public User(int id, String name, String surname, String login, String password, String permission) {
         this.id = id;
@@ -18,12 +19,38 @@ public class User {
         this.permission = permission;
     }
 
+    public User(int id, String name, String surname, String login, String password, int isAdmin, int isStaff) {
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+        this.login = login;
+        this.password = password;
+        this.isAdmin = isAdmin;
+        this.isStaff = isStaff;
+    }
+
     public int getId() {
         return id;
     }
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public char getIsAdmin() {
+        return (char) isAdmin;
+    }
+
+    public void setIsAdmin(int isAdmin) {
+        this.isAdmin = isAdmin;
+    }
+
+    public char getIsStaff() {
+        return (char) isStaff;
+    }
+
+    public void setIsStaff(int isStaff) {
+        this.isStaff = isStaff;
     }
 
     public String getName() {

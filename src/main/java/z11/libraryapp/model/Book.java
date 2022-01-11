@@ -25,7 +25,6 @@ public class Book {
         this.title = title;
         this.summary = summary;
         this.publicationYear = publicationYear;
-
         this.pages = pages;
         this.coverSrc = coverSrc;
         this.country = country;

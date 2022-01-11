@@ -2,14 +2,21 @@ package z11.libraryapp.controllers;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Date;
 import java.util.ResourceBundle;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import z11.libraryapp.model.Book;
+import z11.libraryapp.model.User;
 
 public class AdminUserController {
 
@@ -38,31 +45,51 @@ public class AdminUserController {
     private Button changesBook;
 
     @FXML
-    private TableView<?> userTable;
+    private TableView<User> userTable;
 
     @FXML
-    private TableColumn<?, ?> userId;
+    private TableColumn<User, Integer> userId;
 
     @FXML
-    private TableColumn<?, ?> firstname;
+    private TableColumn<User, String> firstname;
 
     @FXML
-    private TableColumn<?, ?> lastname;
+    private TableColumn<User, String> lastname;
 
     @FXML
-    private TableColumn<?, ?> login;
+    private TableColumn<User, String> login;
 
     @FXML
-    private TableColumn<?, ?> salt;
+    private TableColumn<User, String> salt;
 
     @FXML
-    private TableColumn<?, ?> isAdmin;
+    private TableColumn<User, Integer> isAdmin;
 
     @FXML
-    private TableColumn<?, ?> isStaff;
+    private TableColumn<User, Integer> isStaff;
+
+    ///////////////////////// so far for example,before revision ////////////////////////////////////////////////
+    private ObservableList<User> users1 = FXCollections.observableArrayList();
+
+    private void initData() {
+        users1.add(new User(1, "John", "WwW", "cgs", "sdsd", 0, 1));
+    }
 
     @FXML
     void initialize() {
+        initData();
+        userId.setCellValueFactory(new PropertyValueFactory<User, Integer>("id"));
+        firstname.setCellValueFactory(new PropertyValueFactory<User, String>("name"));
+        lastname.setCellValueFactory(new PropertyValueFactory<User, String>("surname"));
+        login.setCellValueFactory(new PropertyValueFactory<User, String>("login"));
+        salt.setCellValueFactory(new PropertyValueFactory<User, String>("password"));
+        isAdmin.setCellValueFactory(new PropertyValueFactory<User, Integer>("isAdmin"));
+        isStaff.setCellValueFactory(new PropertyValueFactory<User, Integer>("isStaff"));
+
+        userTable.setItems(users1);
+
+        ///////////////////////////////////////////////////////
+
         AdmPg.setOnAction(actionEvent -> {
 
             try {
