@@ -130,11 +130,11 @@ public class Book {
         this.series = series;
     }
 
-    public ArrayList<Author> getAuthor() {
+    public ArrayList<Author> getAuthors() {
         return authors;
     }
 
-    public void setAuthor(Author author) {
+    public void setAuthors(Author author) {
         this.authors.add(author);
     }
 

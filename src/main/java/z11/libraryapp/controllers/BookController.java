@@ -33,6 +33,7 @@ public class BookController {
         bookImage.setImage(image);
         bookTitle.setText(book.getTitle());
         bookTitle.setWrapText(true);
+        bookAuthor.setWrapText(true);
         bookAuthor.setText(book.getAuthorsNames());
     }
 

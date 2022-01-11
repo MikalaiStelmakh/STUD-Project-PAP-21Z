@@ -20,7 +20,7 @@
                   <Font name="Berlin Sans FB Bold" size="24.0" />
                </font>
             </Label>
-            <Label fx:id="bookAuthor" layoutX="10.0" layoutY="64.0" prefHeight="78.0" prefWidth="190.0" text="JK Rowling">
+            <Label fx:id="bookAuthor" layoutX="10.0" layoutY="64.0" prefHeight="79.0" prefWidth="190.0" text="JK Rowling">
                <font>
                   <Font name="Berlin Sans FB" size="18.0" />
                </font>

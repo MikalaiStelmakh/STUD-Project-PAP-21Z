@@ -233,12 +233,16 @@
                   <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                </padding>
             </Label>
-            <ScrollPane prefHeight="250.0" prefWidth="1111.0" styleClass="transparent">
+            <ScrollPane prefHeight="207.0" prefWidth="1246.0" styleClass="transparent">
                <content>
-                  <HBox fx:id="cardLayout" alignment="CENTER_LEFT" prefHeight="234.0" prefWidth="1340.0" spacing="20.0" styleClass="transparent">
+                  <GridPane fx:id="cardContainer" alignment="CENTER_RIGHT" hgap="20.0" prefHeight="86.0" prefWidth="0.0">
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
                      <padding>
-                        <Insets left="20.0" right="20.0" />
-                     </padding></HBox>
+                        <Insets top="87.0" />
+                     </padding>
+                  </GridPane>
                </content>
             </ScrollPane>
             <Label layoutX="10.0" layoutY="10.0" prefHeight="18.0" prefWidth="286.0" styleClass="berlin-sans-font" text="All Books">

@@ -13,6 +13,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import z11.libraryapp.errors.UnavailableDB;
 import z11.libraryapp.model.Book;
@@ -33,13 +34,19 @@ public class SameSeriesBookController {
     @FXML
     private HBox box;
 
-    public void setData(Book book, int id){
+    public void setData(Book book, int id, boolean is_opened){
         bookObject = book;
         bookNumber.setText(Integer.toString(id) + ".");
         Image image = new Image(getClass().getResourceAsStream("/z11/libraryapp/img/covers/" + book.getCoverSrc()));
         bookImage.setImage(image);
         bookTitle.setText(book.getTitle() + " (" + book.getPublicationYear() + ").");
         bookTitle.setWrapText(true);
+        if (is_opened){
+            bookNumber.setDisable(true);
+            bookTitle.setDisable(true);
+            bookTitle.setStyle("-fx-underline: false");
+            bookTitle.setTextFill(Color.BLACK);
+        }
     }
 
     @FXML

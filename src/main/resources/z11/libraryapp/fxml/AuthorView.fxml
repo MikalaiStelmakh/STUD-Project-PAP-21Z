@@ -18,7 +18,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="890.0" prefWidth="1450.0" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="z11.libraryapp.controllers.BookViewController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="890.0" prefWidth="1450.0" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="z11.libraryapp.controllers.AuthorViewController">
    <top>
       <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" prefHeight="60.0" prefWidth="200.0" spacing="20.0" styleClass="white-background" BorderPane.alignment="CENTER">
          <children>
@@ -219,150 +219,104 @@
    <center>
       <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <VBox alignment="TOP_CENTER" prefHeight="830.0" prefWidth="158.0" HBox.hgrow="ALWAYS">
+            <VBox alignment="TOP_CENTER" prefHeight="830.0" prefWidth="296.0" HBox.hgrow="ALWAYS">
                <children>
-                  <ImageView fx:id="bookImage" fitHeight="361.0" fitWidth="251.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="authorImage" fitHeight="361.0" fitWidth="251.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../img/covers/Harry_Potter_and_the_Philosopher's_Stone_Book_Cover.jpg" />
+                        <Image url="@../img/photos/william-shakespeare.jpg" />
                      </image>
                      <VBox.margin>
                         <Insets top="50.0" />
                      </VBox.margin>
                   </ImageView>
-                  <Button fx:id="bookBorrowButton" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="54.0" prefWidth="206.0" text="Borrow" textFill="#f4eded">
-                     <VBox.margin>
-                        <Insets top="40.0" />
-                     </VBox.margin>
-                     <styleClass>
-                        <String fx:value="borrow-btn" />
-                        <String fx:value="btn" />
-                     </styleClass>
-                     <font>
-                        <Font name="Berlin Sans FB" size="18.0" />
-                     </font>
-                  </Button>
-                  <HBox alignment="CENTER" prefHeight="49.0" prefWidth="278.0" spacing="10.0">
+               </children>
+            </VBox>
+            <VBox prefHeight="830.0" prefWidth="950.0" spacing="10.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <HBox prefHeight="36.0" prefWidth="950.0" spacing="5.0">
                      <children>
-                        <ImageView fx:id="bookIsAvailableIcon" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../img/icons/available-icon.png" />
-                           </image>
-                        </ImageView>
-                        <Label fx:id="bookIsAvailableLabel" text="Available">
+                        <Label fx:id="authorName" text="William Shakespeare">
                            <font>
-                              <Font name="System Italic" size="24.0" />
+                              <Font name="Berlin Sans FB" size="30.0" />
+                           </font>
+                        </Label>
+                        <Label prefHeight="33.6" prefWidth="10.0" text="(">
+                           <font>
+                              <Font name="Berlin Sans FB" size="24.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="authorBirthYear" prefHeight="34.0" prefWidth="43.0" text="1564">
+                           <font>
+                              <Font name="Berlin Sans FB" size="24.0" />
+                           </font>
+                        </Label>
+                        <Label prefHeight="34.0" prefWidth="7.0" text="-">
+                           <font>
+                              <Font name="Berlin Sans FB" size="24.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="authorDeathYear" prefHeight="34.0" prefWidth="46.0" text="1616">
+                           <font>
+                              <Font name="Berlin Sans FB" size="24.0" />
+                           </font>
+                        </Label>
+                        <Label prefHeight="33.6" prefWidth="10.0" text=")">
+                           <font>
+                              <Font name="Berlin Sans FB" size="24.0" />
                            </font>
                         </Label>
                      </children>
                   </HBox>
+                  <Label text="United Kingdom" textFill="#48594f">
+                     <font>
+                        <Font name="Berlin Sans FB" size="18.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="TOP_LEFT" prefHeight="277.0" prefWidth="942.0" text="William Shakespeare was an English playwright, poet and actor, widely regarded as the greatest &#10;writer in the English language and the world's greatest dramatist. He is often called England's &#10;national poet and the &quot;Bard of Avon&quot; (or simply &quot;the Bard&quot;). His extant works, including &#10;collaborations, consist of some 39 plays,154 sonnets, three long narrative poems, and a few other &#10;verses, some of uncertain authorship. His plays have been translated into every major living &#10;language and are performed more often than those of any other playwright. They continue to be &#10;studied and reinterpreted.">
+                     <font>
+                        <Font name="Arial" size="20.0" />
+                     </font>
+                     <padding>
+                        <Insets top="10.0" />
+                     </padding>
+                  </Label>
+                  <HBox prefHeight="31.0" prefWidth="950.0">
+                     <children>
+                        <Label text="Books by ">
+                           <font>
+                              <Font name="Arial" size="20.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="authorName1" text="William Shakespeare">
+                           <font>
+                              <Font name="Berlin Sans FB" size="20.0" />
+                           </font>
+                           <padding>
+                              <Insets top="1.0" />
+                           </padding>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="318.0" prefWidth="950.0">
+                     <children>
+                        <ScrollPane prefHeight="318.0" prefWidth="918.0" styleClass="transparent">
+                           <content>
+                              <GridPane fx:id="booksByAuthorContainer" hgap="10.0" vgap="10.0">
+                                <rowConstraints>
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                              </GridPane>
+                           </content>
+                        </ScrollPane>
+                     </children>
+                  </HBox>
                </children>
-            </VBox>
-            <VBox prefHeight="830.0" prefWidth="886.0" spacing="10.0" HBox.hgrow="ALWAYS">
                <HBox.margin>
                   <Insets />
                </HBox.margin>
                <padding>
                   <Insets top="50.0" />
                </padding>
-               <children>
-                  <HBox prefHeight="20.0" prefWidth="940.0">
-                     <children>
-                        <Label fx:id="bookCountry" text="United Kingdom">
-                           <font>
-                              <Font name="Berlin Sans FB" size="20.0" />
-                           </font>
-                        </Label>
-                        <Label text=",  ">
-                           <font>
-                              <Font name="Berlin Sans FB" size="20.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="bookPublicationYear" text="26 June 1997">
-                           <font>
-                              <Font name="Berlin Sans FB" size="20.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </HBox>
-                  <Label fx:id="bookTitle" text="Harry Potter and the Philosopher's Stone">
-                     <font>
-                        <Font name="Berlin Sans FB" size="30.0" />
-                     </font>
-                  </Label>
-                  <HBox fx:id="bookAuthorsBox" prefHeight="24.0" prefWidth="940.0">
-                     <children>
-                        <Label text="by">
-                           <font>
-                              <Font name="Berlin Sans FB" size="24.0" />
-                           </font>
-                           <HBox.margin>
-                              <Insets top="5.0" />
-                           </HBox.margin>
-                        </Label>
-                     </children>
-                  </HBox>
-                  <HBox fx:id="bookGenresBox" prefHeight="24.0" prefWidth="200.0">
-                     <children>
-                        <Label text="Genres: ">
-                           <font>
-                              <Font name="Berlin Sans FB" size="24.0" />
-                           </font>
-                           <HBox.margin>
-                              <Insets top="5.0" />
-                           </HBox.margin>
-                        </Label>
-                     </children>
-                  </HBox>
-                  <Label text="Summary: ">
-                     <font>
-                        <Font name="Berlin Sans FB" size="24.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
-                  </Label>
-                  <Label fx:id="bookSummary" alignment="TOP_LEFT" maxHeight="940.0" prefHeight="203.0" prefWidth="940.0" text="Adaptation of the first of J.K. Rowling's popular children's novels about Harry Potter, a boy who learns&#10;on his eleventh birthday that he is the orphaned son of two powerful wizardsand possesses unique &#10;magical powers of his own. He is summoned from his life as an unwanted child to become a student at &#10;Hogwarts, an English boarding school for wizards. There, he meets several friends who become his &#10;closest allies and help him discover the truth about his parents' mysterious deaths.">
-                     <font>
-                        <Font name="Arial" size="20.0" />
-                     </font>
-                  </Label>
-                  <VBox prefHeight="366.0" prefWidth="950.0">
-                     <children>
-                        <HBox prefHeight="24.0" prefWidth="200.0" spacing="5.0">
-                           <children>
-                              <Label alignment="TOP_LEFT" text="More on">
-                                 <font>
-                                    <Font name="Berlin Sans FB" size="24.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="bookSeries" text="Harry Potter">
-                                 <font>
-                                    <Font name="Berlin Sans FB" size="24.0" />
-                                 </font>
-                              </Label>
-                              <Label text="series">
-                                 <font>
-                                    <Font name="Berlin Sans FB" size="24.0" />
-                                 </font>
-                              </Label>
-                           </children>
-                        </HBox>
-                        <HBox prefHeight="303.0" prefWidth="950.0">
-                           <children>
-                              <ScrollPane prefHeight="100.0" prefWidth="395.0" styleClass="transparent">
-                                 <content>
-                                    <GridPane fx:id="sameSeriesBooksContainer" hgap="5.0">
-                                      <rowConstraints>
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                      </rowConstraints>
-                                    </GridPane>
-                                 </content>
-                              </ScrollPane>
-                           </children>
-                        </HBox>
-                     </children>
-                  </VBox>
-               </children>
             </VBox>
          </children>
       </HBox>

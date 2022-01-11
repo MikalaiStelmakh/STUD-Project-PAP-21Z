@@ -50,7 +50,7 @@ public class MainWindowController implements Initializable {
     private Button readingButton;
 
     @FXML
-    private HBox cardLayout;
+    private GridPane cardContainer;
 
     @FXML
     private GridPane bookContainer;
@@ -83,7 +83,7 @@ public class MainWindowController implements Initializable {
                     HBox cardBox = fxmlLoader.load();
                     CardController cardController = fxmlLoader.getController();
                     cardController.setData(book);
-                    cardLayout.getChildren().add(cardBox);
+                    cardContainer.add(cardBox, cardCounter, 0);
                     cardCounter++;
                 }
             }
