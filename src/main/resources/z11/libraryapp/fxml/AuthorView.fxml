@@ -84,7 +84,7 @@
                         <Insets left="5.0" />
                      </VBox.margin>
                   </Label>
-                  <HBox alignment="CENTER_LEFT" prefHeight="63.0" prefWidth="204.0" spacing="10.0">
+                  <HBox alignment="CENTER_LEFT" prefHeight="63.0" prefWidth="204.0" spacing="10.0" styleClass="mouse-moved">
                      <children>
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -107,12 +107,8 @@
                      <VBox.margin>
                         <Insets left="20.0" />
                      </VBox.margin>
-                     <styleClass>
-                        <String fx:value="mouse-moved" />
-                        <String fx:value="selected" />
-                     </styleClass>
                   </HBox>
-                  <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="42.0" prefHeight="63.0" prefWidth="204.0" spacing="10.0" styleClass="mouse-moved">
+                  <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="42.0" prefHeight="63.0" prefWidth="204.0" spacing="10.0">
                      <children>
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -135,6 +131,10 @@
                      <VBox.margin>
                         <Insets left="20.0" />
                      </VBox.margin>
+                     <styleClass>
+                        <String fx:value="mouse-moved" />
+                        <String fx:value="selected" />
+                     </styleClass>
                   </HBox>
                   <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="116.0" prefHeight="63.0" prefWidth="204.0" spacing="10.0" styleClass="mouse-moved">
                      <children>
@@ -146,7 +146,7 @@
                               <Insets left="5.0" />
                            </HBox.margin>
                         </ImageView>
-                        <Button fx:id="categoriesButton" mnemonicParsing="false" onAction="#categoriesButtonOnAction" text="Categories">
+                        <Button fx:id="genresButton" mnemonicParsing="false" onAction="#genresButtonOnAction" text="Genres">
                            <font>
                               <Font name="Berlin Sans FB" size="18.0" />
                            </font>
@@ -306,6 +306,9 @@
                            </padding>
                         </Label>
                      </children>
+                     <padding>
+                        <Insets left="30.0" />
+                     </padding>
                   </HBox>
                   <HBox prefHeight="375.0" prefWidth="950.0">
                      <children>

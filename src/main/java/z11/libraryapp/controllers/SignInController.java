@@ -14,6 +14,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import z11.libraryapp.DbHandler;
 import z11.libraryapp.errors.DdlQueryError;
@@ -47,7 +49,7 @@ public class SignInController {
 
     public void setData(User user){
         loginField.setText(user.getLogin());
-        passwordField.requestFocus();
+        loginField.requestFocus();
     }
 
     public void signUpButtonOnAction(ActionEvent event){
@@ -58,7 +60,7 @@ public class SignInController {
         }
     }
 
-    public void logInButtonOnAction(ActionEvent event) throws UnavailableDB{
+    private void logIn(Object event) throws UnavailableDB{
         String login = loginField.getText();
         String password = passwordField.getText();
         if (login == "" || password == "") {
@@ -95,11 +97,37 @@ public class SignInController {
         }
     }
 
+    public void logInButtonOnAction(ActionEvent event) throws UnavailableDB{
+        logIn(event);
+    }
+
     public void displayName(String username){
         loginField.setText(username);
     }
 
     @FXML
-    void initialize() {
+    void onKeyPressedLogin(KeyEvent event) throws UnavailableDB {
+        if (event.getCode().equals(KeyCode.TAB)) {
+            passwordField.requestFocus();
+        }
+        else if (event.getCode().equals(KeyCode.DOWN)){
+            passwordField.requestFocus();
+        }
+        else if (event.getCode().equals(KeyCode.ENTER) && passwordField.getText().equals("")) {
+            passwordField.requestFocus();
+        }
+        else if (event.getCode().equals(KeyCode.ENTER)){
+            logIn(event);
+        }
+    }
+
+    @FXML
+    void onKeyPressedPasword(KeyEvent event) throws UnavailableDB {
+        if (event.getCode().equals(KeyCode.ENTER)) {
+            logIn(event);
+        }
+        else if (event.getCode().equals(KeyCode.UP)){
+            loginField.requestFocus();
+        }
     }
 }

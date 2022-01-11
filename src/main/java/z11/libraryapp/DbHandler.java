@@ -132,6 +132,29 @@ public class DbHandler {
         return books;
     }
 
+    public ArrayList<Genre> getGenres() throws UnavailableDB {
+        ArrayList<Genre> genres = new ArrayList<Genre>();
+        String query = "select * from genre order by name asc";
+        try{
+            ResultSet rs = ddlQuery(query);
+            while(rs.next()){
+                try{
+                    int id = rs.getInt(1);
+                    String name = rs.getString(2);
+                    genres.add(new Genre(id, name));
+                }
+                catch(SQLException e){
+                    continue;
+                }
+            }
+        } catch(DdlQueryError | SQLException e){
+            e.printStackTrace();
+            System.exit(1);
+        }
+
+        return genres;
+    }
+
     public String getGenre(int genreId) throws UnavailableDB{
         String query = "SELECT genre.name FROM genre WHERE genre.id = " + genreId;
         String genre = null;
@@ -164,6 +187,45 @@ public class DbHandler {
             System.exit(1);
         }
         return genres;
+    }
+
+    public ArrayList<Book> getBooksByGenre(int genre_id) throws UnavailableDB{
+        ArrayList<Book> books = new ArrayList<Book>();
+        String query = "select book_id, title, summary, publication_year, "
+                     + "date_added, pages, cover, c.name, s.name, l.name "
+                     + "from book join country c using(country_id) "
+                     + "join series s using(series_id) join language l using(language_id) "
+                     + "join book_genre using (book_id) join genre using(genre_id) where genre_id = " + genre_id;
+        try{
+            ResultSet rs = ddlQuery(query);
+            while(rs.next()){
+                try{
+                    int id = rs.getInt(1);
+                    String title = rs.getString(2);
+                    String summary = rs.getString(3);
+                    int publicationYear = rs.getInt(4);
+                    Date dateAdded = rs.getDate(5);
+                    int pages = rs.getInt(6);
+                    String coverSrc = rs.getString(7);
+                    String country = rs.getString(8);
+                    String series = rs.getString(9);
+                    String language = rs.getString(10);
+
+                    ArrayList<Author> authors = getBookAuthors(id);
+                    ArrayList<Genre> genres = getBookGenres(id);
+
+                    books.add(new Book(id, title, summary, publicationYear, dateAdded, pages, coverSrc, country,
+                                        series, language, authors, genres));
+                }
+                catch(SQLException e){
+                    continue;
+                }
+            }
+        } catch(DdlQueryError | SQLException e){
+            e.printStackTrace();
+            System.exit(1);
+        }
+        return books;
     }
 
     public int getNumOfAvailableInstances(int bookId) throws UnavailableDB {
@@ -224,8 +286,33 @@ public class DbHandler {
         return books;
     }
 
+    public ArrayList<Author> getAuthors() throws UnavailableDB{
+        ArrayList<Author> authors = new ArrayList<Author>();
+        String query = "select * from author order by last_name asc";
+        try (ResultSet rs = ddlQuery(query)) {
+            while(rs.next()){
+                try{
+                    int id = rs.getInt(1);
+                    String first_name = rs.getString(2);
+                    String last_name = rs.getString(3);
+                    int birth_year = rs.getInt(4);
+                    int death_year = rs.getInt(5);
+                    String biography = rs.getString(6);
+                    String photo_src = rs.getString(7);
+                    authors.add(new Author(id, first_name, last_name, birth_year, death_year, biography, photo_src));
+                }
+                catch(SQLException e){
+                    continue;
+                }
+            }
+        } catch (DdlQueryError | SQLException e) {
+            e.printStackTrace();
+        }
+        return authors;
+    }
+
     public Author getAuthor(int authorId) throws UnavailableDB{
-        String query = "select * from authors where author_id = " + authorId;
+        String query = "select * from author where author_id = " + authorId;
         Author author = null;
         try{
             ResultSet rs = ddlQuery(query);
@@ -308,6 +395,28 @@ public class DbHandler {
             System.exit(1);
         }
         return books;
+    }
+
+    public ArrayList<Genre> getAuthorGenres(int author_id) throws UnavailableDB{
+        ArrayList<Genre> genres = new ArrayList<Genre>();
+        String query = "select distinct genre_id, g.name "
+                     + "from genre g join book_genre using (genre_id) "
+                     + "join book_author using (book_id) "
+                     + "join author using(author_id) "
+                     + "where author_id = " + author_id;
+        try{
+            ResultSet rs = ddlQuery(query);
+            while(rs.next()){
+                int id = rs.getInt(1);
+                String name = rs.getString(2);
+                genres.add(new Genre(id, name));
+            }
+        }
+        catch (DdlQueryError | SQLException e){
+            e.printStackTrace();
+            System.exit(1);
+        }
+        return genres;
     }
 
     public boolean validateUser(String login, String password) throws UnavailableDB{

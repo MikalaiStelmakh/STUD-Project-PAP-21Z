@@ -143,7 +143,7 @@
                               <Insets left="5.0" />
                            </HBox.margin>
                         </ImageView>
-                        <Button fx:id="categoriesButton" mnemonicParsing="false" onAction="#categoriesButtonOnAction" text="Categories">
+                        <Button fx:id="genresButton" mnemonicParsing="false" onAction="#genresButtonOnAction" text="Genres">
                            <font>
                               <Font name="Berlin Sans FB" size="18.0" />
                            </font>

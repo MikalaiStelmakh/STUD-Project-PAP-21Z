@@ -39,7 +39,7 @@ public class AdminUserController {
     private Button authors;
 
     @FXML
-    private Button categories;
+    private Button genres;
 
     @FXML
     private Button changesBook;
@@ -138,11 +138,11 @@ public class AdminUserController {
             }
         });
 
-        categories.setOnAction(actionEvent -> {
+        genres.setOnAction(actionEvent -> {
 
             try {
-                Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/z11/libraryapp/fxml/AdminCategories.fxml")));
-                Stage stage = (Stage) categories.getScene().getWindow();
+                Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/z11/libraryapp/fxml/AdminGenres.fxml")));
+                Stage stage = (Stage) genres.getScene().getWindow();
                 stage.setScene(scene);
                 stage.show();
             } catch (IOException e) {
