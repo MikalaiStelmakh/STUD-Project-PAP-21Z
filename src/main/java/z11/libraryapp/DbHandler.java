@@ -274,6 +274,42 @@ public class DbHandler {
         return authors;
     }
 
+    public ArrayList<Book> getAuthorBooks(int author_id) throws UnavailableDB{
+        String query = "select book_id, title, summary, publication_year, "
+                     + "date_added, pages, cover, c.name, s.name, l.name "
+                     + "from book join country c using(country_id) "
+                     + "join series s using(series_id) join language l using(language_id) "
+                     + "join book_author using (book_id) "
+                     + "join author using (author_id) where author_id = " + author_id;
+        ArrayList<Book> books = new ArrayList<Book>();
+        try{
+            ResultSet rs = ddlQuery(query);
+            while(rs.next()){
+                int id = rs.getInt(1);
+                String title = rs.getString(2);
+                String summary = rs.getString(3);
+                int publicationYear = rs.getInt(4);
+                Date dateAdded = rs.getDate(5);
+                int pages = rs.getInt(6);
+                String coverSrc = rs.getString(7);
+                String country = rs.getString(8);
+                String series = rs.getString(9);
+                String language = rs.getString(10);
+
+                ArrayList<Author> authors = getBookAuthors(id);
+                ArrayList<Genre> genres = getBookGenres(id);
+
+                books.add(new Book(id, title, summary, publicationYear, dateAdded, pages, coverSrc, country,
+                                    series, language, authors, genres));
+            }
+        }
+        catch (DdlQueryError | SQLException e){
+            e.printStackTrace();
+            System.exit(1);
+        }
+        return books;
+    }
+
     public boolean validateUser(String login, String password) throws UnavailableDB{
         login = login.toLowerCase();
         String query = "select count(*) from users where (login='%s' and password='%s')";
