@@ -224,8 +224,33 @@ public class DbHandler {
         return books;
     }
 
+    public ArrayList<Author> getAuthors() throws UnavailableDB{
+        ArrayList<Author> authors = new ArrayList<Author>();
+        String query = "select * from author";
+        try (ResultSet rs = ddlQuery(query)) {
+            while(rs.next()){
+                try{
+                    int id = rs.getInt(1);
+                    String first_name = rs.getString(2);
+                    String last_name = rs.getString(3);
+                    int birth_year = rs.getInt(4);
+                    int death_year = rs.getInt(5);
+                    String biography = rs.getString(6);
+                    String photo_src = rs.getString(7);
+                    authors.add(new Author(id, first_name, last_name, birth_year, death_year, biography, photo_src));
+                }
+                catch(SQLException e){
+                    continue;
+                }
+            }
+        } catch (DdlQueryError | SQLException e) {
+            e.printStackTrace();
+        }
+        return authors;
+    }
+
     public Author getAuthor(int authorId) throws UnavailableDB{
-        String query = "select * from authors where author_id = " + authorId;
+        String query = "select * from author where author_id = " + authorId;
         Author author = null;
         try{
             ResultSet rs = ddlQuery(query);
@@ -308,6 +333,28 @@ public class DbHandler {
             System.exit(1);
         }
         return books;
+    }
+
+    public ArrayList<Genre> getAuthorGenres(int author_id) throws UnavailableDB{
+        ArrayList<Genre> genres = new ArrayList<Genre>();
+        String query = "select distinct genre_id, g.name "
+                     + "from genre g join book_genre using (genre_id) "
+                     + "join book_author using (book_id) "
+                     + "join author using(author_id) "
+                     + "where author_id = " + author_id;
+        try{
+            ResultSet rs = ddlQuery(query);
+            while(rs.next()){
+                int id = rs.getInt(1);
+                String name = rs.getString(2);
+                genres.add(new Genre(id, name));
+            }
+        }
+        catch (DdlQueryError | SQLException e){
+            e.printStackTrace();
+            System.exit(1);
+        }
+        return genres;
     }
 
     public boolean validateUser(String login, String password) throws UnavailableDB{
