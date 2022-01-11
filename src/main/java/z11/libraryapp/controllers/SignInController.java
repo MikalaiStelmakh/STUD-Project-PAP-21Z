@@ -52,10 +52,7 @@ public class SignInController {
 
     public void signUpButtonOnAction(ActionEvent event){
         try {
-            Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/z11/libraryapp/fxml/SignUp.fxml")));
-            scene.getStylesheets().add(getClass().getResource("/z11/libraryapp/css/styles.css").toExternalForm());
-            Stage stage = (Stage) signUpButton.getScene().getWindow();
-            stage.setScene(scene);
+            FXMLLoader fxmlLoader = MainWindowController.changeScene(event, "/z11/libraryapp/fxml/SignUp.fxml");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -76,23 +73,14 @@ public class SignInController {
             try {
                 user_object = dbManager.getUserByLogin(login);
                 FXMLLoader fxmlLoader;
-                Scene scene;
                 if (user_object.getPermission().equals("User")){
-                    fxmlLoader = new FXMLLoader(getClass().getResource("/z11/libraryapp/fxml/MainWindow.fxml"));
-                    scene = new Scene(fxmlLoader.load());
-                    scene.getStylesheets().add(getClass().getResource("/z11/libraryapp/css/styles.css").toExternalForm());
+                    fxmlLoader = MainWindowController.changeScene(event, "/z11/libraryapp/fxml/MainWindow.fxml");
                     MainWindowController mainWindowController = fxmlLoader.getController();
                     mainWindowController.setData(user_object);
                 }
                 else {
-                    fxmlLoader = new FXMLLoader(getClass().getResource("/z11/libraryapp/fxml/AdminPage.fxml"));
-                    scene = new Scene(fxmlLoader.load());
-                    scene.getStylesheets().add(getClass().getResource("/z11/libraryapp/css/styles.css").toExternalForm());
+                    fxmlLoader = MainWindowController.changeScene(event, "/z11/libraryapp/fxml/AdminPage.fxml");
                 }
-                Stage stage = new Stage();
-                stage.setScene(scene);
-                logInButton.getScene().getWindow().hide();
-                stage.showAndWait();
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (SQLException e) {

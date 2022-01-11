@@ -17,10 +17,13 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import z11.libraryapp.errors.UnavailableDB;
 import z11.libraryapp.model.Book;
+import z11.libraryapp.model.User;
 
 public class SameSeriesBookController {
 
     private Book bookObject;
+
+    private User userObject;
 
     @FXML
     private ImageView bookImage;
@@ -34,8 +37,9 @@ public class SameSeriesBookController {
     @FXML
     private HBox box;
 
-    public void setData(Book book, int id, boolean is_opened){
+    public void setData(Book book, User user, int id, boolean is_opened){
         bookObject = book;
+        userObject = user;
         bookNumber.setText(Integer.toString(id) + ".");
         Image image = new Image(getClass().getResourceAsStream("/z11/libraryapp/img/covers/" + book.getCoverSrc()));
         bookImage.setImage(image);
@@ -52,12 +56,9 @@ public class SameSeriesBookController {
     @FXML
     void bookOnMouseClicked(ActionEvent event) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(BookViewController.class.getResource("/z11/libraryapp/fxml/BookView.fxml"));
-            Scene scene = new Scene(fxmlLoader.load());
-            Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            FXMLLoader fxmlLoader = MainWindowController.changeScene(event, "/z11/libraryapp/fxml/BookView.fxml");
             BookViewController bookViewController = fxmlLoader.getController();
-            bookViewController.setData(bookObject);
-            stage.setScene(scene);
+            bookViewController.setData(bookObject, userObject);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (UnavailableDB e) {

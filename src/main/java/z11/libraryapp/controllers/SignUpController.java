@@ -54,10 +54,7 @@ public class SignUpController {
 
     public void cancelButtonOnAction(ActionEvent event){
         try {
-            Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/z11/libraryapp/fxml/SignIn.fxml")));
-            scene.getStylesheets().add(getClass().getResource("/z11/libraryapp/css/styles.css").toExternalForm());
-            Stage stage = (Stage) cancelButton.getScene().getWindow();
-            stage.setScene(scene);
+            FXMLLoader fxmlLoader = MainWindowController.changeScene(event, "/z11/libraryapp/fxml/SignIn.fxml");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -73,13 +70,9 @@ public class SignUpController {
             DbHandler dbManager = new DbHandler();
             User user = dbManager.createUser(name, surname, login, password);
 
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/z11/libraryapp/fxml/SignIn.fxml"));
-            Scene scene = new Scene(fxmlLoader.load());
+            FXMLLoader fxmlLoader = MainWindowController.changeScene(event, "/z11/libraryapp/fxml/SignIn.fxml");
             SignInController signInController = fxmlLoader.getController();
             signInController.setData(user);
-            scene.getStylesheets().add(getClass().getResource("/z11/libraryapp/css/styles.css").toExternalForm());
-            Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-            stage.setScene(scene);
         }
 
     }

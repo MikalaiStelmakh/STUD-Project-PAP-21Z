@@ -16,6 +16,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -26,8 +27,14 @@ import z11.libraryapp.errors.UnavailableDB;
 import z11.libraryapp.model.Author;
 import z11.libraryapp.model.Book;
 import z11.libraryapp.model.Genre;
+import z11.libraryapp.model.User;
 
 public class BookViewController {
+
+    private User user_object;
+
+    @FXML
+    private Label usernameLabel;
 
     @FXML
     private Button authorsButton;
@@ -84,29 +91,40 @@ public class BookViewController {
     private Button readingButton;
 
     @FXML
-    void authorsButtonOnAction(ActionEvent event) {
-        MainWindowController.changeScene(event, "/z11/libraryapp/fxml/Authors.fxml");
+    void authorsButtonOnAction(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = MainWindowController.changeScene(event, "/z11/libraryapp/fxml/Authors.fxml");
+        AuthorsController controller = fxmlLoader.getController();
+        controller.setData(user_object);
     }
 
     @FXML
-    void categoriesButtonOnAction(ActionEvent event) {
-        MainWindowController.changeScene(event, "/z11/libraryapp/fxml/Categories.fxml");
+    void categoriesButtonOnAction(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = MainWindowController.changeScene(event, "/z11/libraryapp/fxml/Categories.fxml");
+        CategoriesController controller = fxmlLoader.getController();
+        controller.setData(user_object);
     }
 
     @FXML
-    void dashboardButtonOnAction(ActionEvent event) {
-        MainWindowController.changeScene(event, "/z11/libraryapp/fxml/MainWindow.fxml");
+    void dashboardButtonOnAction(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = MainWindowController.changeScene(event, "/z11/libraryapp/fxml/MainWindow.fxml");
+        MainWindowController controller = fxmlLoader.getController();
+        controller.setData(user_object);
     }
 
     @FXML
-    void historyButtonOnAction(ActionEvent event) {
-        MainWindowController.changeScene(event, "/z11/libraryapp/fxml/History.fxml");
+    void historyButtonOnAction(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = MainWindowController.changeScene(event, "/z11/libraryapp/fxml/History.fxml");
+        HistoryController controller = fxmlLoader.getController();
+        controller.setData(user_object);
     }
 
     @FXML
-    void readingButtonOnAction(ActionEvent event) {
-        MainWindowController.changeScene(event, "/z11/libraryapp/fxml/Reading.fxml");
+    void readingButtonOnAction(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = MainWindowController.changeScene(event, "/z11/libraryapp/fxml/Reading.fxml");
+        ReadingController controller = fxmlLoader.getController();
+        controller.setData(user_object);
     }
+
 
     private ArrayList<Book> getBooksInSameSeries(int book_id, DbHandler dbHandler) throws UnavailableDB{
         ArrayList<Book> booksInSameSeries = dbHandler.getBooksInSameSeries(book_id);
@@ -139,14 +157,10 @@ public class BookViewController {
                 author_link.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent event) {
-                        FXMLLoader fxmlLoader = new FXMLLoader(BookViewController.class.getResource("/z11/libraryapp/fxml/AuthorView.fxml"));
-                        Scene scene;
                         try {
-                            scene = new Scene(fxmlLoader.load());
-                            Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+                            FXMLLoader fxmlLoader = MainWindowController.changeScene(event, "/z11/libraryapp/fxml/AuthorView.fxml");
                             AuthorViewController authorViewController = fxmlLoader.getController();
-                            authorViewController.setData(author);
-                            stage.setScene(scene);
+                            authorViewController.setData(author, user_object);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -209,10 +223,10 @@ public class BookViewController {
                 HBox cardBox = fxmlLoader.load();
                 SameSeriesBookController bookController = fxmlLoader.getController();
                 if (book.getId() == book_obj.getId()){
-                    bookController.setData(book_obj, counter, true);
+                    bookController.setData(book_obj, user_object, counter, true);
                 }
                 else {
-                    bookController.setData(book_obj, counter, false);
+                    bookController.setData(book_obj, user_object, counter, false);
                 }
                 sameSeriesBooksContainer.add(cardBox, 0, counter);
                 counter++;
@@ -244,7 +258,9 @@ public class BookViewController {
         bookIsAvailableIcon.setImage(iconImage);
     }
 
-    public void setData(Book book) throws UnavailableDB, IOException{
+    public void setData(Book book, User user) throws UnavailableDB, IOException{
+        user_object = user;
+        usernameLabel.setText(user_object.getLogin());
         Image image = new Image(getClass().getResourceAsStream("/z11/libraryapp/img/covers/" + book.getCoverSrc()));
         bookImage.setImage(image);
         bookTitle.setText(book.getTitle());
@@ -271,6 +287,13 @@ public class BookViewController {
         int nAvailableInstances = getNumOfAvailableInstances(book.getId(), dbManager);
         setAvailabilityStatus(nAvailableInstances);
 
+    }
+
+    @FXML
+    void logOutButtonOnAction(MouseEvent event) throws IOException {
+        FXMLLoader fxmlLoader = MainWindowController.changeScene(event, "/z11/libraryapp/fxml/SignIn.fxml");
+        SignInController signInController = fxmlLoader.getController();
+        signInController.setData(user_object);
     }
 
 }

@@ -7,9 +7,17 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import z11.libraryapp.model.User;
 
 public class CategoriesController {
+
+    private User user_object;
+
+    @FXML
+    private Label usernameLabel;
 
     @FXML
     private Button authorsButton;
@@ -27,36 +35,47 @@ public class CategoriesController {
     private Button readingButton;
 
     @FXML
-    void authorsButtonOnAction(ActionEvent event) {
-        try {
-            Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/z11/libraryapp/fxml/Authors.fxml")));
-            scene.getStylesheets().add(getClass().getResource("/z11/libraryapp/css/styles.css").toExternalForm());
-            Stage stage = (Stage) authorsButton.getScene().getWindow();
-            stage.setScene(scene);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    void authorsButtonOnAction(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = MainWindowController.changeScene(event, "/z11/libraryapp/fxml/Authors.fxml");
+        AuthorsController controller = fxmlLoader.getController();
+        controller.setData(user_object);
     }
 
     @FXML
-    void categoriesButtonOnAction(ActionEvent event) {
-
+    void categoriesButtonOnAction(ActionEvent event) throws IOException {
     }
 
     @FXML
-    void dashboardButtonOnAction(ActionEvent event) {
-        MainWindowController.changeScene(event, "/z11/libraryapp/fxml/MainWindow.fxml");
-
+    void dashboardButtonOnAction(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = MainWindowController.changeScene(event, "/z11/libraryapp/fxml/MainWindow.fxml");
+        MainWindowController controller = fxmlLoader.getController();
+        controller.setData(user_object);
     }
 
     @FXML
-    void historyButtonOnAction(ActionEvent event) {
-        MainWindowController.changeScene(event, "/z11/libraryapp/fxml/History.fxml");
+    void historyButtonOnAction(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = MainWindowController.changeScene(event, "/z11/libraryapp/fxml/History.fxml");
+        HistoryController controller = fxmlLoader.getController();
+        controller.setData(user_object);
     }
 
     @FXML
-    void readingButtonOnAction(ActionEvent event) {
-        MainWindowController.changeScene(event, "/z11/libraryapp/fxml/Reading.fxml");
+    void readingButtonOnAction(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = MainWindowController.changeScene(event, "/z11/libraryapp/fxml/Reading.fxml");
+        ReadingController controller = fxmlLoader.getController();
+        controller.setData(user_object);
+    }
+
+    public void setData(User user){
+        user_object = user;
+        usernameLabel.setText(user_object.getLogin());
+    }
+
+    @FXML
+    void logOutButtonOnAction(MouseEvent event) throws IOException {
+        FXMLLoader fxmlLoader = MainWindowController.changeScene(event, "/z11/libraryapp/fxml/SignIn.fxml");
+        SignInController signInController = fxmlLoader.getController();
+        signInController.setData(user_object);
     }
 
 }

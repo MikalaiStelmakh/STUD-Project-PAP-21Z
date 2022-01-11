@@ -15,10 +15,13 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import z11.libraryapp.errors.UnavailableDB;
 import z11.libraryapp.model.Book;
+import z11.libraryapp.model.User;
 
 public class CardController {
 
     private Book bookObject;
+
+    private User userObject;
 
     @FXML
     private Label bookAuthor;
@@ -32,8 +35,9 @@ public class CardController {
     @FXML
     private HBox box;
 
-    public void setData(Book book){
+    public void setData(Book book, User user){
         bookObject = book;
+        userObject = user;
         Image image = new Image(getClass().getResourceAsStream("/z11/libraryapp/img/covers/" + book.getCoverSrc()));
         bookImage.setImage(image);
         bookTitle.setText(book.getTitle());
@@ -46,12 +50,9 @@ public class CardController {
     @FXML
     void bookOnMouseClicked(MouseEvent event) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(BookViewController.class.getResource("/z11/libraryapp/fxml/BookView.fxml"));
-            Scene scene = new Scene(fxmlLoader.load());
-            Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            FXMLLoader fxmlLoader = MainWindowController.changeScene(event, "/z11/libraryapp/fxml/BookView.fxml");
             BookViewController bookViewController = fxmlLoader.getController();
-            bookViewController.setData(bookObject);
-            stage.setScene(scene);
+            bookViewController.setData(bookObject, userObject);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (UnavailableDB e) {

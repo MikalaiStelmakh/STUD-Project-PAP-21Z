@@ -72,6 +72,6 @@
             <Insets top="20.0" />
          </padding>
       </VBox>
-      <Label fx:id="messageField" layoutX="206.0" layoutY="295.0" prefHeight="26.0" prefWidth="286.0" />
+      <Label fx:id="messageField" layoutX="206.0" layoutY="295.0" prefHeight="26.0" prefWidth="286.0" textFill="#ac2a1e" />
     </children>
 </AnchorPane>
