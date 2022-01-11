@@ -37,7 +37,7 @@ public class AdminGenresController {
     private Button authors;
 
     @FXML
-    private Button genresBtn;
+    private Button genres;
 
     @FXML
     private Button changesBook;
@@ -52,14 +52,14 @@ public class AdminGenresController {
     private TableColumn<Genre, String> name;
 
     ///////////////////////// so far for example,before revision ////////////////////////////////////////////////
-    private ObservableList<Genre> genres = FXCollections.observableArrayList();
+    private ObservableList<Genre> genres1 = FXCollections.observableArrayList();
 
     private void initData() {
-        genres.add(new Genre(1, "Alex"));
-        genres.add(new Genre(2, "Bob"));
-        genres.add(new Genre(3, "Jeck"));
-        genres.add(new Genre(4, "Mike"));
-        genres.add(new Genre(5, "colin"));
+        genres1.add(new Genre(1, "Classics"));
+        genres1.add(new Genre(2, "Action and Adventure"));
+        genres1.add(new Genre(3, "Detective and Mystery"));
+        genres1.add(new Genre(4, "Fantasy"));
+        genres1.add(new Genre(5, "Horror"));
     }
 
     @FXML
@@ -68,7 +68,7 @@ public class AdminGenresController {
         genreId.setCellValueFactory(new PropertyValueFactory<Genre, Integer>("id"));
         name.setCellValueFactory(new PropertyValueFactory<Genre, String>("name"));
 
-        genreTable.setItems(genres);
+        genreTable.setItems(genres1);
     ///////////////////////////////////////////////////////////////////
 
         AdmPg.setOnAction(actionEvent -> {
@@ -119,11 +119,11 @@ public class AdminGenresController {
             }
         });
 
-        genresBtn.setOnAction(actionEvent -> {
+        genres.setOnAction(actionEvent -> {
 
             try {
                 Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/z11/libraryapp/fxml/AdminGenres.fxml")));
-                Stage stage = (Stage) genresBtn.getScene().getWindow();
+                Stage stage = (Stage) genres.getScene().getWindow();
                 stage.setScene(scene);
                 stage.show();
             } catch (IOException e) {

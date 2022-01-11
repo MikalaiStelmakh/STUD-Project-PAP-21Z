@@ -83,7 +83,7 @@ public class AdminChangeBookController {
     private ObservableList<Book> books = FXCollections.observableArrayList();
 
     private void initData() {
-        books.add(new Book(5, "dfd", "5", 5, 5, "df", "fdf", "dgdg", "fdf"));
+        books.add(new Book(5, "title", "summary", 2000, 500, "cover", "USA", "series", "English"));
     }
 
     @FXML
@@ -153,7 +153,7 @@ public class AdminChangeBookController {
         genres.setOnAction(actionEvent -> {
 
             try {
-                Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/z11/libraryapp/fxml/AdminGenres.fxml")));
+                Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/z11/libraryapp/fxml/AdminCategories.fxml")));
                 Stage stage = (Stage) genres.getScene().getWindow();
                 stage.setScene(scene);
                 stage.show();

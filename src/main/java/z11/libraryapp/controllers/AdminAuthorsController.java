@@ -46,6 +46,8 @@ public class AdminAuthorsController {
     @FXML
     private TableColumn<?, ?> author;
 
+
+
     @FXML
     void initialize() {
         AdmPg.setOnAction(actionEvent -> {
