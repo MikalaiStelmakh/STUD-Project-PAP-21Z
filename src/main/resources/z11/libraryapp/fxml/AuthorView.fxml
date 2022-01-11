@@ -10,10 +10,10 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -255,7 +255,7 @@
                               <Font name="Berlin Sans FB" size="24.0" />
                            </font>
                         </Label>
-                        <Label fx:id="authorBirthYear" prefHeight="34.0" prefWidth="43.0" text="1564">
+                        <Label fx:id="authorBirthYear" prefHeight="34.0" prefWidth="55.0" text="1564">
                            <font>
                               <Font name="Berlin Sans FB" size="24.0" />
                            </font>
@@ -265,7 +265,7 @@
                               <Font name="Berlin Sans FB" size="24.0" />
                            </font>
                         </Label>
-                        <Label fx:id="authorDeathYear" prefHeight="34.0" prefWidth="46.0" text="1616">
+                        <Label fx:id="authorDeathYear" alignment="CENTER_RIGHT" prefHeight="34.0" prefWidth="55.0" text="1616">
                            <font>
                               <Font name="Berlin Sans FB" size="24.0" />
                            </font>
@@ -282,7 +282,7 @@
                         <Font name="Berlin Sans FB" size="18.0" />
                      </font>
                   </Label>
-                  <Label alignment="TOP_LEFT" prefHeight="277.0" prefWidth="942.0" text="William Shakespeare was an English playwright, poet and actor, widely regarded as the greatest &#10;writer in the English language and the world's greatest dramatist. He is often called England's &#10;national poet and the &quot;Bard of Avon&quot; (or simply &quot;the Bard&quot;). His extant works, including &#10;collaborations, consist of some 39 plays,154 sonnets, three long narrative poems, and a few other &#10;verses, some of uncertain authorship. His plays have been translated into every major living &#10;language and are performed more often than those of any other playwright. They continue to be &#10;studied and reinterpreted.">
+                  <Label fx:id="authorBiography" alignment="TOP_LEFT" prefHeight="230.0" prefWidth="942.0" text="William Shakespeare was an English playwright, poet and actor, widely regarded as the greatest &#10;writer in the English language and the world's greatest dramatist. He is often called England's &#10;national poet and the &quot;Bard of Avon&quot; (or simply &quot;the Bard&quot;). His extant works, including &#10;collaborations, consist of some 39 plays,154 sonnets, three long narrative poems, and a few other &#10;verses, some of uncertain authorship. His plays have been translated into every major living &#10;language and are performed more often than those of any other playwright. They continue to be &#10;studied and reinterpreted.">
                      <font>
                         <Font name="Arial" size="20.0" />
                      </font>
@@ -307,16 +307,22 @@
                         </Label>
                      </children>
                   </HBox>
-                  <HBox prefHeight="318.0" prefWidth="950.0">
+                  <HBox prefHeight="375.0" prefWidth="950.0">
                      <children>
-                        <ScrollPane prefHeight="318.0" prefWidth="918.0" styleClass="transparent">
+                        <ScrollPane prefHeight="329.0" prefWidth="918.0" styleClass="transparent">
                            <content>
-                              <GridPane fx:id="booksByAuthorContainer" hgap="10.0" vgap="10.0">
-                                <rowConstraints>
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                </rowConstraints>
+                              <GridPane fx:id="authorBooks" hgap="10.0" prefHeight="0.0" prefWidth="3.0">
+                                 <padding>
+                                    <Insets bottom="20.0" />
+                                 </padding>
+                                 <columnConstraints>
+                                    <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+                                 </columnConstraints>
                               </GridPane>
                            </content>
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
                         </ScrollPane>
                      </children>
                   </HBox>
