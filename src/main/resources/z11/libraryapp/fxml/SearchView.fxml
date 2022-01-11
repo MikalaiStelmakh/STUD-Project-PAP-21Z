@@ -15,9 +15,10 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="890.0" prefWidth="1450.0" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="z11.libraryapp.controllers.MainWindowController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="890.0" prefWidth="1450.0" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="z11.libraryapp.controllers.SearchViewController">
    <top>
       <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" prefHeight="60.0" prefWidth="200.0" spacing="20.0" styleClass="white-background" BorderPane.alignment="CENTER">
          <children>
@@ -34,12 +35,12 @@
             <Separator maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="45.0" prefWidth="2.0" />
             <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="303.0" styleClass="round-layout">
                <children>
-                  <TextField fx:id="searchField" onKeyPressed="#onSearchKeyPressed" prefHeight="31.0" prefWidth="240.0" promptText="Search" style="-: ;" styleClass="transparent">
+                  <TextField prefHeight="31.0" prefWidth="240.0" promptText="Search" style="-: ;" styleClass="transparent">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </TextField>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" onMouseClicked="#onSearchIconClicked" pickOnBounds="true" preserveRatio="true" styleClass="btn">
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" styleClass="btn">
                      <image>
                         <Image url="@../img/icons/search-icon.png" />
                      </image>
@@ -225,45 +226,48 @@
    <center>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <Label prefHeight="18.0" prefWidth="286.0" styleClass="berlin-sans-font" text="Recently Added">
-               <font>
-                  <Font name="Berlin Sans FB" size="24.0" />
-               </font>
+            <HBox alignment="CENTER_LEFT" prefHeight="54.0" prefWidth="1246.0">
+               <children>
+                  <Label text="Results for ">
+                     <font>
+                        <Font name="Arial" size="30.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="30.0" layoutY="36.0" text="&quot;">
+                     <font>
+                        <Font name="Baskerville Old Face" size="30.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="searchQueryLabel" layoutX="182.0" layoutY="36.0" text="harry" textFill="#8e1111">
+                     <font>
+                        <Font name="Baskerville Old Face" size="30.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="182.0" layoutY="36.0" text="&quot;">
+                     <font>
+                        <Font name="Baskerville Old Face" size="30.0" />
+                     </font>
+                  </Label>
+               </children>
                <padding>
-                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-               </padding>
-            </Label>
-            <ScrollPane prefHeight="207.0" prefWidth="1246.0" styleClass="transparent">
-               <content>
-                  <GridPane fx:id="cardContainer" alignment="CENTER_RIGHT" hgap="20.0" prefHeight="86.0" prefWidth="0.0">
-                    <rowConstraints>
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                     <padding>
-                        <Insets top="87.0" />
-                     </padding>
-                  </GridPane>
-               </content>
-            </ScrollPane>
-            <Label layoutX="10.0" layoutY="10.0" prefHeight="18.0" prefWidth="286.0" styleClass="berlin-sans-font" text="All Books">
-               <font>
-                  <Font name="Berlin Sans FB" size="24.0" />
-               </font>
-               <padding>
-                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-               </padding>
-            </Label>
-            <ScrollPane prefHeight="200.0" prefWidth="1038.0" styleClass="transparent" VBox.vgrow="ALWAYS">
+                  <Insets left="20.0" />
+               </padding></HBox>
+            <Line endX="1030.0" opacity="0.12" startX="-100.0">
                <VBox.margin>
-                  <Insets left="10.0" />
+                  <Insets left="50.0" />
                </VBox.margin>
+            </Line>
+            <ScrollPane prefHeight="741.0" prefWidth="1246.0" styleClass="transparent">
                <content>
-                  <GridPane fx:id="bookContainer">
+                  <GridPane fx:id="searchContainer" vgap="10.0">
                     <rowConstraints>
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                   </GridPane>
                </content>
+               <padding>
+                  <Insets left="20.0" />
+               </padding>
             </ScrollPane>
          </children>
       </VBox>
