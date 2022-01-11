@@ -90,7 +90,7 @@
                               <Insets left="5.0" />
                            </HBox.margin>
                         </ImageView>
-                        <Button fx:id="dashboardButton" mnemonicParsing="false" onAction="#dashboardButtonOnAction" text="Dashboard">
+                        <Button fx:id="dashboardButton" mnemonicParsing="false" onAction="#dashboardButtonOnAction" text="Books">
                            <font>
                               <Font name="Berlin Sans FB" size="18.0" />
                            </font>
