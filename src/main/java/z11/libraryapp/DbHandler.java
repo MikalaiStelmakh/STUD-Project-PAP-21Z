@@ -226,7 +226,7 @@ public class DbHandler {
 
     public ArrayList<Author> getAuthors() throws UnavailableDB{
         ArrayList<Author> authors = new ArrayList<Author>();
-        String query = "select * from author";
+        String query = "select * from author order by last_name asc";
         try (ResultSet rs = ddlQuery(query)) {
             while(rs.next()){
                 try{
