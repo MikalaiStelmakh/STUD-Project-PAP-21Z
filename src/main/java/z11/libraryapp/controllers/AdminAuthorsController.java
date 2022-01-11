@@ -2,14 +2,21 @@ package z11.libraryapp.controllers;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Date;
 import java.util.ResourceBundle;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import z11.libraryapp.model.Author;
+import z11.libraryapp.model.Book;
 
 public class AdminAuthorsController {
 
@@ -38,18 +45,38 @@ public class AdminAuthorsController {
     private Button changesBook;
 
     @FXML
-    private TableView<?> authorTable;
+    private TableView<Author> authorTable;
 
     @FXML
-    private TableColumn<?, ?> bookId;
+    private TableColumn<Author, Integer> bookId;
 
     @FXML
-    private TableColumn<?, ?> author;
+    private TableColumn<Author, String> name;
+
+    @FXML
+    private TableColumn<Author, String> surname;
+
+    @FXML
+    private TableColumn<Author, Integer> birth;
 
 
+    ///////////////////////// so far for example,before revision ////////////////////////////////////////////////
+    private ObservableList<Author> authors1 = FXCollections.observableArrayList();
+
+    private void initData() {
+        authors1.add(new Author(5, "title", "summary", 2000));
+    }
 
     @FXML
     void initialize() {
+        initData();
+        bookId.setCellValueFactory(new PropertyValueFactory<Author, Integer>("id"));
+        name.setCellValueFactory(new PropertyValueFactory<Author, String>("firstName"));
+        surname.setCellValueFactory(new PropertyValueFactory<Author, String>("lastName"));
+        birth.setCellValueFactory(new PropertyValueFactory<Author, Integer>("birthYear"));
+
+        authorTable.setItems(authors1);
+
         AdmPg.setOnAction(actionEvent -> {
 
             try {

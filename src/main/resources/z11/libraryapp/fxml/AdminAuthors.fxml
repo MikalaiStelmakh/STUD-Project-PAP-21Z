@@ -35,9 +35,9 @@
             <TableView fx:id="authorTable" prefHeight="200.0" prefWidth="200.0">
               <columns>
                 <TableColumn fx:id="bookId" prefWidth="75.0" text="id" />
-                <TableColumn fx:id="author" prefWidth="75.0" text="author" />
-                  <TableColumn fx:id="author1" prefWidth="75.0" text="author" />
-                  <TableColumn fx:id="author11" prefWidth="75.0" text="birth" />
+                <TableColumn fx:id="name" prefWidth="75.0" text="author" />
+                  <TableColumn fx:id="surname" prefWidth="75.0" text="author" />
+                  <TableColumn fx:id="birth" prefWidth="75.0" text="birth" />
               </columns>
             </TableView>
          </children></VBox>
