@@ -150,6 +150,7 @@ public class AuthorViewController {
             }
             else {
                 Label message = new Label("There are no books by this author at the moment");
+                message.setPadding(new Insets(0, 0, 0, 30));
                 message.setMinWidth(400);
                 message.setWrapText(true);
                 message.setFont(Font.font("Sans Berlin FB", 12));
