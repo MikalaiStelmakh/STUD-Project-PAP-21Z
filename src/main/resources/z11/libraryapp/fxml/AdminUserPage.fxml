@@ -40,7 +40,6 @@
                   <TableColumn fx:id="login" prefWidth="75.0" text="login" />
                   <TableColumn fx:id="salt" prefWidth="75.0" text="salt" />
                   <TableColumn fx:id="isAdmin" prefWidth="75.0" text="is_admin" />
-                  <TableColumn fx:id="isStaff" prefWidth="75.0" text="is_staff" />
               </columns>
             </TableView>
          </children></VBox>
