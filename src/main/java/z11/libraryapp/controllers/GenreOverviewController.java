@@ -3,6 +3,8 @@ package z11.libraryapp.controllers;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Hyperlink;
@@ -49,16 +51,31 @@ public class GenreOverviewController {
                 genreBooks.getChildren().add(message);
                 genreSeeAllLink.setVisible(false);
             }
-            for (Book book : books){
-                if (cardCounter < n_books){
-                    FXMLLoader fxmlLoader = new FXMLLoader();
-                    fxmlLoader.setLocation(BookController.class.getResource("/z11/libraryapp/fxml/Book.fxml"));
-                    VBox bookBox = fxmlLoader.load();
-                    BookController bookController = fxmlLoader.getController();
-                    bookController.setData(book, user);
-                    genreBooks.getChildren().add(bookBox);
-                    cardCounter++;
+            else {
+                for (Book book : books){
+                    if (cardCounter < n_books){
+                        FXMLLoader fxmlLoader = new FXMLLoader();
+                        fxmlLoader.setLocation(BookController.class.getResource("/z11/libraryapp/fxml/Book.fxml"));
+                        VBox bookBox = fxmlLoader.load();
+                        BookController bookController = fxmlLoader.getController();
+                        bookController.setData(book, user);
+                        genreBooks.getChildren().add(bookBox);
+                        cardCounter++;
+                    }
                 }
+                genreSeeAllLink.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent e) {
+                        try {
+                            FXMLLoader fxmlLoader = MainWindowController.changeScene(e, "/z11/libraryapp/fxml/GenreView.fxml");
+                            GenreViewController genreViewController = fxmlLoader.getController();
+                            genreViewController.setData(genre, books, user);
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
+                        }
+
+                    }
+                });
             }
         } catch (IOException | UnavailableDB e) {
             e.printStackTrace();
