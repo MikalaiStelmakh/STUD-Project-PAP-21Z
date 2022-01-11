@@ -306,6 +306,9 @@
                            </padding>
                         </Label>
                      </children>
+                     <padding>
+                        <Insets left="30.0" />
+                     </padding>
                   </HBox>
                   <HBox prefHeight="375.0" prefWidth="950.0">
                      <children>
