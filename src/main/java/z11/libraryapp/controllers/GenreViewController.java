@@ -13,6 +13,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import z11.libraryapp.DbHandler;
+import z11.libraryapp.errors.UnavailableDB;
 import z11.libraryapp.model.Book;
 import z11.libraryapp.model.Genre;
 import z11.libraryapp.model.User;
@@ -92,29 +94,35 @@ public class GenreViewController {
         genreBooksContainer.add(genreName, 0, 1);
     }
 
-    private void setGenreBooks(Genre genre, ArrayList<Book> books) throws IOException{
-        int col = 0;
-        int row = 2;
-        for (Book book : books){
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(BookController.class.getResource("/z11/libraryapp/fxml/Book.fxml"));
-            VBox bookBox = fxmlLoader.load();
-            BookController bookController = fxmlLoader.getController();
-            bookController.setData(book, userObject);
+    private void setGenreBooks(Genre genre) throws IOException{
+        try {
+            DbHandler dbManager = new DbHandler();
+            ArrayList<Book> books = dbManager.getBooksByGenre(genre.getId());
+            int col = 0;
+            int row = 2;
+            for (Book book : books){
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                fxmlLoader.setLocation(BookController.class.getResource("/z11/libraryapp/fxml/Book.fxml"));
+                VBox bookBox = fxmlLoader.load();
+                BookController bookController = fxmlLoader.getController();
+                bookController.setData(book, userObject);
 
-            if (col==6){
-                col = 0;
-                ++row;
+                if (col==6){
+                    col = 0;
+                    ++row;
+                }
+                genreBooksContainer.add(bookBox, col++, row);
+                GridPane.setMargin(bookBox, new Insets(10));
             }
-            genreBooksContainer.add(bookBox, col++, row);
-            GridPane.setMargin(bookBox, new Insets(10));
+        } catch (UnavailableDB e) {
+            e.printStackTrace();
         }
     }
 
-    public void setData(Genre genre, ArrayList<Book> books, User user) throws IOException{
+    public void setData(Genre genre, User user) throws IOException{
         userObject = user;
         usernameLabel.setText(userObject.getLogin());
         setGenreNameLabel(genre);
-        setGenreBooks(genre, books);
+        setGenreBooks(genre);
     }
 }

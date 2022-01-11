@@ -69,7 +69,7 @@ public class GenreOverviewController {
                         try {
                             FXMLLoader fxmlLoader = MainWindowController.changeScene(e, "/z11/libraryapp/fxml/GenreView.fxml");
                             GenreViewController genreViewController = fxmlLoader.getController();
-                            genreViewController.setData(genre, books, user);
+                            genreViewController.setData(genre, user);
                         } catch (IOException e1) {
                             e1.printStackTrace();
                         }

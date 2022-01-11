@@ -191,7 +191,13 @@ public class BookViewController {
                 genre_link.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent e) {
-                        System.out.println(genre.getName() + " clicked");
+                        try {
+                            FXMLLoader fxmlLoader = MainWindowController.changeScene(e, "/z11/libraryapp/fxml/GenreView.fxml");
+                            GenreViewController genreViewController = fxmlLoader.getController();
+                            genreViewController.setData(genre, user_object);
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
+                        }
                     }
                 });
                 genre_link.setFont(Font.font("Arial", 24));
