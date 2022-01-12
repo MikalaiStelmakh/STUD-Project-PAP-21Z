@@ -290,7 +290,7 @@ public class BookViewController {
         bookIsAvailableIcon.setImage(new Image(getClass().getResourceAsStream("/z11/libraryapp/img/icons/available-icon.png")));
         bookIsAvailableLabel.setText("Available");
         bookIsAvailableLabel.getStyleClass().add("available");
-        bookBorrowButton.setText("Borrow");
+        bookBorrowButton.setText("Reserve");
         bookBorrowButton.getStyleClass().add("available");
         bookBorrowButton.setDisable(false);
     }
@@ -300,7 +300,7 @@ public class BookViewController {
         bookIsAvailableIcon.setImage(new Image(getClass().getResourceAsStream("/z11/libraryapp/img/icons/not-available-icon.png")));
         bookIsAvailableLabel.setText("Not available");
         bookIsAvailableLabel.getStyleClass().add("not-available");
-        bookBorrowButton.setText("Borrow");
+        bookBorrowButton.setText("Reserve");
         bookBorrowButton.getStyleClass().add("not-available");
         bookBorrowButton.setDisable(true);
     }
@@ -308,7 +308,7 @@ public class BookViewController {
     private void setReserved(){
         clearButtonStyles();
         bookIsAvailableIcon.setImage(new Image(getClass().getResourceAsStream("/z11/libraryapp/img/icons/reserved-icon.png")));
-        bookIsAvailableLabel.setText("Already reserved");
+        bookIsAvailableLabel.setText("Reserved");
         bookIsAvailableLabel.getStyleClass().add("available");
         bookBorrowButton.setText("Cancel Reservation");
         bookBorrowButton.getStyleClass().add("not-available");
@@ -320,7 +320,7 @@ public class BookViewController {
         bookIsAvailableIcon.setImage(new Image(getClass().getResourceAsStream("/z11/libraryapp/img/icons/not-available-icon.png")));
         bookIsAvailableLabel.setText("Already Borrowed");
         bookIsAvailableLabel.getStyleClass().add("not-available");
-        bookBorrowButton.setText("Borrow");
+        bookBorrowButton.setText("Reserve");
         bookBorrowButton.getStyleClass().add("not-available");
         bookBorrowButton.setDisable(true);
     }
