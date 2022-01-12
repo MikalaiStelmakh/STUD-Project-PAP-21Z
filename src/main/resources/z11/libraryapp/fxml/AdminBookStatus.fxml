@@ -4,9 +4,13 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="z11.libraryapp.controllers.AdminBookStatusController">
     <top>
@@ -30,18 +34,32 @@
     </left>
     <center>
         <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
-         <children>
-            <Label prefHeight="60.0" prefWidth="129.0" text="Status book" />
-            <TableView fx:id="statusTable" prefHeight="200.0" prefWidth="200.0">
-              <columns>
-                <TableColumn fx:id="bookInstanceId" prefWidth="93.60003507137299" text="b_instance_id" />
-                <TableColumn fx:id="bookId" prefWidth="56.79993438720703" text="book_id" />
-                  <TableColumn fx:id="userId" prefWidth="75.0" text="user_id" />
-                  <TableColumn fx:id="lendDate" prefWidth="75.0" text="lend_date" />
-                  <TableColumn fx:id="returnDate" text="return_date" />
-                  <TableColumn fx:id="isAvailable" prefWidth="80.800048828125" text="is_available" />
-              </columns>
-            </TableView>
-         </children></VBox>
+            <children>
+                <Label prefHeight="49.0" prefWidth="130.0" text="Status book" />
+                <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="303.0" styleClass="round-layout">
+                    <children>
+                        <TextField fx:id="searchField" onKeyPressed="#onSearchKeyPressed" prefHeight="31.0" prefWidth="276.0" promptText="Search" style="-: ;" styleClass="transparent">
+                            <font>
+                                <Font size="14.0" />
+                            </font>
+                        </TextField>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" onMouseClicked="#onSearchIconClicked" pickOnBounds="true" preserveRatio="true" styleClass="btn">
+                            <image>
+                                <Image url="@../img/icons/search-icon.png" />
+                            </image>
+                        </ImageView>
+                    </children>
+                </HBox>
+                <TableView fx:id="statusTable" prefHeight="226.0" prefWidth="654.0">
+                    <columns>
+                        <TableColumn fx:id="bookInstanceId" prefWidth="93.60003507137299" text="b_instance_id" />
+                        <TableColumn fx:id="bookId" prefWidth="56.79993438720703" text="book_id" />
+                        <TableColumn fx:id="userId" prefWidth="75.0" text="user_id" />
+                        <TableColumn fx:id="lendDate" prefWidth="75.0" text="lend_date" />
+                        <TableColumn fx:id="returnDate" text="return_date" />
+                        <TableColumn fx:id="isAvailable" prefWidth="80.800048828125" text="is_available" />
+                    </columns>
+                </TableView>
+            </children></VBox>
     </center>
 </BorderPane>

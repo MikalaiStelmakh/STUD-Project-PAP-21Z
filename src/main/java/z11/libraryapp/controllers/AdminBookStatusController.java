@@ -10,6 +10,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 public class AdminBookStatusController {
@@ -37,6 +40,9 @@ public class AdminBookStatusController {
 
     @FXML
     private Button changesBook;
+
+    @FXML
+    private TextField searchField;
 
     @FXML
     private TableView<?> statusTable;
@@ -132,5 +138,11 @@ public class AdminBookStatusController {
                 e.printStackTrace();
             }
         });
+    }
+
+    public void onSearchKeyPressed(KeyEvent keyEvent) {
+    }
+
+    public void onSearchIconClicked(MouseEvent mouseEvent) {
     }
 }

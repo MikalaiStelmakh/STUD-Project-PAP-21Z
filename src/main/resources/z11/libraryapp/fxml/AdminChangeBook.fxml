@@ -4,9 +4,13 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="z11.libraryapp.controllers.AdminChangeBookController">
     <top>
@@ -30,27 +34,41 @@
     </left>
     <center>
         <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
-         <children>
-            <Label prefHeight="50.0" prefWidth="129.0" text="Books" />
-            <TableView fx:id="booksTable" prefHeight="253.0" prefWidth="654.0">
-              <columns>
-                <TableColumn fx:id="bookId" prefWidth="45.599974036216736" text="book_id" />
-                <TableColumn fx:id="title" prefWidth="68.79998779296875" text="title" />
-                  <TableColumn fx:id="summary" prefWidth="80.00000762939453" text="summary" />
-                  <TableColumn fx:id="published" prefWidth="82.4000244140625" text="published" />
-                  <TableColumn fx:id="pages" prefWidth="56.0" text="pages" />
-                  <TableColumn fx:id="cover" prefWidth="64.7999267578125" text="cover" />
-                  <TableColumn fx:id="country" prefWidth="69.5999755859375" text="country" />
-                  <TableColumn fx:id="series" prefWidth="89.60000610351562" text="series" />
-                  <TableColumn fx:id="languages" prefWidth="87.2000732421875" text="languages" />
-              </columns>
-            </TableView>
-            <HBox prefHeight="100.0" prefWidth="200.0">
-               <children>
-                  <Button fx:id="addButton" mnemonicParsing="false" prefHeight="45.0" prefWidth="84.0" text="add" />
-                  <Button fx:id="deleteButton" mnemonicParsing="false" prefHeight="45.0" prefWidth="84.0" text="delete" />
-               </children>
-            </HBox>
-         </children></VBox>
+            <children>
+                <Label prefHeight="50.0" prefWidth="129.0" text="Books" />
+                <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="303.0" styleClass="round-layout">
+                    <children>
+                        <TextField fx:id="searchField" onKeyPressed="#onSearchKeyPressed" prefHeight="31.0" prefWidth="270.0" promptText="Search" style="-: ;" styleClass="transparent">
+                            <font>
+                                <Font size="14.0" />
+                            </font>
+                        </TextField>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" onMouseClicked="#onSearchIconClicked" pickOnBounds="true" preserveRatio="true" styleClass="btn">
+                            <image>
+                                <Image url="@../img/icons/search-icon.png" />
+                            </image>
+                        </ImageView>
+                    </children>
+                </HBox>
+                <TableView fx:id="booksTable" prefHeight="253.0" prefWidth="654.0">
+                    <columns>
+                        <TableColumn fx:id="bookId" prefWidth="45.599974036216736" text="book_id" />
+                        <TableColumn fx:id="title" prefWidth="68.79998779296875" text="title" />
+                        <TableColumn fx:id="summary" prefWidth="80.00000762939453" text="summary" />
+                        <TableColumn fx:id="published" prefWidth="82.4000244140625" text="published" />
+                        <TableColumn fx:id="pages" prefWidth="56.0" text="pages" />
+                        <TableColumn fx:id="cover" prefWidth="64.7999267578125" text="cover" />
+                        <TableColumn fx:id="country" prefWidth="69.5999755859375" text="country" />
+                        <TableColumn fx:id="series" prefWidth="89.60000610351562" text="series" />
+                        <TableColumn fx:id="languages" prefWidth="87.2000732421875" text="languages" />
+                    </columns>
+                </TableView>
+                <HBox prefHeight="100.0" prefWidth="200.0">
+                    <children>
+                        <Button fx:id="addButton" mnemonicParsing="false" prefHeight="45.0" prefWidth="84.0" text="add" />
+                        <Button fx:id="deleteButton" mnemonicParsing="false" prefHeight="45.0" prefWidth="84.0" text="delete" />
+                    </children>
+                </HBox>
+            </children></VBox>
     </center>
 </BorderPane>
