@@ -590,6 +590,29 @@ public class DbHandler {
         }
     }
 
+    public void reserveBook(int bookInstanceId, int userId) throws UnavailableDB, DmlQueryError{
+        String query = "UPDATE book_instance "
+                + "SET user_id = ?, status_id = 1 "
+                + "WHERE book_instance_id = ? ";
+        PreparedStatement stmt = null;
+        try {
+            stmt = con.prepareStatement(query);
+            stmt.setInt(1, userId);
+            stmt.setInt(2, bookInstanceId);
+
+        } catch (SQLException e){
+            e.printStackTrace();
+            throw new UnavailableDB(e);
+        }
+        try {
+            stmt.executeUpdate();
+        } catch (SQLException e){
+            e.printStackTrace();
+            throw new DmlQueryError(e);
+        }
+    }
+
+
     protected void finalize () {
         closeConnetion();
     }
