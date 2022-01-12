@@ -145,6 +145,8 @@ public class ReadingController {
                 ArrayList<BookInstance> bookInstances = dbManager.getBookInstances(book.getId());
                 for (BookInstance bookInstance : bookInstances){
                     if (bookInstance.getUser_id() == user.getId() && bookInstance.getStatus().equals("RESERVED")){
+                        if (bookInstance.getId() == 17){
+                        }
                         reservedBooks.add(bookInstance);
                     }
                 }
