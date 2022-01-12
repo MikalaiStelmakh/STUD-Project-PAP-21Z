@@ -544,6 +544,7 @@ public class DbHandler {
             System.exit(1);
         }
         return historyNodes;
+    }
 
     public void lendBook(int userId, int bookInstanceId) throws UnavailableDB, DmlQueryError{
         String query = "UPDATE book_instance "
