@@ -2,6 +2,7 @@ package z11.libraryapp.controllers;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Date;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -41,22 +42,22 @@ public class AdminBookStatusController {
     private TableView<?> statusTable;
 
     @FXML
-    private TableColumn<?, ?> bookInstanceId;
+    private TableColumn<?, Integer> bookInstanceId;
 
     @FXML
-    private TableColumn<?, ?> bookId;
+    private TableColumn<?, Integer> bookId;
 
     @FXML
-    private TableColumn<?, ?> userId;
+    private TableColumn<?, Integer> userId;
 
     @FXML
-    private TableColumn<?, ?> lendDate;
+    private TableColumn<?, Date> lendDate;
 
     @FXML
-    private TableColumn<?, ?> returnDate;
+    private TableColumn<?, Date> returnDate;
 
     @FXML
-    private TableColumn<?, ?> isAvailable;
+    private TableColumn<?, Integer> isAvailable;
 
     @FXML
     void initialize() {

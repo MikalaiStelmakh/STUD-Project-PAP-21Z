@@ -83,7 +83,8 @@ public class AdminChangeBookController {
     private ObservableList<Book> books = FXCollections.observableArrayList();
 
     private void initData() {
-        books.add(new Book(5, "title", "summary", 2000, 500, "cover", "USA", "series", "English"));
+        books.add(new Book(1, "title", "summary", 2000, 500, "cover", "USA", "series", "English"));
+        books.add(new Book(2, "title", "summary", 1992, 432, "cover", "UK", "series", "English"));
     }
 
     @FXML
