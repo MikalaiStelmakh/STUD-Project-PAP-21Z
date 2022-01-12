@@ -2,12 +2,17 @@ package z11.libraryapp.controllers;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -48,6 +53,9 @@ public class SearchViewController {
     private Label usernameLabel;
 
     @FXML
+    private TextField searchField;
+
+    @FXML
     void authorsButtonOnAction(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = MainWindowController.changeScene(event, "/z11/libraryapp/fxml/Authors.fxml");
         AuthorsController controller = fxmlLoader.getController();
@@ -80,6 +88,26 @@ public class SearchViewController {
         FXMLLoader fxmlLoader = MainWindowController.changeScene(event, "/z11/libraryapp/fxml/Reading.fxml");
         ReadingController controller = fxmlLoader.getController();
         controller.setData(userObject);
+    }
+
+    private void search(Object event, String query) throws IOException, UnavailableDB{
+        FXMLLoader fxmlLoader = MainWindowController.changeScene(event, "/z11/libraryapp/fxml/SearchView.fxml");
+        SearchViewController searchViewController = fxmlLoader.getController();
+        searchViewController.setData(userObject, query);
+    }
+
+    @FXML
+    void onSearchIconClicked(MouseEvent event) throws IOException, UnavailableDB {
+        String query = searchField.getText();
+        search(event, query);
+    }
+
+    @FXML
+    void onSearchKeyPressed(KeyEvent event) throws IOException, UnavailableDB {
+        if (event.getCode().equals(KeyCode.ENTER)){
+            String query = searchField.getText();
+            search(event, query);
+        }
     }
 
     @FXML
@@ -120,18 +148,62 @@ public class SearchViewController {
         searchGenresController.setData(genres, userObject);
     }
 
+    private ArrayList<Book> filterBooks(DbHandler dbManager, String query) throws UnavailableDB{
+        ArrayList<Book> allBooks = dbManager.getBooks();
+        ArrayList<Book> filteredBooks = new ArrayList<Book>();
+        for (Book book : allBooks){
+            Pattern pattern = Pattern.compile(".*" + query.toLowerCase() + ".*");
+            Matcher matcher1 = pattern.matcher(book.getTitle().toLowerCase());
+            Matcher matcher2 = pattern.matcher(book.getCountry().toLowerCase());
+            boolean matchFound = matcher1.matches() || matcher2.matches();
+            if (matchFound)
+                filteredBooks.add(book);
+        }
+        return filteredBooks;
+    }
+
+    private ArrayList<Author> filterAuthors(DbHandler dbManager, String query) throws UnavailableDB{
+        ArrayList<Author> allAuthors = dbManager.getAuthors();
+        ArrayList<Author> filteredAuthors = new ArrayList<Author>();
+        for (Author author : allAuthors){
+            Pattern pattern = Pattern.compile(".*" + query.toLowerCase() + ".*");
+            Matcher matcher1 = pattern.matcher(author.getName().toLowerCase());
+            boolean matchFound = matcher1.matches();
+            if (matchFound)
+                filteredAuthors.add(author);
+        }
+        return filteredAuthors;
+    }
+
+    private ArrayList<Genre> filterGenres(DbHandler dbManager, String query) throws UnavailableDB{
+        ArrayList<Genre> allGenres = dbManager.getGenres();
+        ArrayList<Genre> filteredGenres = new ArrayList<Genre>();
+        for (Genre genre : allGenres){
+            Pattern pattern = Pattern.compile(".*" + query.toLowerCase() + ".*");
+            Matcher matcher1 = pattern.matcher(genre.getName().toLowerCase());
+            boolean matchFound = matcher1.matches();
+            if (matchFound)
+                filteredGenres.add(genre);
+        }
+        return filteredGenres;
+    }
+
     public void setData(User user, String query) throws UnavailableDB, IOException{
         userObject = user;
         setSearchLabel(query);
         DbHandler dbManager = new DbHandler();
-        // TODO: Pass only found books
-        ArrayList<Book> books = dbManager.getBooks();
-        setSearchBooks(books, 0, 1);
-        // TODO: Pass only found authors
-        ArrayList<Author> authors = dbManager.getAuthors();
-        setSearchAuthors(authors, 0, 2);
-        // TODO: Pass only found genres
-        ArrayList<Genre> genres = dbManager.getGenres();
-        setSearchGenres(genres, 0, 3);
+        int row = 1;
+        ArrayList<Book> filteredBooks = filterBooks(dbManager, query);
+        if (filteredBooks.size() > 0){
+            setSearchBooks(filteredBooks, 0, row++);
+        }
+        ArrayList<Author> filteredAuthors = filterAuthors(dbManager, query);
+        if (filteredAuthors.size() > 0){
+            setSearchAuthors(filteredAuthors, 0, row++);
+        }
+        ArrayList<Genre> filteredGenres = filterGenres(dbManager, query);
+        if (filteredGenres.size() > 0){
+            setSearchGenres(filteredGenres, 0, row++);
+        }
     }
 }
