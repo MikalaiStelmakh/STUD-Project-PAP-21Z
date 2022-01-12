@@ -2,7 +2,6 @@ package z11.mqttSub;
 
 import java.sql.*;
 import java.sql.ResultSet;
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 import z11.mqttSub.model.*;
@@ -85,17 +84,13 @@ public class DbHandler {
 
     public void lendBook(int userId, int bookInstanceId) throws UnavailableDB, DmlQueryError{
         String query = "UPDATE book_instance "
-                     + "SET user_id = ?, lend_date = ?, return_date = ?, is_available = 0 "
+                     + "SET user_id = ?, status_id = 2 "
                      + "WHERE book_instance_id = ? ";
         PreparedStatement stmt = null;
         try {
-            LocalDate currDate = LocalDate.now();
-            LocalDate returnDate = currDate.plusMonths(1);
             stmt = con.prepareStatement(query);
             stmt.setInt(1, userId);
-            stmt.setDate(2, java.sql.Date.valueOf(currDate));
-            stmt.setDate(3, java.sql.Date.valueOf(returnDate));
-            stmt.setInt(4, bookInstanceId);
+            stmt.setInt(2, bookInstanceId);
 
         } catch (SQLException e){
             e.printStackTrace();
@@ -111,15 +106,13 @@ public class DbHandler {
 
     public void returnBook(int bookInstanceId) throws UnavailableDB, DmlQueryError{
         String query = "UPDATE book_instance "
-                     + "SET user_id = ?, lend_date = ?, return_date = ?, is_available = 1 "
+                     + "SET user_id = ?, status_id = 0 "
                      + "WHERE book_instance_id = ? ";
         PreparedStatement stmt = null;
         try {
             stmt = con.prepareStatement(query);
             stmt.setNull(1, Types.NUMERIC);
-            stmt.setNull(2, Types.DATE);
-            stmt.setNull(3, Types.DATE);
-            stmt.setInt(4, bookInstanceId);
+            stmt.setInt(2, bookInstanceId);
 
         } catch (SQLException e){
             e.printStackTrace();
