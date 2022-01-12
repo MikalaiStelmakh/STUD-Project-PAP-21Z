@@ -2,6 +2,7 @@ package z11.libraryapp.controllers;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -29,6 +30,7 @@ import z11.libraryapp.DbHandler;
 import z11.libraryapp.errors.UnavailableDB;
 import z11.libraryapp.model.Author;
 import z11.libraryapp.model.Book;
+import z11.libraryapp.model.BookInstance;
 import z11.libraryapp.model.Genre;
 import z11.libraryapp.model.User;
 
@@ -135,10 +137,6 @@ public class BookViewController {
     private ArrayList<Book> getBooksInSameSeries(int book_id, DbHandler dbHandler) throws UnavailableDB{
         ArrayList<Book> booksInSameSeries = dbHandler.getBooksInSameSeries(book_id);
         return booksInSameSeries;
-    }
-
-    private int getNumOfAvailableInstances(int book_id, DbHandler dbHandler) throws UnavailableDB{
-        return dbHandler.getNumOfAvailableInstances(book_id);
     }
 
     private void setAuthors(Book book){
@@ -256,23 +254,69 @@ public class BookViewController {
         }
     }
 
-    private void setAvailabilityStatus(int nAvailableInstances){
-        Image iconImage;
-        if (nAvailableInstances > 0){
-            iconImage = new Image(getClass().getResourceAsStream("/z11/libraryapp/img/icons/available-icon.png"));
-            bookIsAvailableLabel.setText("Available");
-            bookIsAvailableLabel.getStyleClass().add("available");
-            bookBorrowButton.getStyleClass().add("available");
-
+    private boolean isAlreadyReserved(ArrayList<BookInstance> bookInstances){
+        for (BookInstance bookInstance : bookInstances){
+            if (bookInstance.getStatus().equals("RESERVED") && bookInstance.getUser_id() == user_object.getId()){
+                return true;
+            }
         }
-        else{
+        return false;
+    }
+
+    private boolean isAlreadyBorrowed(ArrayList<BookInstance> bookInstances){
+        for (BookInstance bookInstance : bookInstances){
+            if (bookInstance.getStatus().equals("LENT") && bookInstance.getUser_id() == user_object.getId()){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private int getNumOfAvailableInstances(ArrayList<BookInstance> bookInstances){
+        int counter = 0;
+        for (BookInstance bookInstance : bookInstances){
+            if (bookInstance.getStatus().equals("AVAILABLE")){
+                counter++;
+            }
+        }
+        return counter;
+    }
+
+    private void setAvailabilityStatus(ArrayList<BookInstance> bookInstances){
+        Image iconImage;
+        String message;
+        String cssClass;
+        boolean isButtonDisabled;
+        if (getNumOfAvailableInstances(bookInstances) == 0){
             iconImage = new Image(getClass().getResourceAsStream("/z11/libraryapp/img/icons/not-available-icon.png"));
-            bookIsAvailableLabel.setText("Not available");
-            bookIsAvailableLabel.getStyleClass().add("not-available");
-            bookBorrowButton.getStyleClass().add("not-available");
-            bookBorrowButton.setDisable(true);
+            message = "Not available";
+            cssClass = "not-available";
+            isButtonDisabled = true;
+        }
+        else if (isAlreadyReserved(bookInstances)){
+            iconImage = new Image(getClass().getResourceAsStream("/z11/libraryapp/img/icons/available-icon.png"));
+            message = "Already reserved";
+            cssClass = "available";
+            isButtonDisabled = true;
+        }
+        else if (isAlreadyBorrowed(bookInstances)){
+            iconImage = new Image(getClass().getResourceAsStream("/z11/libraryapp/img/icons/available-icon.png"));
+            message = "Already borrowed";
+            cssClass = "available";
+            isButtonDisabled = true;
+        }
+        // Available and not reserved or borrowed by the user
+        else {
+            iconImage = new Image(getClass().getResourceAsStream("/z11/libraryapp/img/icons/available-icon.png"));
+            message = "Available";
+            cssClass = "available";
+            isButtonDisabled = false;
         }
         bookIsAvailableIcon.setImage(iconImage);
+        bookIsAvailableLabel.setText(message);
+        bookIsAvailableLabel.getStyleClass().add(cssClass);
+        bookBorrowButton.getStyleClass().add(cssClass);
+        bookBorrowButton.setDisable(isButtonDisabled);
     }
 
     private void setPublicationYear(Book book){
@@ -311,8 +355,8 @@ public class BookViewController {
         ArrayList<Book> sameSeriesBooks = getBooksInSameSeries(book.getId(), dbManager);
         setSameSeriesBooks(sameSeriesBooks, book);
 
-        int nAvailableInstances = getNumOfAvailableInstances(book.getId(), dbManager);
-        setAvailabilityStatus(nAvailableInstances);
+        ArrayList<BookInstance> bookInstances = dbManager.getBookInstances(book.getId());
+        setAvailabilityStatus(bookInstances);
 
     }
 
