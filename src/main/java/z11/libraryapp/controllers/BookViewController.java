@@ -14,8 +14,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -35,6 +38,9 @@ public class BookViewController {
 
     @FXML
     private Label usernameLabel;
+
+    @FXML
+    private TextField searchField;
 
     @FXML
     private Button authorsButton;
@@ -308,6 +314,26 @@ public class BookViewController {
         int nAvailableInstances = getNumOfAvailableInstances(book.getId(), dbManager);
         setAvailabilityStatus(nAvailableInstances);
 
+    }
+
+    private void search(Object event, String query) throws IOException, UnavailableDB{
+        FXMLLoader fxmlLoader = MainWindowController.changeScene(event, "/z11/libraryapp/fxml/SearchView.fxml");
+        SearchViewController searchViewController = fxmlLoader.getController();
+        searchViewController.setData(user_object, query);
+    }
+
+    @FXML
+    void onSearchIconClicked(MouseEvent event) throws IOException, UnavailableDB {
+        String query = searchField.getText();
+        search(event, query);
+    }
+
+    @FXML
+    void onSearchKeyPressed(KeyEvent event) throws IOException, UnavailableDB {
+        if (event.getCode().equals(KeyCode.ENTER)){
+            String query = searchField.getText();
+            search(event, query);
+        }
     }
 
     @FXML

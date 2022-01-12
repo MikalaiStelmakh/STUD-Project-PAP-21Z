@@ -35,12 +35,12 @@
             <Separator maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="45.0" prefWidth="2.0" />
             <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="303.0" styleClass="round-layout">
                <children>
-                  <TextField prefHeight="31.0" prefWidth="240.0" promptText="Search" style="-: ;" styleClass="transparent">
+                  <TextField fx:id="searchField" onKeyPressed="#onSearchKeyPressed" prefHeight="31.0" prefWidth="240.0" promptText="Search" style="-: ;" styleClass="transparent">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </TextField>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" styleClass="btn">
+                  <ImageView fitHeight="20.0" fitWidth="20.0" onMouseClicked="#onSearchIconClicked" pickOnBounds="true" preserveRatio="true" styleClass="btn">
                      <image>
                         <Image url="@../img/icons/search-icon.png" />
                      </image>
@@ -81,7 +81,7 @@
                         <Insets left="5.0" />
                      </VBox.margin>
                   </Label>
-                  <HBox alignment="CENTER_LEFT" prefHeight="63.0" prefWidth="204.0" spacing="10.0">
+                  <HBox alignment="CENTER_LEFT" prefHeight="63.0" prefWidth="204.0" spacing="10.0" styleClass="mouse-moved">
                      <children>
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -104,10 +104,6 @@
                      <VBox.margin>
                         <Insets left="20.0" />
                      </VBox.margin>
-                     <styleClass>
-                        <String fx:value="mouse-moved" />
-                        <String fx:value="selected" />
-                     </styleClass>
                   </HBox>
                   <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="42.0" prefHeight="63.0" prefWidth="204.0" spacing="10.0" styleClass="mouse-moved">
                      <children>

@@ -10,6 +10,9 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -25,6 +28,9 @@ public class GenresController {
 
     @FXML
     private Label usernameLabel;
+
+    @FXML
+    private TextField searchField;
 
     @FXML
     private Button authorsButton;
@@ -96,6 +102,26 @@ public class GenresController {
                 }
         } catch (UnavailableDB | IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void search(Object event, String query) throws IOException, UnavailableDB{
+        FXMLLoader fxmlLoader = MainWindowController.changeScene(event, "/z11/libraryapp/fxml/SearchView.fxml");
+        SearchViewController searchViewController = fxmlLoader.getController();
+        searchViewController.setData(user_object, query);
+    }
+
+    @FXML
+    void onSearchIconClicked(MouseEvent event) throws IOException, UnavailableDB {
+        String query = searchField.getText();
+        search(event, query);
+    }
+
+    @FXML
+    void onSearchKeyPressed(KeyEvent event) throws IOException, UnavailableDB {
+        if (event.getCode().equals(KeyCode.ENTER)){
+            String query = searchField.getText();
+            search(event, query);
         }
     }
 
