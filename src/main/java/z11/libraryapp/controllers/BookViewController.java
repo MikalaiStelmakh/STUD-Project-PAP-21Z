@@ -247,7 +247,6 @@ public class BookViewController {
     private boolean isAlreadyReserved(ArrayList<BookInstance> bookInstances){
         for (BookInstance bookInstance : bookInstances){
             if (bookInstance.getStatus().equals("RESERVED") && bookInstance.getUser_id() == user_object.getId()){
-                System.out.println("reserved");
                 return true;
             }
         }
@@ -257,7 +256,6 @@ public class BookViewController {
     private boolean isAlreadyBorrowed(ArrayList<BookInstance> bookInstances){
         for (BookInstance bookInstance : bookInstances){
             if (bookInstance.getStatus().equals("LENT") && bookInstance.getUser_id() == user_object.getId()){
-                System.out.println("lent");
                 return true;
             }
         }
