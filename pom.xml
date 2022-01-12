@@ -43,6 +43,11 @@
             <artifactId>ojdbc8</artifactId>
             <version>21.3.0.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.eclipse.paho</groupId>
+            <artifactId>org.eclipse.paho.mqttv5.client</artifactId>
+            <version>1.2.5</version>
+        </dependency>
 
     </dependencies>
 
