@@ -132,6 +132,35 @@ public class DbHandler {
         return books;
     }
 
+    public Book getBook(int book_id) throws DdlQueryError, UnavailableDB, SQLException{
+        String query = "SELECT book.book_id, book.title, book.summary, book.publication_year, book.date_added, "
+                     + "book.pages, book.cover, country.name country, series.name series, language.name language "
+                     + "FROM book "
+                     + "JOIN country ON (book.country_id = country.country_id) "
+                     + "JOIN series ON (book.series_id = series.series_id) "
+                     + "JOIN language ON (book.language_id = language.language_id) "
+                     + "where book.book_id = " + book_id;
+        ResultSet rs = ddlQuery(query);
+        rs.next();
+        int id = rs.getInt(1);
+        String title = rs.getString(2);
+        String summary = rs.getString(3);
+        int publicationYear = rs.getInt(4);
+        Date dateAdded = rs.getDate(5);
+        int pages = rs.getInt(6);
+        String coverSrc = rs.getString(7);
+        String country = rs.getString(8);
+        String series = rs.getString(9);
+        String language = rs.getString(10);
+
+        ArrayList<Author> authors = getBookAuthors(id);
+        ArrayList<Genre> genres = getBookGenres(id);
+        Book book = new Book(id, title, summary, publicationYear, dateAdded, pages, coverSrc,
+                        country, series, language, authors, genres);
+
+        return book;
+    }
+
     public ArrayList<Genre> getGenres() throws UnavailableDB {
         ArrayList<Genre> genres = new ArrayList<Genre>();
         String query = "select * from genre order by name asc";
@@ -247,6 +276,18 @@ public class DbHandler {
             e.printStackTrace();
         }
         return bookInstances;
+    }
+
+    public BookInstance getBookInstance(int book_instance_id) throws UnavailableDB, SQLException, DdlQueryError{
+        String query = "select * from book_instance where book_instance_id = " + book_instance_id;
+        ResultSet rs = ddlQuery(query);
+        rs.next();
+        int id = rs.getInt(1);
+        int bookId = rs.getInt(2);
+        int userId = rs.getInt(3);
+        String status = rs.getString(4);
+        BookInstance bookInstance = new BookInstance(id, bookId, userId, status);
+        return bookInstance;
     }
 
     public ArrayList<Book> getBooksInSameSeries(int bookId) throws UnavailableDB {
@@ -470,6 +511,37 @@ public class DbHandler {
         ResultSet rs = ddlQuery(query);
         rs.next();
         return rs.getInt(1) == 0;
+    }
+
+    public ArrayList<HistoryNode> getHistoryNodes(){
+        ArrayList<HistoryNode> historyNodes = new ArrayList<HistoryNode>();
+        String query = "select bih_id, book_instance_id, user_id, borrow_date, "
+                     + "nvl(return_date, '01-JAN-00') from book_instance_history";
+        try{
+            ResultSet rs = ddlQuery(query);
+            while(rs.next()){
+                try{
+                    int id = rs.getInt(1);
+                    int bookInstanceId = rs.getInt(2);
+                    int userId = rs.getInt(3);
+                    Date dateBorrowed = rs.getDate(4);
+                    Date dateReturned = rs.getDate(5);
+                    if (dateReturned.toString().equals("2000-01-01")){
+                        historyNodes.add(new HistoryNode(id, bookInstanceId, userId, dateBorrowed));
+                    }
+                    else{
+                        historyNodes.add(new HistoryNode(id, bookInstanceId, userId, dateBorrowed, dateReturned));
+                    }
+                }
+                catch(SQLException e){
+                    continue;
+                }
+            }
+        } catch(DdlQueryError | SQLException | UnavailableDB e){
+            e.printStackTrace();
+            System.exit(1);
+        }
+        return historyNodes;
     }
 
 
