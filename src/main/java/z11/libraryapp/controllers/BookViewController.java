@@ -3,6 +3,7 @@ package z11.libraryapp.controllers;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.concurrent.ThreadLocalRandom;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -27,6 +28,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import z11.libraryapp.DbHandler;
+import z11.libraryapp.errors.DmlQueryError;
 import z11.libraryapp.errors.UnavailableDB;
 import z11.libraryapp.model.Author;
 import z11.libraryapp.model.Book;
@@ -37,6 +39,8 @@ import z11.libraryapp.model.User;
 public class BookViewController {
 
     private User user_object;
+
+    private Book book_object;
 
     @FXML
     private Label usernameLabel;
@@ -131,6 +135,7 @@ public class BookViewController {
 
     private void setAuthors(Book book){
         ArrayList<Author> authors = book.getAuthors();
+        book_object = book;
 
         if (authors.size() == 0){
             Label message = new Label("Undefined");
@@ -367,6 +372,21 @@ public class BookViewController {
         if (event.getCode().equals(KeyCode.ENTER)){
             String query = searchField.getText();
             search(event, query);
+        }
+    }
+
+    @FXML
+    void onBorrowButtonPressed(ActionEvent event) throws UnavailableDB, DmlQueryError {
+        DbHandler dbManager = new DbHandler();
+        ArrayList<BookInstance> bookInstances = dbManager.getBookInstances(book_object.getId());
+        if (bookInstances.size() > 0){
+            int randomNum = ThreadLocalRandom.current().nextInt(0, bookInstances.size());
+            dbManager.reserveBook(bookInstances.get(randomNum).getId(), user_object.getId());
+            bookIsAvailableIcon.setImage(new Image(getClass().getResourceAsStream("/z11/libraryapp/img/icons/available-icon.png")));
+            bookIsAvailableLabel.setText("Already reserved");
+            bookIsAvailableLabel.getStyleClass().add("available");
+            bookBorrowButton.getStyleClass().add("available");
+            bookBorrowButton.setDisable(true);
         }
     }
 
