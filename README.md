@@ -53,6 +53,9 @@ Ta strona będzie zawierała historię użytkownika o wypożyczaniu książek.
 Planowane, że pole wyszukiwania będzię takie same na wszystkich stronach aplikacji i będzie możliwość wyszukiwania dla wszystkich parametrów książki, to znaczy, że na stronie `Authors` można będzie wyszukać książkę też po jej nazwie, a nie tylko autorze.
 ### MQTT
 Zakładamy, że przy pomocy protokołu MQTT książka wysyła komunikaty, czy jest wypożyczona lub zwrócona. Zakładamy, że klient bibliotekarza będzie obsługiwać komunikaty od książek. Zostanie stworzona prosta aplikacja, która będzie wysyłać komunikaty o tym, że pewna książka została wypożyczona lub zwrócona.
+### Panel administracyjny
+Zakładamy, że panel administracyjny będzie miał możliwość przeglądania wszystkich książek wraz z informacjami o nich.
+Przeglądania użytkownika. Wyświetlanie i informacje o książkach wypożyczonych przez określonego użytkownika i możliwość zmiany statusu książki.
 ### Podział obowiązków
 - Mikalai Stelmakh - interfejs aplikacji głównej
 - Denys Savytskyi - baza danych oraz MQTT
