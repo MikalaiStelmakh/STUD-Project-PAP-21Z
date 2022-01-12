@@ -518,7 +518,7 @@ public class DbHandler {
     public ArrayList<HistoryNode> getHistoryNodes(){
         ArrayList<HistoryNode> historyNodes = new ArrayList<HistoryNode>();
         String query = "select bih_id, book_instance_id, user_id, borrow_date, "
-                     + "nvl(return_date, '01-JAN-00') from book_instance_history";
+                     + "nvl(return_date, TO_DATE('2000-01-01', 'yyyy-mm-dd')) from book_instance_history";
         try{
             ResultSet rs = ddlQuery(query);
             while(rs.next()){
