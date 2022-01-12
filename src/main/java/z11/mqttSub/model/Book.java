@@ -1,4 +1,4 @@
-package z11.mqttSub.model;
+package z11.libraryapp.model;
 
 import java.util.ArrayList;
 

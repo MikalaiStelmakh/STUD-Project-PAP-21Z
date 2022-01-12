@@ -1,11 +1,17 @@
-package z11.mqttSub;
+package z11.libraryapp;
 
-import java.sql.*;
+import java.sql.DriverManager;
+import java.sql.Connection;
+import java.sql.Statement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
-import z11.mqttSub.model.*;
-import z11.mqttSub.errors.*;
+import z11.libraryapp.model.*;
+import z11.libraryapp.errors.*;
 
 public class DbHandler {
 
@@ -53,6 +59,7 @@ public class DbHandler {
     }
 
     public ResultSet ddlQuery(String query) throws  DdlQueryError, UnavailableDB{
+        getConnection();
         try {
             ResultSet rs = con.createStatement().executeQuery(query);
             return rs;
@@ -62,6 +69,7 @@ public class DbHandler {
     }
 
     public void dmlQuery(String query) throws DmlQueryError, UnavailableDB{
+        getConnection();
         try {
             con.createStatement().executeUpdate(query);
         } catch (SQLException e){
@@ -70,6 +78,7 @@ public class DbHandler {
     }
 
     public void dmlTransaction(String[] queries) throws  SQLException, TransactionError, UnavailableDB{
+        getConnection();
         con.setAutoCommit(false);
         try{
             for(String query : queries){
@@ -82,51 +91,7 @@ public class DbHandler {
         }
     }
 
-    public void lendBook(int userId, int bookInstanceId) throws UnavailableDB, DmlQueryError{
-        String query = "UPDATE book_instance "
-                     + "SET user_id = ?, status_id = 2 "
-                     + "WHERE book_instance_id = ? ";
-        PreparedStatement stmt = null;
-        try {
-            stmt = con.prepareStatement(query);
-            stmt.setInt(1, userId);
-            stmt.setInt(2, bookInstanceId);
-
-        } catch (SQLException e){
-            e.printStackTrace();
-            throw new UnavailableDB(e);
-        }
-        try {
-            stmt.executeUpdate();
-        } catch (SQLException e){
-            e.printStackTrace();
-            throw new DmlQueryError(e);
-        }
-    }
-
-    public void returnBook(int bookInstanceId) throws UnavailableDB, DmlQueryError{
-        String query = "UPDATE book_instance "
-                     + "SET user_id = ?, status_id = 0 "
-                     + "WHERE book_instance_id = ? ";
-        PreparedStatement stmt = null;
-        try {
-            stmt = con.prepareStatement(query);
-            stmt.setNull(1, Types.NUMERIC);
-            stmt.setInt(2, bookInstanceId);
-
-        } catch (SQLException e){
-            e.printStackTrace();
-            throw new UnavailableDB(e);
-        }
-        try {
-            stmt.executeUpdate();
-        } catch (SQLException e){
-            e.printStackTrace();
-            throw new DmlQueryError(e);
-        }
-    }
-
-    public ArrayList<Book> getBooks() throws UnavailableDB, DdlQueryError{
+        public ArrayList<Book> getBooks() throws UnavailableDB, DdlQueryError{
         ArrayList<Book> books = new ArrayList<Book>();
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -368,6 +333,50 @@ public class DbHandler {
             throw new UnavailableDB(e);
         }
         return authors;
+    }
+
+    public void lendBook(int userId, int bookInstanceId) throws UnavailableDB, DmlQueryError{
+        String query = "UPDATE book_instance "
+                     + "SET user_id = ?, status_id = 2 "
+                     + "WHERE book_instance_id = ? ";
+        PreparedStatement stmt = null;
+        try {
+            stmt = con.prepareStatement(query);
+            stmt.setInt(1, userId);
+            stmt.setInt(2, bookInstanceId);
+
+        } catch (SQLException e){
+            e.printStackTrace();
+            throw new UnavailableDB(e);
+        }
+        try {
+            stmt.executeUpdate();
+        } catch (SQLException e){
+            e.printStackTrace();
+            throw new DmlQueryError(e);
+        }
+    }
+
+    public void returnBook(int bookInstanceId) throws UnavailableDB, DmlQueryError{
+        String query = "UPDATE book_instance "
+                     + "SET user_id = ?, status_id = 0 "
+                     + "WHERE book_instance_id = ? ";
+        PreparedStatement stmt = null;
+        try {
+            stmt = con.prepareStatement(query);
+            stmt.setNull(1, Types.NUMERIC);
+            stmt.setInt(2, bookInstanceId);
+
+        } catch (SQLException e){
+            e.printStackTrace();
+            throw new UnavailableDB(e);
+        }
+        try {
+            stmt.executeUpdate();
+        } catch (SQLException e){
+            e.printStackTrace();
+            throw new DmlQueryError(e);
+        }
     }
 
     protected void finalize () {

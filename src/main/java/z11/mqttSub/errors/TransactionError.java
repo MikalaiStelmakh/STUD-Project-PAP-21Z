@@ -1,4 +1,4 @@
-package z11.mqttSub.errors;
+package z11.libraryapp.errors;
 
 public class TransactionError extends Exception{
   public TransactionError(Exception error) {

@@ -1,4 +1,4 @@
-package z11.mqttSub.errors;
+package z11.libraryapp.errors;
 
 public class DdlQueryError extends Exception{
     public DdlQueryError(Exception error) {
