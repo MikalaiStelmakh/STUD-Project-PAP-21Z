@@ -51,6 +51,9 @@ public class SearchGenresController {
                 }
                 searchGenresContainer.add(link, column, row++);
             }
+            else {
+                return;
+            }
         }
     }
 }
