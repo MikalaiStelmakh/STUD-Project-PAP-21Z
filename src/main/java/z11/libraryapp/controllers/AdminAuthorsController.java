@@ -13,7 +13,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import z11.libraryapp.model.Author;
 import z11.libraryapp.model.Book;
@@ -43,6 +46,9 @@ public class AdminAuthorsController {
 
     @FXML
     private Button changesBook;
+
+    @FXML
+    private TextField searchField;
 
     @FXML
     private TableView<Author> authorTable;
@@ -148,5 +154,11 @@ public class AdminAuthorsController {
                 e.printStackTrace();
             }
         });
+    }
+
+    public void onSearchKeyPressed(KeyEvent keyEvent) {
+    }
+
+    public void onSearchIconClicked(MouseEvent mouseEvent) {
     }
 }

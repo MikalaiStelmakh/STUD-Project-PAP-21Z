@@ -4,9 +4,13 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="z11.libraryapp.controllers.AdminAuthorsController">
     <top>
@@ -30,16 +34,30 @@
     </left>
     <center>
         <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
-         <children>
-            <Label prefHeight="57.0" prefWidth="128.0" text="Authors" />
-            <TableView fx:id="authorTable" prefHeight="200.0" prefWidth="200.0">
-              <columns>
-                <TableColumn fx:id="bookId" prefWidth="75.0" text="id" />
-                <TableColumn fx:id="name" prefWidth="75.0" text="author" />
-                  <TableColumn fx:id="surname" prefWidth="75.0" text="author" />
-                  <TableColumn fx:id="birth" prefWidth="75.0" text="birth" />
-              </columns>
-            </TableView>
-         </children></VBox>
+            <children>
+                <Label prefHeight="57.0" prefWidth="128.0" text="Authors" />
+                <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="303.0" styleClass="round-layout">
+                    <children>
+                        <TextField fx:id="searchField" onKeyPressed="#onSearchKeyPressed" prefHeight="31.0" prefWidth="270.0" promptText="Search" style="-: ;" styleClass="transparent">
+                            <font>
+                                <Font size="14.0" />
+                            </font>
+                        </TextField>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" onMouseClicked="#onSearchIconClicked" pickOnBounds="true" preserveRatio="true" styleClass="btn">
+                            <image>
+                                <Image url="@../img/icons/search-icon.png" />
+                            </image>
+                        </ImageView>
+                    </children>
+                </HBox>
+                <TableView fx:id="authorTable" prefHeight="200.0" prefWidth="200.0">
+                    <columns>
+                        <TableColumn fx:id="bookId" prefWidth="75.0" text="id" />
+                        <TableColumn fx:id="name" prefWidth="75.0" text="author" />
+                        <TableColumn fx:id="surname" prefWidth="75.0" text="author" />
+                        <TableColumn fx:id="birth" prefWidth="75.0" text="birth" />
+                    </columns>
+                </TableView>
+            </children></VBox>
     </center>
 </BorderPane>

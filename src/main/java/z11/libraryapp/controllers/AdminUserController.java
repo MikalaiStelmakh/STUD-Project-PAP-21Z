@@ -13,7 +13,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import z11.libraryapp.model.Book;
 import z11.libraryapp.model.User;
@@ -43,6 +46,9 @@ public class AdminUserController {
 
     @FXML
     private Button changesBook;
+
+    @FXML
+    private TextField searchField;
 
     @FXML
     private TableView<User> userTable;
@@ -160,5 +166,11 @@ public class AdminUserController {
                 e.printStackTrace();
             }
         });
+    }
+
+    public void onSearchKeyPressed(KeyEvent keyEvent) {
+    }
+
+    public void onSearchIconClicked(MouseEvent mouseEvent) {
     }
 }

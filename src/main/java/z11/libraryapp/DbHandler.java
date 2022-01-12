@@ -8,6 +8,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import  java.sql.PreparedStatement;
+import java.sql.Types;
 
 import z11.libraryapp.model.*;
 import z11.libraryapp.errors.*;
@@ -542,11 +544,52 @@ public class DbHandler {
             System.exit(1);
         }
         return historyNodes;
+
+    public void lendBook(int userId, int bookInstanceId) throws UnavailableDB, DmlQueryError{
+        String query = "UPDATE book_instance "
+                + "SET user_id = ?, status_id = 2 "
+                + "WHERE book_instance_id = ? ";
+        PreparedStatement stmt = null;
+        try {
+            stmt = con.prepareStatement(query);
+            stmt.setInt(1, userId);
+            stmt.setInt(2, bookInstanceId);
+
+        } catch (SQLException e){
+            e.printStackTrace();
+            throw new UnavailableDB(e);
+        }
+        try {
+            stmt.executeUpdate();
+        } catch (SQLException e){
+            e.printStackTrace();
+            throw new DmlQueryError(e);
+        }
     }
 
+    public void returnBook(int bookInstanceId) throws UnavailableDB, DmlQueryError{
+        String query = "UPDATE book_instance "
+                + "SET user_id = ?, status_id = 0 "
+                + "WHERE book_instance_id = ? ";
+        PreparedStatement stmt = null;
+        try {
+            stmt = con.prepareStatement(query);
+            stmt.setNull(1, Types.NUMERIC);
+            stmt.setInt(2, bookInstanceId);
 
+        } catch (SQLException e){
+            e.printStackTrace();
+            throw new UnavailableDB(e);
+        }
+        try {
+            stmt.executeUpdate();
+        } catch (SQLException e){
+            e.printStackTrace();
+            throw new DmlQueryError(e);
+        }
+    }
 
-    public void finalize () {
+    protected void finalize () {
         closeConnetion();
     }
 }
