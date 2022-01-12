@@ -93,9 +93,6 @@ public class BookViewController {
     private Button dashboardButton;
 
     @FXML
-    private Button historyButton;
-
-    @FXML
     private Button readingButton;
 
     @FXML
@@ -116,13 +113,6 @@ public class BookViewController {
     void dashboardButtonOnAction(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = MainWindowController.changeScene(event, "/z11/libraryapp/fxml/MainWindow.fxml");
         MainWindowController controller = fxmlLoader.getController();
-        controller.setData(user_object);
-    }
-
-    @FXML
-    void historyButtonOnAction(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = MainWindowController.changeScene(event, "/z11/libraryapp/fxml/History.fxml");
-        HistoryController controller = fxmlLoader.getController();
         controller.setData(user_object);
     }
 
@@ -257,6 +247,7 @@ public class BookViewController {
     private boolean isAlreadyReserved(ArrayList<BookInstance> bookInstances){
         for (BookInstance bookInstance : bookInstances){
             if (bookInstance.getStatus().equals("RESERVED") && bookInstance.getUser_id() == user_object.getId()){
+                System.out.println("reserved");
                 return true;
             }
         }
@@ -266,6 +257,7 @@ public class BookViewController {
     private boolean isAlreadyBorrowed(ArrayList<BookInstance> bookInstances){
         for (BookInstance bookInstance : bookInstances){
             if (bookInstance.getStatus().equals("LENT") && bookInstance.getUser_id() == user_object.getId()){
+                System.out.println("lent");
                 return true;
             }
         }

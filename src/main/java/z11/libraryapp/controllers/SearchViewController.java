@@ -41,9 +41,6 @@ public class SearchViewController {
     private Label searchQueryLabel;
 
     @FXML
-    private Button historyButton;
-
-    @FXML
     private Button readingButton;
 
     @FXML
@@ -73,13 +70,6 @@ public class SearchViewController {
     void dashboardButtonOnAction(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = MainWindowController.changeScene(event, "/z11/libraryapp/fxml/MainWindow.fxml");
         MainWindowController controller = fxmlLoader.getController();
-        controller.setData(userObject);
-    }
-
-    @FXML
-    void historyButtonOnAction(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = MainWindowController.changeScene(event, "/z11/libraryapp/fxml/History.fxml");
-        HistoryController controller = fxmlLoader.getController();
         controller.setData(userObject);
     }
 
@@ -190,6 +180,7 @@ public class SearchViewController {
 
     public void setData(User user, String query) throws UnavailableDB, IOException{
         userObject = user;
+        usernameLabel.setText(user.getLogin());
         setSearchLabel(query);
         DbHandler dbManager = new DbHandler();
         int row = 1;

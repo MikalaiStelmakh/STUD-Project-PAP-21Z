@@ -51,9 +51,6 @@ public class MainWindowController{
     private Button dashboardButton;
 
     @FXML
-    private Button historyButton;
-
-    @FXML
     private Button readingButton;
 
     @FXML
@@ -130,13 +127,6 @@ public class MainWindowController{
 
     @FXML
     void dashboardButtonOnAction(ActionEvent event) throws IOException {
-    }
-
-    @FXML
-    void historyButtonOnAction(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = MainWindowController.changeScene(event, "/z11/libraryapp/fxml/History.fxml");
-        HistoryController controller = fxmlLoader.getController();
-        controller.setData(user_object);
     }
 
     @FXML

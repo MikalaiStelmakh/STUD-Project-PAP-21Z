@@ -39,9 +39,6 @@ public class GenreViewController {
     private Button genresButton;
 
     @FXML
-    private Button historyButton;
-
-    @FXML
     private Button readingButton;
 
     @FXML
@@ -68,13 +65,6 @@ public class GenreViewController {
     void dashboardButtonOnAction(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = MainWindowController.changeScene(event, "/z11/libraryapp/fxml/MainWindow.fxml");
         MainWindowController controller = fxmlLoader.getController();
-        controller.setData(userObject);
-    }
-
-    @FXML
-    void historyButtonOnAction(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = MainWindowController.changeScene(event, "/z11/libraryapp/fxml/History.fxml");
-        HistoryController controller = fxmlLoader.getController();
         controller.setData(userObject);
     }
 
