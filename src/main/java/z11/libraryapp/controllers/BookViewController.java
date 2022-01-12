@@ -277,41 +277,69 @@ public class BookViewController {
         return counter;
     }
 
+    private void clearButtonStyles(){
+        bookBorrowButton.getStyleClass().clear();
+        // bookBorrowButton.setStyle(null);
+        bookBorrowButton.getStyleClass().add("button");
+        bookBorrowButton.getStyleClass().add("borrow-btn");
+        bookBorrowButton.getStyleClass().add("btn");
+    }
+
+    private void setAvailable(){
+        clearButtonStyles();
+        bookIsAvailableIcon.setImage(new Image(getClass().getResourceAsStream("/z11/libraryapp/img/icons/available-icon.png")));
+        bookIsAvailableLabel.setText("Available");
+        bookIsAvailableLabel.getStyleClass().add("available");
+        bookBorrowButton.setText("Borrow");
+        bookBorrowButton.getStyleClass().add("available");
+        bookBorrowButton.setDisable(false);
+    }
+
+    private void setUnAvailable(){
+        clearButtonStyles();
+        bookIsAvailableIcon.setImage(new Image(getClass().getResourceAsStream("/z11/libraryapp/img/icons/not-available-icon.png")));
+        bookIsAvailableLabel.setText("Not available");
+        bookIsAvailableLabel.getStyleClass().add("not-available");
+        bookBorrowButton.setText("Borrow");
+        bookBorrowButton.getStyleClass().add("not-available");
+        bookBorrowButton.setDisable(true);
+    }
+
+    private void setReserved(){
+        clearButtonStyles();
+        bookIsAvailableIcon.setImage(new Image(getClass().getResourceAsStream("/z11/libraryapp/img/icons/reserved-icon.png")));
+        bookIsAvailableLabel.setText("Already reserved");
+        bookIsAvailableLabel.getStyleClass().add("available");
+        bookBorrowButton.setText("Cancel Reservation");
+        bookBorrowButton.getStyleClass().add("not-available");
+        bookBorrowButton.setDisable(false);
+    }
+
+    private void setBorrowed(){
+        clearButtonStyles();
+        bookIsAvailableIcon.setImage(new Image(getClass().getResourceAsStream("/z11/libraryapp/img/icons/not-available-icon.png")));
+        bookIsAvailableLabel.setText("Already Borrowed");
+        bookIsAvailableLabel.getStyleClass().add("not-available");
+        bookBorrowButton.setText("Borrow");
+        bookBorrowButton.getStyleClass().add("not-available");
+        bookBorrowButton.setDisable(true);
+    }
+
     private void setAvailabilityStatus(ArrayList<BookInstance> bookInstances){
-        Image iconImage;
-        String message;
-        String cssClass;
-        boolean isButtonDisabled;
-        if (getNumOfAvailableInstances(bookInstances) == 0){
-            iconImage = new Image(getClass().getResourceAsStream("/z11/libraryapp/img/icons/not-available-icon.png"));
-            message = "Not available";
-            cssClass = "not-available";
-            isButtonDisabled = true;
-        }
-        else if (isAlreadyReserved(bookInstances)){
-            iconImage = new Image(getClass().getResourceAsStream("/z11/libraryapp/img/icons/available-icon.png"));
-            message = "Already reserved";
-            cssClass = "available";
-            isButtonDisabled = true;
+
+        if (isAlreadyReserved(bookInstances)){
+            setReserved();
         }
         else if (isAlreadyBorrowed(bookInstances)){
-            iconImage = new Image(getClass().getResourceAsStream("/z11/libraryapp/img/icons/available-icon.png"));
-            message = "Already borrowed";
-            cssClass = "available";
-            isButtonDisabled = true;
+            setBorrowed();
+        }
+        else if (getNumOfAvailableInstances(bookInstances) == 0){
+            setUnAvailable();
         }
         // Available and not reserved or borrowed by the user
         else {
-            iconImage = new Image(getClass().getResourceAsStream("/z11/libraryapp/img/icons/available-icon.png"));
-            message = "Available";
-            cssClass = "available";
-            isButtonDisabled = false;
+            setAvailable();
         }
-        bookIsAvailableIcon.setImage(iconImage);
-        bookIsAvailableLabel.setText(message);
-        bookIsAvailableLabel.getStyleClass().add(cssClass);
-        bookBorrowButton.getStyleClass().add(cssClass);
-        bookBorrowButton.setDisable(isButtonDisabled);
     }
 
     private void setPublicationYear(Book book){
@@ -379,14 +407,26 @@ public class BookViewController {
     void onBorrowButtonPressed(ActionEvent event) throws UnavailableDB, DmlQueryError {
         DbHandler dbManager = new DbHandler();
         ArrayList<BookInstance> bookInstances = dbManager.getBookInstances(book_object.getId());
-        if (bookInstances.size() > 0){
-            int randomNum = ThreadLocalRandom.current().nextInt(0, bookInstances.size());
-            dbManager.reserveBook(bookInstances.get(randomNum).getId(), user_object.getId());
-            bookIsAvailableIcon.setImage(new Image(getClass().getResourceAsStream("/z11/libraryapp/img/icons/available-icon.png")));
-            bookIsAvailableLabel.setText("Already reserved");
-            bookIsAvailableLabel.getStyleClass().add("available");
-            bookBorrowButton.getStyleClass().add("available");
-            bookBorrowButton.setDisable(true);
+        if (isAlreadyReserved(bookInstances)){
+            for (BookInstance bookInstance : bookInstances){
+                if (bookInstance.getStatus().equals("RESERVED") && bookInstance.getUser_id() == user_object.getId()){
+                    dbManager.returnBook(bookInstance.getId());
+                    bookInstances = dbManager.getBookInstances(book_object.getId());
+                    if (getNumOfAvailableInstances(bookInstances) > 0){
+                        setAvailable();
+                    }
+                    else {
+                        setUnAvailable();
+                    }
+                }
+            }
+        }
+        else{
+            if (bookInstances.size() > 0){
+                int randomNum = ThreadLocalRandom.current().nextInt(0, bookInstances.size());
+                dbManager.reserveBook(bookInstances.get(randomNum).getId(), user_object.getId());
+                setReserved();
+            }
         }
     }
 
