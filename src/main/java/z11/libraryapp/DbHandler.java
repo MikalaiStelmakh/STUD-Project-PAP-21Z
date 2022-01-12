@@ -228,20 +228,25 @@ public class DbHandler {
         return books;
     }
 
-    public int getNumOfAvailableInstances(int bookId) throws UnavailableDB {
-        int n=0;
-        String query = "select count(*) from book_instance where (book_id = %d and is_available = 1)";
-        query = String.format(query, bookId);
-        try {
+    public ArrayList<BookInstance> getBookInstances(int book_id) throws UnavailableDB{
+        ArrayList<BookInstance> bookInstances = new ArrayList<BookInstance>();
+        String query = "select book_instance_id, book_id, user_id, s.name "
+                     + "from book_instance bk join status s using(status_id) "
+                     + "where book_id = " + book_id;
+        try{
             ResultSet rs = ddlQuery(query);
-            rs.next();
-            n = rs.getInt(1);
-        } catch (DdlQueryError e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
+            while (rs.next()){
+                int id = rs.getInt(1);
+                int bookId = rs.getInt(2);
+                int userId = rs.getInt(3);
+                String status = rs.getString(4);
+                bookInstances.add(new BookInstance(id, bookId, userId, status));
+            }
+        }
+        catch (DdlQueryError | SQLException e){
             e.printStackTrace();
         }
-        return n;
+        return bookInstances;
     }
 
     public ArrayList<Book> getBooksInSameSeries(int bookId) throws UnavailableDB {
