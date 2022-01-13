@@ -61,6 +61,7 @@ public class AdminGenresController {
     @FXML
     private TableColumn<Genre, String> name;
 
+    @FXML
     void initialize() throws UnavailableDB {
         DbHandler dbManager = new DbHandler();
         ArrayList<Genre> genres1 = dbManager.getGenres();
