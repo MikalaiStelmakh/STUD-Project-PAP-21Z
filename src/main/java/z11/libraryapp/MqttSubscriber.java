@@ -78,17 +78,17 @@ public class MqttSubscriber implements MqttCallback{
         if(data[2].equals("lend")){
             if(dbManager.checkReservation(userId, bookInstanceId)){
                 dbManager.lendBook(userId, bookInstanceId);
-                publishMQTT(userId, bookInstanceId, "lent");
+                publishMQTT(bookInstanceId, userId, "lent");
             } else {
-                publishMQTT(userId, bookInstanceId, "noReservation");
+                publishMQTT(bookInstanceId, userId, "noReservation");
             }
         }
         if(data[2].equals("return")){
             if(dbManager.checkLent(userId, bookInstanceId)){
                 dbManager.returnBook(bookInstanceId);
-                publishMQTT(userId, bookInstanceId, "returned");
+                publishMQTT(bookInstanceId, userId, "returned");
             } else {
-                publishMQTT(userId, bookInstanceId, "notReturned");
+                publishMQTT(bookInstanceId, userId, "notReturned");
             }
 
 
