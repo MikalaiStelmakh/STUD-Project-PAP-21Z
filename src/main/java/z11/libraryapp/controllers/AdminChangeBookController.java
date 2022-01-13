@@ -33,10 +33,13 @@ public class AdminChangeBookController {
     private URL location;
 
     @FXML
-    private Button AdmPg;
+    private Button users;
 
     @FXML
-    private Button users;
+    private Button bookInstances;
+
+    @FXML
+    private Button seriesBtn;
 
     @FXML
     private Button authors;
@@ -105,19 +108,6 @@ public class AdminChangeBookController {
             booksTable.setItems(books);
         }
 
-        ///////////////////////////////////////////////////////
-        AdmPg.setOnAction(actionEvent -> {
-
-            try {
-                Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/z11/libraryapp/fxml/AdminPage.fxml")));
-                Stage stage = (Stage) AdmPg.getScene().getWindow();
-                stage.setScene(scene);
-                stage.show();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-
         users.setOnAction(actionEvent -> {
 
             try {
@@ -130,17 +120,17 @@ public class AdminChangeBookController {
             }
         });
 
-//        bookStatus.setOnAction(actionEvent -> {
-//
-//            try {
-//                Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/z11/libraryapp/fxml/AdminBookStatus.fxml")));
-//                Stage stage = (Stage) bookStatus.getScene().getWindow();
-//                stage.setScene(scene);
-//                stage.show();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        });
+        bookInstances.setOnAction(actionEvent -> {
+
+            try {
+                Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/z11/libraryapp/fxml/AdminBookInstances.fxml")));
+                Stage stage = (Stage) genres.getScene().getWindow();
+                stage.setScene(scene);
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
 
         authors.setOnAction(actionEvent -> {
 
@@ -166,6 +156,18 @@ public class AdminChangeBookController {
             }
         });
 
+        seriesBtn.setOnAction(actionEvent -> {
+
+            try {
+                Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/z11/libraryapp/fxml/AdminSeries.fxml")));
+                Stage stage = (Stage) genres.getScene().getWindow();
+                stage.setScene(scene);
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
         changesBook.setOnAction(actionEvent -> {
 
             try {
@@ -179,9 +181,4 @@ public class AdminChangeBookController {
         });
     }
 
-    public void onSearchKeyPressed(KeyEvent keyEvent) {
-    }
-
-    public void onSearchIconClicked(MouseEvent mouseEvent) {
-    }
 }

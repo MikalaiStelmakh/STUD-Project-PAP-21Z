@@ -2,8 +2,11 @@ package z11.libraryapp.controllers;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Date;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -11,11 +14,18 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import z11.libraryapp.model.Genre;
+import z11.libraryapp.model.Series;
+import z11.libraryapp.DbHandler;
+import z11.libraryapp.errors.DdlQueryError;
+import z11.libraryapp.errors.UnavailableDB;
+import z11.libraryapp.model.User;
 
-public class AdminBookStatusController {
+public class AdminSeriesController {
 
     @FXML
     private ResourceBundle resources;
@@ -24,13 +34,13 @@ public class AdminBookStatusController {
     private URL location;
 
     @FXML
-    private Button AdmPg;
-
-    @FXML
     private Button users;
 
     @FXML
-    private Button bookStatus;
+    private Button bookInstances;
+
+    @FXML
+    private Button seriesBtn;
 
     @FXML
     private Button authors;
@@ -42,42 +52,36 @@ public class AdminBookStatusController {
     private Button changesBook;
 
     @FXML
-    private TextField searchField;
+    private TableView<Series> seriesTable;
 
     @FXML
-    private TableView<?> statusTable;
+    private TableColumn<Series, Integer> seriesId;
 
     @FXML
-    private TableColumn<?, Integer> bookInstanceId;
+    private TableColumn<Series, String> seriesName;
 
     @FXML
-    private TableColumn<?, Integer> bookId;
+    private Button addButton;
 
     @FXML
-    private TableColumn<?, Integer> userId;
+    private Button deleteButton;
+
+
+    private void initData(ArrayList<Series> series_list) {
+        ObservableList<Series> series_table = FXCollections.observableArrayList(series_list);
+
+        seriesId.setCellValueFactory(new PropertyValueFactory<Series, Integer>("id"));
+        seriesName.setCellValueFactory(new PropertyValueFactory<Series, String>("name"));
+
+        seriesTable.setItems(series_table);
+    }
 
     @FXML
-    private TableColumn<?, Date> lendDate;
+    void initialize() throws UnavailableDB {
 
-    @FXML
-    private TableColumn<?, Date> returnDate;
-
-    @FXML
-    private TableColumn<?, Integer> isAvailable;
-
-    @FXML
-    void initialize() {
-        AdmPg.setOnAction(actionEvent -> {
-
-            try {
-                Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/z11/libraryapp/fxml/AdminPage.fxml")));
-                Stage stage = (Stage) AdmPg.getScene().getWindow();
-                stage.setScene(scene);
-                stage.show();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
+        DbHandler dbManager = new DbHandler();
+        ArrayList<Series> series_list = dbManager.getSeries();
+        initData(series_list);
 
         users.setOnAction(actionEvent -> {
 
@@ -91,11 +95,11 @@ public class AdminBookStatusController {
             }
         });
 
-        bookStatus.setOnAction(actionEvent -> {
+        bookInstances.setOnAction(actionEvent -> {
 
             try {
-                Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/z11/libraryapp/fxml/AdminBookStatus.fxml")));
-                Stage stage = (Stage) bookStatus.getScene().getWindow();
+                Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/z11/libraryapp/fxml/AdminBookInstances.fxml")));
+                Stage stage = (Stage) genres.getScene().getWindow();
                 stage.setScene(scene);
                 stage.show();
             } catch (IOException e) {
@@ -139,10 +143,5 @@ public class AdminBookStatusController {
             }
         });
     }
-
-    public void onSearchKeyPressed(KeyEvent keyEvent) {
-    }
-
-    public void onSearchIconClicked(MouseEvent mouseEvent) {
-    }
 }
+

@@ -107,11 +107,11 @@ public class AuthorViewController {
     }
 
     private void setBiography(Author author){
-        if (author.getbiography().equals("")){
+        if (author.getBiography().equals("")){
             authorBiography.setText("No biogaphy available.");
         }
         else{
-            authorBiography.setText(author.getbiography());
+            authorBiography.setText(author.getBiography());
             authorBiography.setWrapText(true);
         }
     }

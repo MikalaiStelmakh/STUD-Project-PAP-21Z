@@ -81,7 +81,7 @@ public class SignInController {
                     mainWindowController.setData(user_object);
                 }
                 else {
-                    fxmlLoader = MainWindowController.changeScene(event, "/z11/libraryapp/fxml/AdminPage.fxml");
+                    fxmlLoader = MainWindowController.changeScene(event, "/z11/libraryapp/fxml/AdminUserPage.fxml");
                 }
             } catch (IOException e) {
                 e.printStackTrace();
