@@ -491,6 +491,27 @@ public class DbHandler {
         return false;
     }
 
+    public ArrayList<User> getUsers() {
+        ArrayList<User> users = new ArrayList<User>();
+        String query = "select user_id, u.name, surname, login, password, "
+                     + "p.name from users u join permissions p using(permission_id)";
+        try {
+            ResultSet rs = ddlQuery(query);
+            while(rs.next()){
+                int id = rs.getInt(1);
+                String name = rs.getString(2);
+                String surname = rs.getString(3);
+                String login = rs.getString(4);
+                String password = rs.getString(5);
+                String permission = rs.getString(6);
+                users.add(new User(id, name, surname, login, password, permission));
+            }
+        } catch (SQLException | DdlQueryError | UnavailableDB e) {
+            e.printStackTrace();
+        }
+        return users;
+    }
+
     public User getUserByLogin(String login) throws SQLException, DdlQueryError, UnavailableDB{
         User user;
         login = login.toLowerCase();

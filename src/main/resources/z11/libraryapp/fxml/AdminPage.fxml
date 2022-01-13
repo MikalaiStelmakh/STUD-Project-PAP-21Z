@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="z11.libraryapp.controllers.AdminController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="z11.libraryapp.controllers.AdminController">
    <top>
       <HBox prefHeight="58.0" prefWidth="810.0" BorderPane.alignment="CENTER">
          <children>
@@ -16,19 +16,19 @@
    <left>
       <VBox prefHeight="257.0" prefWidth="146.0" BorderPane.alignment="CENTER">
          <children>
-            <HBox prefHeight="66.0" prefWidth="146.0">
+            <HBox prefHeight="50.0" prefWidth="146.0">
                <children>
                   <Button fx:id="users" mnemonicParsing="false" prefHeight="51.0" prefWidth="146.0" text="Users" />
                </children>
             </HBox>
-            <HBox prefHeight="68.0" prefWidth="146.0">
+            <HBox prefHeight="50.0" prefWidth="146.0">
                <children>
-                  <Button fx:id="bookStatus" mnemonicParsing="false" prefHeight="52.0" prefWidth="146.0" />
+                  <Button fx:id="bookInstances" mnemonicParsing="false" prefHeight="52.0" prefWidth="146.0" text="Book Instances" />
                </children>
             </HBox>
             <Button fx:id="authors" mnemonicParsing="false" prefHeight="52.0" prefWidth="146.0" text="Authors" />
             <Button fx:id="genres" mnemonicParsing="false" prefHeight="52.0" prefWidth="146.0" text="Genres" />
-            <Button mnemonicParsing="false" prefHeight="52.0" prefWidth="146.0" />
+            <Button fx:id="seriesBtn" mnemonicParsing="false" prefHeight="52.0" prefWidth="146.0" text="Series" />
             <Button fx:id="changesBook" layoutX="10.0" layoutY="218.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="146.0" text="Add/delete book" />
          </children>
       </VBox>

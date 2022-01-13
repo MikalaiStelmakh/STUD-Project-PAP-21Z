@@ -39,7 +39,10 @@ public class AdminGenresController {
     private Button users;
 
     @FXML
-    private Button bookStatus;
+    private Button bookInstances;
+
+    @FXML
+    private Button seriesBtn;
 
     @FXML
     private Button authors;
@@ -149,12 +152,6 @@ public class AdminGenresController {
                 e.printStackTrace();
             }
         });
-    }
-
-    public void onSearchKeyPressed(KeyEvent keyEvent) {
-    }
-
-    public void onSearchIconClicked(MouseEvent mouseEvent) {
     }
 }
 

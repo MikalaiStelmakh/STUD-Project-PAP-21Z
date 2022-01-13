@@ -39,7 +39,10 @@ public class AdminAuthorsController {
     private Button users;
 
     @FXML
-    private Button bookStatus;
+    private Button bookInstances;
+
+    @FXML
+    private Button seriesBtn;
 
     @FXML
     private Button authors;
@@ -112,18 +115,6 @@ public class AdminAuthorsController {
             }
         });
 
-//        bookStatus.setOnAction(actionEvent -> {
-//
-//            try {
-//                Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/z11/libraryapp/fxml/AdminBookStatus.fxml")));
-//                Stage stage = (Stage) bookStatus.getScene().getWindow();
-//                stage.setScene(scene);
-//                stage.show();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        });
-
         authors.setOnAction(actionEvent -> {
 
             try {
@@ -159,11 +150,5 @@ public class AdminAuthorsController {
                 e.printStackTrace();
             }
         });
-    }
-
-    public void onSearchKeyPressed(KeyEvent keyEvent) {
-    }
-
-    public void onSearchIconClicked(MouseEvent mouseEvent) {
     }
 }
