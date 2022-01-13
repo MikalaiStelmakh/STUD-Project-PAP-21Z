@@ -119,17 +119,17 @@ public class AdminUserController {
             }
         });
 
-        bookStatus.setOnAction(actionEvent -> {
-
-            try {
-                Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/z11/libraryapp/fxml/AdminBookStatus.fxml")));
-                Stage stage = (Stage) bookStatus.getScene().getWindow();
-                stage.setScene(scene);
-                stage.show();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
+//        bookStatus.setOnAction(actionEvent -> {
+//
+//            try {
+//                Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/z11/libraryapp/fxml/AdminBookStatus.fxml")));
+//                Stage stage = (Stage) bookStatus.getScene().getWindow();
+//                stage.setScene(scene);
+//                stage.show();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        });
 
         authors.setOnAction(actionEvent -> {
 
