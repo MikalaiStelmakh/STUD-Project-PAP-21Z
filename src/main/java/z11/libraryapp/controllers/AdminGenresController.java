@@ -22,6 +22,7 @@ import z11.libraryapp.model.Genre;
 import z11.libraryapp.DbHandler;
 import z11.libraryapp.errors.DdlQueryError;
 import z11.libraryapp.errors.UnavailableDB;
+import z11.libraryapp.model.User;
 
 public class AdminGenresController {
 
@@ -61,12 +62,19 @@ public class AdminGenresController {
     @FXML
     private TableColumn<Genre, String> name;
 
+    private ObservableList<Genre> g = FXCollections.observableArrayList();
+
     @FXML
     void initialize() throws UnavailableDB {
+
         DbHandler dbManager = new DbHandler();
         ArrayList<Genre> genres1 = dbManager.getGenres();
         for (int i = 0; i< genres1.size(); i++){
             Genre genre = genres1.get(i);
+            genreId.setCellValueFactory(new PropertyValueFactory<Genre, Integer>("id"));
+            name.setCellValueFactory(new PropertyValueFactory<Genre, String>("name"));
+            g.add(new Genre(genre.getId(), genre.getName()));
+            genreTable.setItems(g);
         }
         ///////////////////////////////////////////////////////////////////
 
