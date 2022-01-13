@@ -27,9 +27,6 @@ public class AdminController {
     private Button users;
 
     @FXML
-    private Button bookStatus;
-
-    @FXML
     private Button authors;
 
     @FXML

@@ -36,9 +36,6 @@ public class AdminUserController {
     private Button users;
 
     @FXML
-    private Button bookStatus;
-
-    @FXML
     private Button authors;
 
     @FXML
@@ -46,9 +43,6 @@ public class AdminUserController {
 
     @FXML
     private Button changesBook;
-
-    @FXML
-    private TextField searchField;
 
     @FXML
     private TableView<User> userTable;

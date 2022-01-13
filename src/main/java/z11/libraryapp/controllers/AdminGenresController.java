@@ -39,9 +39,6 @@ public class AdminGenresController {
     private Button users;
 
     @FXML
-    private Button bookStatus;
-
-    @FXML
     private Button authors;
 
     @FXML
@@ -49,9 +46,6 @@ public class AdminGenresController {
 
     @FXML
     private Button changesBook;
-
-    @FXML
-    private TextField searchField;
 
     @FXML
     private TableView<Genre> genreTable;
