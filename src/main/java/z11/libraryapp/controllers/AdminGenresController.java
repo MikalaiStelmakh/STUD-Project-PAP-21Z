@@ -61,27 +61,12 @@ public class AdminGenresController {
     @FXML
     private TableColumn<Genre, String> name;
 
-    ///////////////////////// so far for example,before revision ////////////////////////////////////////////////
-    private ObservableList<Genre> genres1 = FXCollections.observableArrayList();
-
-    private void initData() throws UnavailableDB {
+    void initialize() throws UnavailableDB {
         DbHandler dbManager = new DbHandler();
         ArrayList<Genre> genres1 = dbManager.getGenres();
-
-        //genres1.add(new Genre(1, "Classics"));
-        //genres1.add(new Genre(2, "Action and Adventure"));
-        //genres1.add(new Genre(3, "Detective and Mystery"));
-        //genres1.add(new Genre(4, "Fantasy"));
-        //genres1.add(new Genre(5, "Horror"));
-    }
-
-    @FXML
-    void initialize() throws UnavailableDB {
-        initData();
-        genreId.setCellValueFactory(new PropertyValueFactory<Genre, Integer>("id"));
-        name.setCellValueFactory(new PropertyValueFactory<Genre, String>("name"));
-
-        genreTable.setItems(genres1);
+        for (int i = 0; i< genres1.size(); i++){
+            Genre genre = genres1.get(i);
+        }
         ///////////////////////////////////////////////////////////////////
 
         AdmPg.setOnAction(actionEvent -> {
