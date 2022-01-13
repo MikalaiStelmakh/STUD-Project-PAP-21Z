@@ -2,6 +2,7 @@ package z11.libraryapp.controllers;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
 
@@ -18,7 +19,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import z11.libraryapp.DbHandler;
+import z11.libraryapp.errors.UnavailableDB;
 import z11.libraryapp.model.Book;
+import z11.libraryapp.model.Genre;
 
 public class AdminChangeBookController {
 
@@ -59,10 +63,10 @@ public class AdminChangeBookController {
     private TableColumn<Book, String> title;
 
     @FXML
-    private TableColumn<Book, Integer> summary;
+    private TableColumn<Book, String> summary;
 
     @FXML
-    private TableColumn<Book, Date> published;
+    private TableColumn<Book, Integer> published;
 
     @FXML
     private TableColumn<Book, Integer> pages;
@@ -71,13 +75,13 @@ public class AdminChangeBookController {
     private TableColumn<Book, String> cover;
 
     @FXML
-    private TableColumn<Book, Integer> country;
+    private TableColumn<Book, String> country;
 
     @FXML
-    private TableColumn<Book, Integer> series;
+    private TableColumn<Book, String> series;
 
     @FXML
-    private TableColumn<Book, Integer> languages;
+    private TableColumn<Book, String> languages;
 
     @FXML
     private Button addButton;
@@ -85,28 +89,27 @@ public class AdminChangeBookController {
     @FXML
     private Button deleteButton;
 
-    ///////////////////////// so far for example,before revision ////////////////////////////////////////////////
     private ObservableList<Book> books = FXCollections.observableArrayList();
 
-    private void initData() {
-        books.add(new Book(1, "title", "summary", 2000, 500, "cover", "USA", "series", "English"));
-        books.add(new Book(2, "title", "summary", 1992, 432, "cover", "UK", "series", "English"));
-    }
-
     @FXML
-    void initialize() {
-        initData();
-        bookId.setCellValueFactory(new PropertyValueFactory<Book, Integer>("id"));
-        title.setCellValueFactory(new PropertyValueFactory<Book, String>("title"));
-        summary.setCellValueFactory(new PropertyValueFactory<Book, Integer>("summary"));
-        published.setCellValueFactory(new PropertyValueFactory<Book, Date>("publicationYear"));
-        pages.setCellValueFactory(new PropertyValueFactory<Book, Integer>("pages"));
-        cover.setCellValueFactory(new PropertyValueFactory<Book, String>("coverSrc"));
-        country.setCellValueFactory(new PropertyValueFactory<Book, Integer>("country"));
-        series.setCellValueFactory(new PropertyValueFactory<Book, Integer>("series"));
-        languages.setCellValueFactory(new PropertyValueFactory<Book, Integer>("language"));
+    void initialize() throws UnavailableDB {
 
-        booksTable.setItems(books);
+        DbHandler dbManager = new DbHandler();
+        ArrayList<Book> books1 = dbManager.getBooks();
+        for (int i = 0; i< books1.size(); i++){
+            Book book = books1.get(i);
+            bookId.setCellValueFactory(new PropertyValueFactory<Book, Integer>("id"));
+            title.setCellValueFactory(new PropertyValueFactory<Book, String>("title"));
+            summary.setCellValueFactory(new PropertyValueFactory<Book, String>("summary"));
+            published.setCellValueFactory(new PropertyValueFactory<Book, Integer>("publicationYear"));
+            pages.setCellValueFactory(new PropertyValueFactory<Book, Integer>("pages"));
+            cover.setCellValueFactory(new PropertyValueFactory<Book, String>("coverSrc"));
+            country.setCellValueFactory(new PropertyValueFactory<Book, String>("country"));
+            series.setCellValueFactory(new PropertyValueFactory<Book, String>("series"));
+            languages.setCellValueFactory(new PropertyValueFactory<Book, String>("language"));
+            books.add(new Book(book.getId(), book.getTitle(), book.getSummary(), book.getPublicationYear(), book.getPages(), book.getCoverSrc(), book.getCountry(), book.getSeries(), book.getLanguage()));
+            booksTable.setItems(books);
+        }
 
         ///////////////////////////////////////////////////////
         AdmPg.setOnAction(actionEvent -> {
