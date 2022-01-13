@@ -96,6 +96,6 @@ public class MqttSubscriber implements MqttCallback{
 
     @Override
     protected void finalize(){
-        stop();
+//        stop();
     }
 }

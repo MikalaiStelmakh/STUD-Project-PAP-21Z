@@ -2,6 +2,7 @@ package z11.libraryapp.controllers;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
@@ -18,6 +19,9 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import z11.libraryapp.model.Genre;
+import z11.libraryapp.DbHandler;
+import z11.libraryapp.errors.DdlQueryError;
+import z11.libraryapp.errors.UnavailableDB;
 
 public class AdminGenresController {
 
@@ -58,9 +62,9 @@ public class AdminGenresController {
     private TableColumn<Genre, String> name;
 
     ///////////////////////// so far for example,before revision ////////////////////////////////////////////////
-    //private ObservableList<Genre> genres1 = FXCollections.observableArrayList();
+    private ObservableList<Genre> genres1 = FXCollections.observableArrayList();
 
-    private void initData() {
+    private void initData() throws UnavailableDB {
         DbHandler dbManager = new DbHandler();
         ArrayList<Genre> genres1 = dbManager.getGenres();
 
@@ -72,7 +76,7 @@ public class AdminGenresController {
     }
 
     @FXML
-    void initialize() {
+    void initialize() throws UnavailableDB {
         initData();
         genreId.setCellValueFactory(new PropertyValueFactory<Genre, Integer>("id"));
         name.setCellValueFactory(new PropertyValueFactory<Genre, String>("name"));

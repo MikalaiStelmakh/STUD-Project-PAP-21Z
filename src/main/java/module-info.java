@@ -3,6 +3,7 @@ module z11.libraryapp {
     requires javafx.fxml;
     requires java.sql;
     requires org.eclipse.paho.mqttv5.client;
+    requires spring.security.crypto;
 
     opens z11.libraryapp to javafx.fxml;
     exports z11.libraryapp;

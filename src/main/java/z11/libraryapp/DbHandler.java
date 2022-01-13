@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import  java.sql.PreparedStatement;
 import java.sql.Types;
 
+import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
+
 import z11.libraryapp.model.*;
 import z11.libraryapp.errors.*;
 
@@ -18,11 +20,13 @@ public class DbHandler {
 
     private String login = "dsavytsk";
     private String password = "dsavytsk";
+    private  Argon2PasswordEncoder encoder = new Argon2PasswordEncoder(16, 32, 1, 65536, 10);
 
     private Connection con = null;
 
     public DbHandler() throws  UnavailableDB{
         getConnection();
+
     }
 
     public void getConnection() throws  UnavailableDB{
@@ -95,12 +99,12 @@ public class DbHandler {
     public ArrayList<Book> getBooks() throws UnavailableDB{
         ArrayList<Book> books = new ArrayList<Book>();
         String query = "SELECT book.book_id, book.title, book.summary, book.publication_year, book.date_added, "
-                     + "book.pages, book.cover, country.name country, series.name series, language.name language "
-                     + "FROM book "
-                     + "JOIN country ON (book.country_id = country.country_id) "
-                     + "JOIN series ON (book.series_id = series.series_id) "
-                     + "JOIN language ON (book.language_id = language.language_id)"
-                     + "ORDER BY book.date_added DESC";
+                + "book.pages, book.cover, country.name country, series.name series, language.name language "
+                + "FROM book "
+                + "JOIN country ON (book.country_id = country.country_id) "
+                + "JOIN series ON (book.series_id = series.series_id) "
+                + "JOIN language ON (book.language_id = language.language_id)"
+                + "ORDER BY book.date_added DESC";
         try{
             ResultSet rs = ddlQuery(query);
             while(rs.next()){
@@ -120,7 +124,7 @@ public class DbHandler {
                     ArrayList<Genre> genres = getBookGenres(id);
 
                     books.add(new Book(id, title, summary, publicationYear, dateAdded, pages, coverSrc, country,
-                                       series, language, authors, genres));
+                            series, language, authors, genres));
                 }
                 catch(SQLException e){
                     continue;
@@ -136,12 +140,12 @@ public class DbHandler {
 
     public Book getBook(int book_id) throws DdlQueryError, UnavailableDB, SQLException{
         String query = "SELECT book.book_id, book.title, book.summary, book.publication_year, book.date_added, "
-                     + "book.pages, book.cover, country.name country, series.name series, language.name language "
-                     + "FROM book "
-                     + "JOIN country ON (book.country_id = country.country_id) "
-                     + "JOIN series ON (book.series_id = series.series_id) "
-                     + "JOIN language ON (book.language_id = language.language_id) "
-                     + "where book.book_id = " + book_id;
+                + "book.pages, book.cover, country.name country, series.name series, language.name language "
+                + "FROM book "
+                + "JOIN country ON (book.country_id = country.country_id) "
+                + "JOIN series ON (book.series_id = series.series_id) "
+                + "JOIN language ON (book.language_id = language.language_id) "
+                + "where book.book_id = " + book_id;
         ResultSet rs = ddlQuery(query);
         rs.next();
         int id = rs.getInt(1);
@@ -158,7 +162,7 @@ public class DbHandler {
         ArrayList<Author> authors = getBookAuthors(id);
         ArrayList<Genre> genres = getBookGenres(id);
         Book book = new Book(id, title, summary, publicationYear, dateAdded, pages, coverSrc,
-                        country, series, language, authors, genres);
+                country, series, language, authors, genres);
 
         return book;
     }
@@ -201,10 +205,10 @@ public class DbHandler {
 
     public ArrayList<Genre> getBookGenres(int bookId) throws UnavailableDB{
         String query = "SELECT genre.genre_id, genre.name "
-                     + "FROM genre "
-                     + "JOIN book_genre ON (genre.genre_id = book_genre.genre_id) "
-                     + "JOIN book ON (book.book_id = book_genre.book_id) "
-                     + "WHERE book.book_id = " + bookId;
+                + "FROM genre "
+                + "JOIN book_genre ON (genre.genre_id = book_genre.genre_id) "
+                + "JOIN book ON (book.book_id = book_genre.book_id) "
+                + "WHERE book.book_id = " + bookId;
         ArrayList<Genre> genres = new ArrayList<Genre>();
         try{
             ResultSet rs = ddlQuery(query);
@@ -223,10 +227,10 @@ public class DbHandler {
     public ArrayList<Book> getBooksByGenre(int genre_id) throws UnavailableDB{
         ArrayList<Book> books = new ArrayList<Book>();
         String query = "select book_id, title, summary, publication_year, "
-                     + "date_added, pages, cover, c.name, s.name, l.name "
-                     + "from book join country c using(country_id) "
-                     + "join series s using(series_id) join language l using(language_id) "
-                     + "join book_genre using (book_id) join genre using(genre_id) where genre_id = " + genre_id;
+                + "date_added, pages, cover, c.name, s.name, l.name "
+                + "from book join country c using(country_id) "
+                + "join series s using(series_id) join language l using(language_id) "
+                + "join book_genre using (book_id) join genre using(genre_id) where genre_id = " + genre_id;
         try{
             ResultSet rs = ddlQuery(query);
             while(rs.next()){
@@ -246,7 +250,7 @@ public class DbHandler {
                     ArrayList<Genre> genres = getBookGenres(id);
 
                     books.add(new Book(id, title, summary, publicationYear, dateAdded, pages, coverSrc, country,
-                                        series, language, authors, genres));
+                            series, language, authors, genres));
                 }
                 catch(SQLException e){
                     continue;
@@ -262,8 +266,8 @@ public class DbHandler {
     public ArrayList<BookInstance> getBookInstances(int book_id) throws UnavailableDB{
         ArrayList<BookInstance> bookInstances = new ArrayList<BookInstance>();
         String query = "select book_instance_id, book_id, user_id, s.name "
-                     + "from book_instance bk join status s using(status_id) "
-                     + "where book_id = " + book_id;
+                + "from book_instance bk join status s using(status_id) "
+                + "where book_id = " + book_id;
         try{
             ResultSet rs = ddlQuery(query);
             while (rs.next()){
@@ -295,12 +299,12 @@ public class DbHandler {
     public ArrayList<Book> getBooksInSameSeries(int bookId) throws UnavailableDB {
         ArrayList<Book> books = new ArrayList<Book>();
         String query = "SELECT b2.book_id, b2.title, b2.summary, b2.publication_year, b2.date_added, "
-                     + "b2.pages, b2.cover, c.name country, s.name series, l.name language "
-                     + "from book b1 join book b2 on(b1.series_id = b2.series_id) "
-                     + "join country c on (b2.country_id = c.country_id) "
-                     + "join series s on (b2.series_id = s.series_id) "
-                     + "join language l on (b2.language_id = l.language_id) "
-                     + "where (b1.book_id = %d)";
+                + "b2.pages, b2.cover, c.name country, s.name series, l.name language "
+                + "from book b1 join book b2 on(b1.series_id = b2.series_id) "
+                + "join country c on (b2.country_id = c.country_id) "
+                + "join series s on (b2.series_id = s.series_id) "
+                + "join language l on (b2.language_id = l.language_id) "
+                + "where (b1.book_id = %d)";
         query = String.format(query, bookId);
         try{
             ResultSet rs = ddlQuery(query);
@@ -321,7 +325,7 @@ public class DbHandler {
                     ArrayList<Genre> genres = getBookGenres(id);
 
                     books.add(new Book(id, title, summary, publicationYear, dateAdded, pages, coverSrc, country,
-                                       series, language, authors, genres));
+                            series, language, authors, genres));
                 }
                 catch(SQLException e){
                     continue;
@@ -385,10 +389,10 @@ public class DbHandler {
 
     public ArrayList<Author> getBookAuthors(int bookId) throws UnavailableDB{
         String query = "SELECT author.*"
-                     + "FROM  author "
-                     + "JOIN book_author ON (author.author_id = book_author.author_id) "
-                     + "JOIN book ON (book.book_id = book_author.book_id) "
-                     + "WHERE book.book_id = " + bookId;
+                + "FROM  author "
+                + "JOIN book_author ON (author.author_id = book_author.author_id) "
+                + "JOIN book ON (book.book_id = book_author.book_id) "
+                + "WHERE book.book_id = " + bookId;
         ArrayList<Author> authors = new ArrayList<Author>();
         try{
             ResultSet rs = ddlQuery(query);
@@ -411,11 +415,11 @@ public class DbHandler {
 
     public ArrayList<Book> getAuthorBooks(int author_id) throws UnavailableDB{
         String query = "select book_id, title, summary, publication_year, "
-                     + "date_added, pages, cover, c.name, s.name, l.name "
-                     + "from book join country c using(country_id) "
-                     + "join series s using(series_id) join language l using(language_id) "
-                     + "join book_author using (book_id) "
-                     + "join author using (author_id) where author_id = " + author_id;
+                + "date_added, pages, cover, c.name, s.name, l.name "
+                + "from book join country c using(country_id) "
+                + "join series s using(series_id) join language l using(language_id) "
+                + "join book_author using (book_id) "
+                + "join author using (author_id) where author_id = " + author_id;
         ArrayList<Book> books = new ArrayList<Book>();
         try{
             ResultSet rs = ddlQuery(query);
@@ -435,7 +439,7 @@ public class DbHandler {
                 ArrayList<Genre> genres = getBookGenres(id);
 
                 books.add(new Book(id, title, summary, publicationYear, dateAdded, pages, coverSrc, country,
-                                    series, language, authors, genres));
+                        series, language, authors, genres));
             }
         }
         catch (DdlQueryError | SQLException e){
@@ -448,10 +452,10 @@ public class DbHandler {
     public ArrayList<Genre> getAuthorGenres(int author_id) throws UnavailableDB{
         ArrayList<Genre> genres = new ArrayList<Genre>();
         String query = "select distinct genre_id, g.name "
-                     + "from genre g join book_genre using (genre_id) "
-                     + "join book_author using (book_id) "
-                     + "join author using(author_id) "
-                     + "where author_id = " + author_id;
+                + "from genre g join book_genre using (genre_id) "
+                + "join book_author using (book_id) "
+                + "join author using(author_id) "
+                + "where author_id = " + author_id;
         try{
             ResultSet rs = ddlQuery(query);
             while(rs.next()){
@@ -469,15 +473,15 @@ public class DbHandler {
 
     public boolean validateUser(String login, String password) throws UnavailableDB{
         login = login.toLowerCase();
-        String query = "select count(*) from users where (login='%s' and password='%s')";
-        query = String.format(query, login, password);
+
+        String query = "select password from users where (login='%s')";
+        query = String.format(query, login);
         ResultSet rs;
         try {
             rs = ddlQuery(query);
             rs.next();
-            boolean result;
-            result = rs.getInt(1) == 1;
-            return result;
+            String hashedPassword = rs.getString(1);
+            return encoder.matches(password, hashedPassword);
         } catch (DdlQueryError e) {
             e.printStackTrace();
         }
@@ -491,7 +495,7 @@ public class DbHandler {
         User user;
         login = login.toLowerCase();
         String query = "select user_id, u.name, surname, login, password, p.name "
-                     + "from users u join permissions p using(permission_id) where u.login='%s'";
+                + "from users u join permissions p using(permission_id) where u.login='%s'";
         query = String.format(query, login);
         ResultSet rs = ddlQuery(query);
         rs.next();
@@ -501,8 +505,9 @@ public class DbHandler {
 
     public User createUser(String name, String surname, String login, String password) throws DmlQueryError, UnavailableDB, SQLException, DdlQueryError{
         login = login.toLowerCase();
+        String hashedPassword = encoder.encode(password);
         String query = "insert into users values(null, '%s', '%s', '%s', '%s', 2)";
-        query = String.format(query, name, surname, login, password);
+        query = String.format(query, name, surname, login, hashedPassword);
         dmlQuery(query);
         return getUserByLogin(login);
     }
@@ -518,7 +523,7 @@ public class DbHandler {
     public ArrayList<HistoryNode> getHistoryNodes(){
         ArrayList<HistoryNode> historyNodes = new ArrayList<HistoryNode>();
         String query = "select bih_id, book_instance_id, user_id, borrow_date, "
-                     + "nvl(return_date, TO_DATE('2000-01-01', 'yyyy-mm-dd')) from book_instance_history";
+                + "nvl(return_date, TO_DATE('2000-01-01', 'yyyy-mm-dd')) from book_instance_history";
         try{
             ResultSet rs = ddlQuery(query);
             while(rs.next()){
