@@ -340,7 +340,9 @@ public class DbHandler {
 
     public ArrayList<Author> getAuthors() throws UnavailableDB{
         ArrayList<Author> authors = new ArrayList<Author>();
-        String query = "select * from author order by last_name asc";
+        String query = "select author_id, first_name, last_name, birth_year, "
+                     + "nvl(death_year, 0), biography, photo "
+                     + "from author order by last_name asc";
         try (ResultSet rs = ddlQuery(query)) {
             while(rs.next()){
                 try{
@@ -570,6 +572,25 @@ public class DbHandler {
             System.exit(1);
         }
         return historyNodes;
+    }
+
+    public ArrayList<Series> getSeries(){
+        ArrayList<Series> series = new ArrayList<Series>();
+        String query = "select * from series";
+        try {
+            ResultSet rs;
+            rs = ddlQuery(query);
+            while (rs.next()){
+                int id = rs.getInt(1);
+                String name = rs.getString(2);
+                series.add(new Series(id, name));
+            }
+        } catch (DdlQueryError | UnavailableDB e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return series;
     }
 
     public void lendBook(int userId, int bookInstanceId) throws UnavailableDB, DmlQueryError{

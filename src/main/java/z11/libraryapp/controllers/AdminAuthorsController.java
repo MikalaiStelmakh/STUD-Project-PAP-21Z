@@ -54,7 +54,7 @@ public class AdminAuthorsController {
     private TableView<Author> authorTable;
 
     @FXML
-    private TableColumn<Author, Integer> bookId;
+    private TableColumn<Author, Integer> id;
 
     @FXML
     private TableColumn<Author, String> name;
@@ -63,7 +63,16 @@ public class AdminAuthorsController {
     private TableColumn<Author, String> surname;
 
     @FXML
-    private TableColumn<Author, Integer> birth;
+    private TableColumn<Author, Integer> birthDate;
+
+    @FXML
+    private TableColumn<Author, Integer> deathDate;
+
+    @FXML
+    private TableColumn<Author, String> biography;
+
+    @FXML
+    private TableColumn<Author, String> photo;
 
     @FXML
     private Button addButton;
@@ -72,30 +81,44 @@ public class AdminAuthorsController {
     private Button deleteButton;
 
 
-    ///////////////////////// so far for example,before revision ////////////////////////////////////////////////
-    private ObservableList<Author> authors1 = FXCollections.observableArrayList();
+
+    private void initData(ArrayList<Author> authors_list) {
+        ObservableList<Author> authors_table = FXCollections.observableArrayList(authors_list);
+        id.setCellValueFactory(new PropertyValueFactory<Author, Integer>("id"));
+        name.setCellValueFactory(new PropertyValueFactory<Author, String>("firstName"));
+        surname.setCellValueFactory(new PropertyValueFactory<Author, String>("lastName"));
+        birthDate.setCellValueFactory(new PropertyValueFactory<Author, Integer>("birthYear"));
+        deathDate.setCellValueFactory(new PropertyValueFactory<Author, Integer>("deathYear"));
+        biography.setCellValueFactory(new PropertyValueFactory<Author, String>("biography"));
+        photo.setCellValueFactory(new PropertyValueFactory<Author, String>("photoSrc"));
+        authorTable.setItems(authors_table);
+    }
 
 
     @FXML
     void initialize() throws UnavailableDB {
 
         DbHandler dbManager = new DbHandler();
-        ArrayList<Author> a = dbManager.getAuthors();
-        for (int i = 0; i< a.size(); i++){
-            Author author = a.get(i);
-            bookId.setCellValueFactory(new PropertyValueFactory<Author, Integer>("id"));
-            name.setCellValueFactory(new PropertyValueFactory<Author, String>("firstName"));
-            surname.setCellValueFactory(new PropertyValueFactory<Author, String>("lastName"));
-            birth.setCellValueFactory(new PropertyValueFactory<Author, Integer>("birthYear"));
-            authors1.add(new Author(author.getId(), author.getFirstName(), author.getLastName(), author.getBirthYear()));
-            authorTable.setItems(authors1);
-        }
+        ArrayList<Author> authors_list = dbManager.getAuthors();
+        initData(authors_list);
 
         users.setOnAction(actionEvent -> {
 
             try {
                 Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/z11/libraryapp/fxml/AdminUserPage.fxml")));
                 Stage stage = (Stage) users.getScene().getWindow();
+                stage.setScene(scene);
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        bookInstances.setOnAction(actionEvent -> {
+
+            try {
+                Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/z11/libraryapp/fxml/AdminBookInstances.fxml")));
+                Stage stage = (Stage) genres.getScene().getWindow();
                 stage.setScene(scene);
                 stage.show();
             } catch (IOException e) {
@@ -119,6 +142,18 @@ public class AdminAuthorsController {
 
             try {
                 Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/z11/libraryapp/fxml/AdminCategories.fxml")));
+                Stage stage = (Stage) genres.getScene().getWindow();
+                stage.setScene(scene);
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        seriesBtn.setOnAction(actionEvent -> {
+
+            try {
+                Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/z11/libraryapp/fxml/AdminSeries.fxml")));
                 Stage stage = (Stage) genres.getScene().getWindow();
                 stage.setScene(scene);
                 stage.show();

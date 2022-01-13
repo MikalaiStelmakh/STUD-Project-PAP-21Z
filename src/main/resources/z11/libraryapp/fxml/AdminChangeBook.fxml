@@ -15,7 +15,7 @@
         <VBox alignment="CENTER" prefHeight="257.0" prefWidth="146.0" spacing="5.0" BorderPane.alignment="CENTER">
             <children>
                 <Button fx:id="users" mnemonicParsing="false" prefHeight="51.0" prefWidth="146.0" text="Users" />
-                <Button fx:id="bookStatus" mnemonicParsing="false" prefHeight="52.0" prefWidth="146.0" text="Book Instances" />
+                <Button fx:id="bookInstances" mnemonicParsing="false" prefHeight="52.0" prefWidth="146.0" text="Book Instances" />
                 <Button fx:id="authors" mnemonicParsing="false" prefHeight="52.0" prefWidth="146.0" text="Authors" />
                 <Button fx:id="genres" mnemonicParsing="false" prefHeight="52.0" prefWidth="146.0" text="Genres" />
                 <Button fx:id="seriesBtn" mnemonicParsing="false" prefHeight="52.0" prefWidth="146.0" text="Series" />
@@ -36,14 +36,14 @@
                 <TableView fx:id="booksTable" prefHeight="253.0" prefWidth="654.0">
                     <columns>
                         <TableColumn fx:id="bookId" prefWidth="45.599974036216736" text="book_id" />
-                        <TableColumn fx:id="title" prefWidth="68.79998779296875" text="title" />
-                        <TableColumn fx:id="summary" prefWidth="80.00000762939453" text="summary" />
-                        <TableColumn fx:id="published" prefWidth="82.4000244140625" text="published" />
-                        <TableColumn fx:id="pages" prefWidth="56.0" text="pages" />
-                        <TableColumn fx:id="cover" prefWidth="64.7999267578125" text="cover" />
-                        <TableColumn fx:id="country" prefWidth="69.5999755859375" text="country" />
-                        <TableColumn fx:id="series" prefWidth="89.60000610351562" text="series" />
-                        <TableColumn fx:id="languages" prefWidth="87.2000732421875" text="languages" />
+                        <TableColumn fx:id="title" prefWidth="110.39997100830078" text="title" />
+                        <TableColumn fx:id="summary" prefWidth="66.4000244140625" text="summary" />
+                        <TableColumn fx:id="published" prefWidth="69.599853515625" text="published" />
+                        <TableColumn fx:id="pages" prefWidth="66.400146484375" text="pages" />
+                        <TableColumn fx:id="cover" prefWidth="72.800048828125" text="cover" />
+                        <TableColumn fx:id="country" prefWidth="64.0" text="country" />
+                        <TableColumn fx:id="series" prefWidth="92.79989624023438" text="series" />
+                        <TableColumn fx:id="languages" prefWidth="63.199951171875" text="languages" />
                     </columns>
                 </TableView>
                 <HBox prefHeight="50.0" prefWidth="654.0" spacing="10.0">

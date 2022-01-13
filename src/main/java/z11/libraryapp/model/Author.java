@@ -70,11 +70,11 @@ public class Author {
         return String.format("%s %s", firstName, lastName);
     }
 
-    public String getbiography() {
+    public String getBiography() {
         return biography;
     }
 
-    public void setbiography(String biography) {
+    public void setBiography(String biography) {
         this.biography = biography;
     }
 

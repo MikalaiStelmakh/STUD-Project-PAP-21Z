@@ -2,26 +2,36 @@ package z11.libraryapp.controllers;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import javafx.event.ActionEvent;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import z11.libraryapp.model.Genre;
+import z11.libraryapp.model.Series;
+import z11.libraryapp.DbHandler;
+import z11.libraryapp.errors.DdlQueryError;
+import z11.libraryapp.errors.UnavailableDB;
+import z11.libraryapp.model.User;
 
-public class AdminController {
+public class AdminSeriesController {
 
     @FXML
     private ResourceBundle resources;
 
     @FXML
     private URL location;
-
-    @FXML
-    private Button AdmPg;
 
     @FXML
     private Button users;
@@ -42,12 +52,42 @@ public class AdminController {
     private Button changesBook;
 
     @FXML
-    void initialize() {
-        AdmPg.setOnAction(actionEvent -> {
+    private TableView<Series> seriesTable;
+
+    @FXML
+    private TableColumn<Series, Integer> seriesId;
+
+    @FXML
+    private TableColumn<Series, String> seriesName;
+
+    @FXML
+    private Button addButton;
+
+    @FXML
+    private Button deleteButton;
+
+
+    private void initData(ArrayList<Series> series_list) {
+        ObservableList<Series> series_table = FXCollections.observableArrayList(series_list);
+
+        seriesId.setCellValueFactory(new PropertyValueFactory<Series, Integer>("id"));
+        seriesName.setCellValueFactory(new PropertyValueFactory<Series, String>("name"));
+
+        seriesTable.setItems(series_table);
+    }
+
+    @FXML
+    void initialize() throws UnavailableDB {
+
+        DbHandler dbManager = new DbHandler();
+        ArrayList<Series> series_list = dbManager.getSeries();
+        initData(series_list);
+
+        users.setOnAction(actionEvent -> {
 
             try {
-                Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/z11/libraryapp/fxml/AdminPage.fxml")));
-                Stage stage = (Stage) AdmPg.getScene().getWindow();
+                Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/z11/libraryapp/fxml/AdminUserPage.fxml")));
+                Stage stage = (Stage) users.getScene().getWindow();
                 stage.setScene(scene);
                 stage.show();
             } catch (IOException e) {
@@ -55,11 +95,11 @@ public class AdminController {
             }
         });
 
-        users.setOnAction(actionEvent -> {
+        bookInstances.setOnAction(actionEvent -> {
 
             try {
-                Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/z11/libraryapp/fxml/AdminUserPage.fxml")));
-                Stage stage = (Stage) users.getScene().getWindow();
+                Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/z11/libraryapp/fxml/AdminBookInstances.fxml")));
+                Stage stage = (Stage) genres.getScene().getWindow();
                 stage.setScene(scene);
                 stage.show();
             } catch (IOException e) {

@@ -3,6 +3,7 @@ package z11.libraryapp.controllers;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
@@ -18,19 +19,25 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import z11.libraryapp.model.Genre;
 import z11.libraryapp.DbHandler;
-import z11.libraryapp.errors.DdlQueryError;
 import z11.libraryapp.errors.UnavailableDB;
+import z11.libraryapp.model.Book;
+import z11.libraryapp.model.BookInstance;
 import z11.libraryapp.model.User;
 
-public class AdminGenresController {
+public class AdminBookInstancesController {
 
     @FXML
     private ResourceBundle resources;
 
     @FXML
     private URL location;
+
+    @FXML
+    private Button addButton;
+
+    @FXML
+    private Button deleteButton;
 
     @FXML
     private Button users;
@@ -51,33 +58,48 @@ public class AdminGenresController {
     private Button changesBook;
 
     @FXML
-    private TableView<Genre> genreTable;
+    private TableView<BookInstance> bookInstancesTable;
 
     @FXML
-    private TableColumn<Genre, Integer> genreId;
+    private TableColumn<BookInstance, Integer> bi_id;
 
     @FXML
-    private TableColumn<Genre, String> name;
+    private TableColumn<BookInstance, Integer> book_id;
 
     @FXML
-    private Button addButton;
+    private TableColumn<BookInstance, Integer> user_id;
 
     @FXML
-    private Button deleteButton;
+    private TableColumn<BookInstance, String> status;
 
-    private ObservableList<Genre> g = FXCollections.observableArrayList();
+
+    private void initData(ArrayList<BookInstance> book_instances_list) {
+        ObservableList<BookInstance> book_instances_table = FXCollections.observableArrayList(book_instances_list);
+
+        bi_id.setCellValueFactory(new PropertyValueFactory<BookInstance, Integer>("id"));
+        book_id.setCellValueFactory(new PropertyValueFactory<BookInstance, Integer>("book_id"));
+        user_id.setCellValueFactory(new PropertyValueFactory<BookInstance, Integer>("user_id"));
+        status.setCellValueFactory(new PropertyValueFactory<BookInstance, String>("status"));
+
+        bookInstancesTable.setItems(book_instances_table);
+    }
 
     @FXML
-    void initialize() throws UnavailableDB {
-
-        DbHandler dbManager = new DbHandler();
-        ArrayList<Genre> genres1 = dbManager.getGenres();
-        for (int i = 0; i< genres1.size(); i++){
-            Genre genre = genres1.get(i);
-            genreId.setCellValueFactory(new PropertyValueFactory<Genre, Integer>("id"));
-            name.setCellValueFactory(new PropertyValueFactory<Genre, String>("name"));
-            g.add(new Genre(genre.getId(), genre.getName()));
-            genreTable.setItems(g);
+    void initialize() {
+        DbHandler dbManager;
+        try {
+            dbManager = new DbHandler();
+            ArrayList<Book> books = dbManager.getBooks();
+            ArrayList<BookInstance> book_instance_list = new ArrayList<BookInstance>();
+            for (Book book : books){
+                ArrayList<BookInstance> book_instances = dbManager.getBookInstances(book.getId());
+                for (BookInstance bookInstance : book_instances){
+                    book_instance_list.add(bookInstance);
+                }
+            }
+            initData(book_instance_list);
+        } catch (UnavailableDB e1) {
+            e1.printStackTrace();
         }
 
         users.setOnAction(actionEvent -> {
@@ -153,4 +175,3 @@ public class AdminGenresController {
         });
     }
 }
-
