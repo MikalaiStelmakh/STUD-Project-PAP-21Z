@@ -617,6 +617,66 @@ public class DbHandler {
         }
     }
 
+    public String getBookInstanceStatus(int bookInstanceId) throws UnavailableDB {
+        String status = null;
+        String query = "SELECT status.name FROM book_instance "
+                     + "JOIN status using(status_id) "
+                     + "WHERE book_instance.book_instance_id = ?";
+        PreparedStatement stmt = null;
+        try {
+            stmt = con.prepareStatement(query);
+            stmt.setInt(1, bookInstanceId);
+
+        } catch (SQLException e){
+            e.printStackTrace();
+            throw new UnavailableDB(e);
+        }
+        try {
+            ResultSet rs = stmt.executeQuery();
+            rs.next();
+            status = rs.getString(1);
+            return  rs.getString(1);
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return status;
+    }
+
+    public boolean checkReservation(int userId, int bookInstanceId) throws UnavailableDB {
+        return checkStatus(userId, bookInstanceId, "RESERVED");
+    }
+
+    public boolean checkLent(int userId, int bookInstanceId) throws UnavailableDB {
+        return checkStatus(userId, bookInstanceId, "LENT");
+    }
+
+    public boolean checkStatus(int userId, int bookInstanceId, String status) throws UnavailableDB {
+        String query = "SELECT status.name FROM book_instance "
+                + "JOIN status using(status_id) "
+                + "WHERE book_instance.book_instance_id = ? AND user_id = ?";
+        PreparedStatement stmt = null;
+        try {
+            stmt = con.prepareStatement(query);
+            stmt.setInt(1, bookInstanceId);
+            stmt.setInt(2, userId);
+
+        } catch (SQLException e){
+            e.printStackTrace();
+            throw new UnavailableDB(e);
+        }
+        try {
+            ResultSet rs = stmt.executeQuery();
+            if (!rs.next()) return false;
+            if(rs.getString(1).equals(status)){
+                return true;
+            }
+            return false;
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
 
     protected void finalize () {
         closeConnetion();

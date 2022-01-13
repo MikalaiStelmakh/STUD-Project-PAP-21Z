@@ -7,8 +7,12 @@ import org.eclipse.paho.mqttv5.common.MqttMessage;
 import org.eclipse.paho.mqttv5.common.MqttSubscription;
 import org.eclipse.paho.mqttv5.common.packet.MqttProperties;
 
+import java.sql.SQLException;
+import java.time.LocalTime;
+
 import z11.libraryapp.errors.*;
 
+import java.util.Random;
 import java.util.Scanner;
 
 public class MqttSubscriber implements MqttCallback{
@@ -22,12 +26,13 @@ public class MqttSubscriber implements MqttCallback{
         try{
             dbManager = new DbHandler();
 
+            String clientId = String.valueOf(System.currentTimeMillis());
             MemoryPersistence persistence = new MemoryPersistence();
-            client=new MqttAsyncClient("tcp://test.mosquitto.org:1883", "libraryApp", persistence);
+            client=new MqttAsyncClient("tcp://test.mosquitto.org:1883", clientId, persistence);
             client.setCallback(this);
             MqttConnectionOptions connOpts = new MqttConnectionOptions();
             connOpts.setCleanStart(false);
-            connOpts.setSessionExpiryInterval((long)3600);
+            connOpts.setSessionExpiryInterval((long)10000);
             token = client.connect(connOpts);
             token.waitForCompletion();
             client.subscribe(new MqttSubscription("z11_library", 1));
@@ -35,8 +40,6 @@ public class MqttSubscriber implements MqttCallback{
         catch (MqttException e){
             e.printStackTrace();
         }
-
-
     }
 
     public void stop(){
@@ -46,7 +49,6 @@ public class MqttSubscriber implements MqttCallback{
         } catch (MqttException e){
             e.printStackTrace();
         }
-
     }
 
     @Override
@@ -74,10 +76,22 @@ public class MqttSubscriber implements MqttCallback{
             return;
         }
         if(data[2].equals("lend")){
-            dbManager.lendBook(userId, bookInstanceId);
+            if(dbManager.checkReservation(userId, bookInstanceId)){
+                dbManager.lendBook(userId, bookInstanceId);
+                publishMQTT(userId, bookInstanceId, "lent");
+            } else {
+                publishMQTT(userId, bookInstanceId, "noReservation");
+            }
         }
         if(data[2].equals("return")){
-            dbManager.returnBook(bookInstanceId);
+            if(dbManager.checkLent(userId, bookInstanceId)){
+                dbManager.returnBook(bookInstanceId);
+                publishMQTT(userId, bookInstanceId, "returned");
+            } else {
+                publishMQTT(userId, bookInstanceId, "notReturned");
+            }
+
+
         }
     }
 
@@ -92,6 +106,31 @@ public class MqttSubscriber implements MqttCallback{
 
     @Override
     public void authPacketArrived(int reasonCode, MqttProperties properties) {
+    }
+
+    public void connectMqttBroker() throws MqttException{
+        MemoryPersistence persistence = new MemoryPersistence();
+        String clienId = String.valueOf(System.currentTimeMillis());
+        client = new MqttAsyncClient("tcp://test.mosquitto.org:1883", clienId, persistence);
+        MqttConnectionOptions connOpts = new MqttConnectionOptions();
+        connOpts.setCleanStart(false);
+        connOpts.setSessionExpiryInterval((long)10000);
+        token = client.connect(connOpts);
+        token.waitForCompletion();
+    }
+
+    public void publishMQTT(int bookInstanceId, int userId, String msg) {
+        try {
+            if(!client.isConnected()) connectMqttBroker();
+            MqttMessage message = new MqttMessage();
+            String content = String.format("%d:%d:%s", bookInstanceId, userId, msg);
+            message.setPayload(content.getBytes());
+            message.setQos(1);
+            token = client.publish("z11_library", message);
+            token.waitForCompletion();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override
