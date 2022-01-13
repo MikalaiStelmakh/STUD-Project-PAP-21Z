@@ -58,14 +58,17 @@ public class AdminGenresController {
     private TableColumn<Genre, String> name;
 
     ///////////////////////// so far for example,before revision ////////////////////////////////////////////////
-    private ObservableList<Genre> genres1 = FXCollections.observableArrayList();
+    //private ObservableList<Genre> genres1 = FXCollections.observableArrayList();
 
     private void initData() {
-        genres1.add(new Genre(1, "Classics"));
-        genres1.add(new Genre(2, "Action and Adventure"));
-        genres1.add(new Genre(3, "Detective and Mystery"));
-        genres1.add(new Genre(4, "Fantasy"));
-        genres1.add(new Genre(5, "Horror"));
+        DbHandler dbManager = new DbHandler();
+        ArrayList<Genre> genres1 = dbManager.getGenres();
+
+        //genres1.add(new Genre(1, "Classics"));
+        //genres1.add(new Genre(2, "Action and Adventure"));
+        //genres1.add(new Genre(3, "Detective and Mystery"));
+        //genres1.add(new Genre(4, "Fantasy"));
+        //genres1.add(new Genre(5, "Horror"));
     }
 
     @FXML
