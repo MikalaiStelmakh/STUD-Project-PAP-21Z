@@ -33,9 +33,6 @@ public class AdminAuthorsController {
     private URL location;
 
     @FXML
-    private Button AdmPg;
-
-    @FXML
     private Button users;
 
     @FXML
@@ -54,9 +51,6 @@ public class AdminAuthorsController {
     private Button changesBook;
 
     @FXML
-    private TextField searchField;
-
-    @FXML
     private TableView<Author> authorTable;
 
     @FXML
@@ -70,6 +64,12 @@ public class AdminAuthorsController {
 
     @FXML
     private TableColumn<Author, Integer> birth;
+
+    @FXML
+    private Button addButton;
+
+    @FXML
+    private Button deleteButton;
 
 
     ///////////////////////// so far for example,before revision ////////////////////////////////////////////////
@@ -90,18 +90,6 @@ public class AdminAuthorsController {
             authors1.add(new Author(author.getId(), author.getFirstName(), author.getLastName(), author.getBirthYear()));
             authorTable.setItems(authors1);
         }
-
-        AdmPg.setOnAction(actionEvent -> {
-
-            try {
-                Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/z11/libraryapp/fxml/AdminPage.fxml")));
-                Stage stage = (Stage) AdmPg.getScene().getWindow();
-                stage.setScene(scene);
-                stage.show();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
 
         users.setOnAction(actionEvent -> {
 

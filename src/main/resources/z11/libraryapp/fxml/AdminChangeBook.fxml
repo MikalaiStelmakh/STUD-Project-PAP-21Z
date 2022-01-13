@@ -11,15 +11,8 @@
 <?import javafx.scene.text.Font?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="z11.libraryapp.controllers.AdminChangeBookController">
-    <top>
-        <HBox prefHeight="58.0" prefWidth="810.0" BorderPane.alignment="CENTER">
-            <children>
-                <Button fx:id="AdmPg" mnemonicParsing="false" prefHeight="58.0" prefWidth="147.0" text="AdminPage" />
-            </children>
-        </HBox>
-    </top>
     <left>
-        <VBox prefHeight="257.0" prefWidth="146.0" BorderPane.alignment="CENTER">
+        <VBox alignment="CENTER" prefHeight="257.0" prefWidth="146.0" spacing="5.0" BorderPane.alignment="CENTER">
             <children>
                 <Button fx:id="users" mnemonicParsing="false" prefHeight="51.0" prefWidth="146.0" text="Users" />
                 <Button fx:id="bookStatus" mnemonicParsing="false" prefHeight="52.0" prefWidth="146.0" text="Book Instances" />
@@ -31,7 +24,7 @@
         </VBox>
     </left>
     <center>
-        <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+        <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
             <children>
                 <Label prefHeight="50.0" prefWidth="129.0" text="Books">
                <font>
@@ -58,6 +51,9 @@
                   <Button fx:id="addButton" mnemonicParsing="false" prefHeight="50.0" prefWidth="92.0" text="Add" />
                   <Button fx:id="deleteButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="92.0" text="Delete" />
                </children>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
                 </HBox>
             </children></VBox>
     </center>

@@ -33,9 +33,6 @@ public class AdminChangeBookController {
     private URL location;
 
     @FXML
-    private Button AdmPg;
-
-    @FXML
     private Button users;
 
     @FXML
@@ -52,9 +49,6 @@ public class AdminChangeBookController {
 
     @FXML
     private Button changesBook;
-
-    @FXML
-    private TextField searchField;
 
     @FXML
     private TableView<Book> booksTable;
@@ -113,19 +107,6 @@ public class AdminChangeBookController {
             books.add(new Book(book.getId(), book.getTitle(), book.getSummary(), book.getPublicationYear(), book.getPages(), book.getCoverSrc(), book.getCountry(), book.getSeries(), book.getLanguage()));
             booksTable.setItems(books);
         }
-
-        ///////////////////////////////////////////////////////
-        AdmPg.setOnAction(actionEvent -> {
-
-            try {
-                Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/z11/libraryapp/fxml/AdminPage.fxml")));
-                Stage stage = (Stage) AdmPg.getScene().getWindow();
-                stage.setScene(scene);
-                stage.show();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
 
         users.setOnAction(actionEvent -> {
 

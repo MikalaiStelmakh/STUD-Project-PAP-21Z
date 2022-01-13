@@ -39,9 +39,6 @@ public class AdminUserController {
     private Button deleteButton;
 
     @FXML
-    private Button AdmPg;
-
-    @FXML
     private Button users;
 
     @FXML
@@ -58,9 +55,6 @@ public class AdminUserController {
 
     @FXML
     private Button changesBook;
-
-    @FXML
-    private TextField searchField;
 
     @FXML
     private TableView<User> userTable;
@@ -106,19 +100,6 @@ public class AdminUserController {
             e1.printStackTrace();
         }
 
-
-        AdmPg.setOnAction(actionEvent -> {
-
-            try {
-                Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/z11/libraryapp/fxml/AdminPage.fxml")));
-                Stage stage = (Stage) AdmPg.getScene().getWindow();
-                stage.setScene(scene);
-                stage.show();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-
         users.setOnAction(actionEvent -> {
 
             try {
@@ -130,18 +111,6 @@ public class AdminUserController {
                 e.printStackTrace();
             }
         });
-
-//        bookStatus.setOnAction(actionEvent -> {
-//
-//            try {
-//                Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/z11/libraryapp/fxml/AdminBookStatus.fxml")));
-//                Stage stage = (Stage) bookStatus.getScene().getWindow();
-//                stage.setScene(scene);
-//                stage.show();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        });
 
         authors.setOnAction(actionEvent -> {
 

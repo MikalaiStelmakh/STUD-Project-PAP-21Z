@@ -21,6 +21,7 @@
                   <Button fx:id="users" mnemonicParsing="false" prefHeight="51.0" prefWidth="146.0" text="Users" />
                </children>
             </HBox>
+<<<<<<< HEAD
             <HBox prefHeight="50.0" prefWidth="146.0">
                <children>
                   <Button fx:id="bookInstances" mnemonicParsing="false" prefHeight="52.0" prefWidth="146.0" text="Book Instances" />
@@ -29,6 +30,10 @@
             <Button fx:id="authors" mnemonicParsing="false" prefHeight="52.0" prefWidth="146.0" text="Authors" />
             <Button fx:id="genres" mnemonicParsing="false" prefHeight="52.0" prefWidth="146.0" text="Genres" />
             <Button fx:id="seriesBtn" mnemonicParsing="false" prefHeight="52.0" prefWidth="146.0" text="Series" />
+=======
+            <Button fx:id="authors" mnemonicParsing="false" prefHeight="52.0" prefWidth="146.0" text="Authors" />
+            <Button fx:id="genres" mnemonicParsing="false" prefHeight="52.0" prefWidth="146.0" text="Genres" />
+>>>>>>> a95c0d9e534e2ebf0b392acf6fc71099b04b08e8
             <Button fx:id="changesBook" layoutX="10.0" layoutY="218.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="146.0" text="Add/delete book" />
          </children>
       </VBox>

@@ -33,9 +33,6 @@ public class AdminGenresController {
     private URL location;
 
     @FXML
-    private Button AdmPg;
-
-    @FXML
     private Button users;
 
     @FXML
@@ -54,9 +51,6 @@ public class AdminGenresController {
     private Button changesBook;
 
     @FXML
-    private TextField searchField;
-
-    @FXML
     private TableView<Genre> genreTable;
 
     @FXML
@@ -64,6 +58,12 @@ public class AdminGenresController {
 
     @FXML
     private TableColumn<Genre, String> name;
+
+    @FXML
+    private Button addButton;
+
+    @FXML
+    private Button deleteButton;
 
     private ObservableList<Genre> g = FXCollections.observableArrayList();
 
@@ -79,19 +79,6 @@ public class AdminGenresController {
             g.add(new Genre(genre.getId(), genre.getName()));
             genreTable.setItems(g);
         }
-        ///////////////////////////////////////////////////////////////////
-
-        AdmPg.setOnAction(actionEvent -> {
-
-            try {
-                Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/z11/libraryapp/fxml/AdminPage.fxml")));
-                Stage stage = (Stage) AdmPg.getScene().getWindow();
-                stage.setScene(scene);
-                stage.show();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
 
         users.setOnAction(actionEvent -> {
 
@@ -104,18 +91,6 @@ public class AdminGenresController {
                 e.printStackTrace();
             }
         });
-
-//        bookStatus.setOnAction(actionEvent -> {
-//
-//            try {
-//                Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/z11/libraryapp/fxml/AdminBookStatus.fxml")));
-//                Stage stage = (Stage) bookStatus.getScene().getWindow();
-//                stage.setScene(scene);
-//                stage.show();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        });
 
         authors.setOnAction(actionEvent -> {
 
