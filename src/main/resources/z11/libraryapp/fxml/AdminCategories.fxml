@@ -36,6 +36,12 @@
                         <TableColumn fx:id="name" prefWidth="75.0" text="name" />
                     </columns>
                 </TableView>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Button fx:id="addButton" mnemonicParsing="false" prefHeight="45.0" prefWidth="84.0" text="add" />
+                  <Button fx:id="deleteButton" mnemonicParsing="false" prefHeight="45.0" prefWidth="84.0" text="delete" />
+               </children>
+            </HBox>
             </children></VBox>
     </center>
 </BorderPane>

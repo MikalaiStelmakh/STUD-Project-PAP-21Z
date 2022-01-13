@@ -56,6 +56,12 @@ public class AdminGenresController {
     @FXML
     private TableColumn<Genre, String> name;
 
+    @FXML
+    private Button addButton;
+
+    @FXML
+    private Button deleteButton;
+
     private ObservableList<Genre> g = FXCollections.observableArrayList();
 
     @FXML

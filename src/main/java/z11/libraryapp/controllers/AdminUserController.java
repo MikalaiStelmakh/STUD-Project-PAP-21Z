@@ -65,6 +65,12 @@ public class AdminUserController {
     @FXML
     private TableColumn<User, Integer> isAdmin;
 
+    @FXML
+    private Button addButton;
+
+    @FXML
+    private Button deleteButton;
+
 
     ///////////////////////// so far for example,before revision ////////////////////////////////////////////////
     private ObservableList<User> users1 = FXCollections.observableArrayList();

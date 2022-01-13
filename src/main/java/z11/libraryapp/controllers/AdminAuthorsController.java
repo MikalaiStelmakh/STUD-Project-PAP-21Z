@@ -62,6 +62,12 @@ public class AdminAuthorsController {
     @FXML
     private TableColumn<Author, Integer> birth;
 
+    @FXML
+    private Button addButton;
+
+    @FXML
+    private Button deleteButton;
+
 
     ///////////////////////// so far for example,before revision ////////////////////////////////////////////////
     private ObservableList<Author> authors1 = FXCollections.observableArrayList();
