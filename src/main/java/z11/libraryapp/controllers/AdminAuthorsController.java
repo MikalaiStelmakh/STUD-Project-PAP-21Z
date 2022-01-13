@@ -2,6 +2,7 @@ package z11.libraryapp.controllers;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
 
@@ -18,6 +19,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import z11.libraryapp.DbHandler;
+import z11.libraryapp.errors.UnavailableDB;
 import z11.libraryapp.model.Author;
 import z11.libraryapp.model.Book;
 
@@ -69,19 +72,21 @@ public class AdminAuthorsController {
     ///////////////////////// so far for example,before revision ////////////////////////////////////////////////
     private ObservableList<Author> authors1 = FXCollections.observableArrayList();
 
-    private void initData() {
-        authors1.add(new Author(5, "title", "summary", 2000));
-    }
 
     @FXML
-    void initialize() {
-        initData();
-        bookId.setCellValueFactory(new PropertyValueFactory<Author, Integer>("id"));
-        name.setCellValueFactory(new PropertyValueFactory<Author, String>("firstName"));
-        surname.setCellValueFactory(new PropertyValueFactory<Author, String>("lastName"));
-        birth.setCellValueFactory(new PropertyValueFactory<Author, Integer>("birthYear"));
+    void initialize() throws UnavailableDB {
 
-        authorTable.setItems(authors1);
+        DbHandler dbManager = new DbHandler();
+        ArrayList<Author> a = dbManager.getAuthors();
+        for (int i = 0; i< a.size(); i++){
+            Author author = a.get(i);
+            bookId.setCellValueFactory(new PropertyValueFactory<Author, Integer>("id"));
+            name.setCellValueFactory(new PropertyValueFactory<Author, String>("firstName"));
+            surname.setCellValueFactory(new PropertyValueFactory<Author, String>("lastName"));
+            birth.setCellValueFactory(new PropertyValueFactory<Author, Integer>("birthYear"));
+            authors1.add(new Author(author.getId(), author.getFirstName(), author.getLastName(), author.getBirthYear()));
+            authorTable.setItems(authors1);
+        }
 
         AdmPg.setOnAction(actionEvent -> {
 
