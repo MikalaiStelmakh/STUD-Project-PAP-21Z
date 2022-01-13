@@ -13,12 +13,14 @@ import org.eclipse.paho.mqttv5.client.MqttConnectionOptions;
 import org.eclipse.paho.mqttv5.client.persist.MemoryPersistence;
 import org.eclipse.paho.mqttv5.common.MqttException;
 import org.eclipse.paho.mqttv5.common.MqttMessage;
+import org.eclipse.paho.mqttv5.common.MqttSubscription;
 
 
 public class MainActivity extends AppCompatActivity {
     private MqttAsyncClient client;
     private IMqttToken token;
     private TextView errorLabel;
+    private TextView successLabel;
 
 
     @Override
@@ -26,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         errorLabel = findViewById(R.id.errorLabel);
+        successLabel = findViewById(R.id.successLabel);
+
         try{
             connectMqttBroker();
         } catch (Exception e){
@@ -35,21 +39,22 @@ public class MainActivity extends AppCompatActivity {
 
 public void connectMqttBroker() throws MqttException{
         MemoryPersistence persistence = new MemoryPersistence();
-        String clienId = String.valueOf(System.currentTimeMillis());
-        client = new MqttAsyncClient("tcp://test.mosquitto.org:1883", clienId, persistence);
+        String clientId = String.valueOf(System.currentTimeMillis());
+        client = new MqttAsyncClient("tcp://test.mosquitto.org:1883", clientId, persistence);
+        client.setCallback(new MqttSubscriber(errorLabel, successLabel));
         MqttConnectionOptions connOpts = new MqttConnectionOptions();
         connOpts.setCleanStart(false);
         connOpts.setSessionExpiryInterval((long)10000);
         token = client.connect(connOpts);
         token.waitForCompletion();
-
-
+        client.subscribe(new MqttSubscription("z11_library", 1));
     }
 
     public void lent(View view) {
         EditText bookInstanceET = findViewById(R.id.bookInstanceId);
         EditText userIdET = findViewById(R.id.userId);
         errorLabel.setText("");
+        successLabel.setText("");
 
         String bookInstanceTxt = bookInstanceET.getText().toString().trim();
         String userTxt = userIdET.getText().toString().trim();
@@ -68,15 +73,23 @@ public void connectMqttBroker() throws MqttException{
 
     public void returnBack(View view) {
         EditText bookInstanceET = findViewById(R.id.bookInstanceId);
+        EditText userIdET = findViewById(R.id.userId);
         errorLabel.setText("");
+        successLabel.setText("");
 
         String bookInstanceTxt = bookInstanceET.getText().toString().trim();
+        String userTxt = userIdET.getText().toString().trim();
         if(bookInstanceTxt.length() == 0){
             errorLabel.setText("ENTER bookInstanceId");
             return;
         }
+        if(userTxt.length() == 0){
+            errorLabel.setText("ENTER userId");
+            return;
+        }
         int bookInstanceId = Integer.parseInt(bookInstanceTxt);
-        publishMQTT(bookInstanceId, -1, "return");
+        int userId = Integer.parseInt(userTxt);
+        publishMQTT(bookInstanceId, userId, "return");
     }
 
     public void publishMQTT(int bookInstanceId, int userId, String msg) {
