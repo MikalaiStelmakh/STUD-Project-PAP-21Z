@@ -91,14 +91,10 @@ public class SignUpController {
             messageField.setText("Password mismatch");
             return false;
         }
-        try {
-            DbHandler dbManager = new DbHandler();
-            if (!dbManager.isUniqueLogin(login)){
-                messageField.setText("Username is already taken. Try another one.");
-                return false;
-            }
-        } catch (SQLException | DdlQueryError e) {
-            e.printStackTrace();
+        DbHandler dbManager = new DbHandler();
+        if (!dbManager.isUniqueLogin(login)){
+            messageField.setText("Username is already taken. Try another one.");
+            return false;
         }
         return true;
     }

@@ -49,7 +49,7 @@ public class DelGenrePageController {
 
                 try {
                     dbManager.delGenre(genreId);
-                } catch (UnavailableDB | DmlQueryError e) {
+                } catch (UnavailableDB e) {
                     e.printStackTrace();
                 }
                 try {

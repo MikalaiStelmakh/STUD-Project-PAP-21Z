@@ -47,7 +47,7 @@ public class UserBookReservedController {
             bookAuthor.setWrapText(true);
             bookAuthor.setText(bookObject.getAuthorsNames());
             bookId.setText(Integer.toString(bookInstance.getId()));
-        } catch (DdlQueryError | UnavailableDB | SQLException e) {
+        } catch (UnavailableDB e) {
             e.printStackTrace();
         }
     }
