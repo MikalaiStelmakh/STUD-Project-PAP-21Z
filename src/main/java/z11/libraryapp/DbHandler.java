@@ -3,10 +3,8 @@ package z11.libraryapp;
 import java.sql.DriverManager;
 import java.sql.Connection;
 import java.sql.Date;
-import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import  java.sql.PreparedStatement;
 import java.sql.Types;
@@ -736,6 +734,12 @@ public class DbHandler {
             e.printStackTrace();
             throw new DmlQueryError(e);
         }
+    }
+
+    public void addNewGenre(int genreId, String name) throws DmlQueryError, UnavailableDB {
+        String addQuery = "INSERT INTO GENRE VALUES('%s', '%s')";
+        addQuery = String.format(addQuery, genreId, name);
+        dmlQuery(addQuery);
     }
 
 
