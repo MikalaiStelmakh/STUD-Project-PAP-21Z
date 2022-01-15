@@ -719,6 +719,25 @@ public class DbHandler {
         return false;
     }
 
+    public void delGenre(int genreId) throws UnavailableDB, DmlQueryError{
+        String delQuery = "DELETE FROM genre WHERE genre_id = ?";
+        PreparedStatement stmt = null;
+        try {
+            stmt = con.prepareStatement(delQuery);
+            stmt.setInt(1, genreId);
+
+        } catch (SQLException e){
+            e.printStackTrace();
+            throw new UnavailableDB(e);
+        }
+        try {
+            stmt.executeUpdate();
+        } catch (SQLException e){
+            e.printStackTrace();
+            throw new DmlQueryError(e);
+        }
+    }
+
 
     protected void finalize () {
         closeConnetion();

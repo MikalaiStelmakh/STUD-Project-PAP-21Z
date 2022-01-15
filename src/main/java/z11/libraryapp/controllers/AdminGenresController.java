@@ -151,6 +151,18 @@ public class AdminGenresController {
                 e.printStackTrace();
             }
         });
+
+        deleteButton.setOnAction(actionEvent -> {
+
+            try {
+                Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/z11/libraryapp/fxml/DelGenrePage.fxml")));
+                Stage stage = (Stage) deleteButton.getScene().getWindow();
+                stage.setScene(scene);
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 }
 
