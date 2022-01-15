@@ -18,6 +18,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import z11.libraryapp.errors.DmlQueryError;
 import z11.libraryapp.model.Genre;
 import z11.libraryapp.DbHandler;
 import z11.libraryapp.errors.DdlQueryError;
@@ -157,6 +158,18 @@ public class AdminGenresController {
             try {
                 Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/z11/libraryapp/fxml/DelGenrePage.fxml")));
                 Stage stage = (Stage) deleteButton.getScene().getWindow();
+                stage.setScene(scene);
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        addButton.setOnAction(actionEvent -> {
+
+            try {
+                Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/z11/libraryapp/fxml/AddGenrePage.fxml")));
+                Stage stage = (Stage) addButton.getScene().getWindow();
                 stage.setScene(scene);
                 stage.show();
             } catch (IOException e) {
