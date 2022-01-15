@@ -68,7 +68,7 @@ public class UserBookController {
             bookId.setText(Integer.toString(bookInstance.getId()));
             bookDateBorrowed.setText(historyNode.getDateBorrowed().toString());
             setDateReturned(historyNode);
-        } catch (DdlQueryError | UnavailableDB | SQLException e) {
+        } catch (UnavailableDB e) {
             e.printStackTrace();
         }
     }

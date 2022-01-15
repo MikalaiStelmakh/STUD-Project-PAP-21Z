@@ -85,10 +85,6 @@ public class SignInController {
                 }
             } catch (IOException e) {
                 e.printStackTrace();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } catch (DdlQueryError e) {
-                e.printStackTrace();
             }
         }
         else {

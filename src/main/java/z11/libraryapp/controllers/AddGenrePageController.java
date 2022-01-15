@@ -47,7 +47,7 @@ public class AddGenrePageController {
                 } else {
                     try {
                         dbManager.addNewGenre(genreId, genreName);
-                    } catch (UnavailableDB | DmlQueryError e) {
+                    } catch (UnavailableDB e) {
                         e.printStackTrace();
                     }
                     try {
