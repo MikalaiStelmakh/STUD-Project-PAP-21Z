@@ -683,6 +683,32 @@ public class DbHandler {
         return countryId;
     }
 
+    public void delSeries(int seriesId) throws UnavailableDB, DmlQueryError{
+        String delQuery = "DELETE FROM series WHERE series_id = ?";
+        PreparedStatement stmt = null;
+        try {
+            stmt = con.prepareStatement(delQuery);
+            stmt.setInt(1, seriesId);
+
+        } catch (SQLException e){
+            e.printStackTrace();
+            throw new UnavailableDB(e);
+        }
+        try {
+            stmt.executeUpdate();
+        } catch (SQLException e){
+            e.printStackTrace();
+            throw new DmlQueryError(e);
+        }
+    }
+
+    public void addNewSeries(int seriesId, String name) throws DmlQueryError, UnavailableDB {
+        String addQuery = "INSERT INTO SERIES VALUES('%s', '%s')";
+        addQuery = String.format(addQuery, seriesId, name);
+        dmlQuery(addQuery);
+    }
+
+
     public int getLanguageId(String county) throws  UnavailableDB {
         int languageId = -1;
         String query = "SELECT language_id from language WHERE name = ?";

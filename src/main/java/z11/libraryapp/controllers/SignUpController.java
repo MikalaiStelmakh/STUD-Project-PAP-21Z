@@ -81,7 +81,7 @@ public class SignUpController {
     void initialize() {
     }
 
-    private boolean checkCreate(String name, String surname, String login, String password, String password_confirm) throws IOException, UnavailableDB {
+    private boolean checkCreate(String name, String surname, String login, String password, String password_confirm) throws IOException, UnavailableDB, SQLException, DdlQueryError {
         if (name == "" || surname == "" || login == ""
             || password == "" || password_confirm == "") {
             messageField.setText("Fill in all the fields");
