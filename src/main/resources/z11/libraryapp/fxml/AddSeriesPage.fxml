@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="167.0" prefWidth="796.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="z11.libraryapp.controllers.AddSeriesPageController">
+    <children>
+        <Label layoutX="29.0" layoutY="28.0" text="Add new Series" />
+        <Label layoutX="29.0" layoutY="84.0" prefHeight="18.0" prefWidth="18.0" text="id:" />
+        <Label layoutX="282.0" layoutY="85.0" text="name:" />
+        <TextField fx:id="seriesIdTextField" layoutX="64.0" layoutY="81.0" />
+        <TextField fx:id="seriesNameTextField" layoutX="338.0" layoutY="81.0" />
+        <Button fx:id="addSeriesButton" layoutX="569.0" layoutY="81.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="82.0" text="Add Series" />
+        <Label fx:id="informationField" layoutX="64.0" layoutY="119.0" prefHeight="18.0" prefWidth="426.0" textFill="#ac2a1e" />
+    </children>
+</AnchorPane>
