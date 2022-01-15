@@ -29,7 +29,7 @@ public class DbHandler {
 
     public void getConnection() throws  UnavailableDB{
         try {
-            if(con == null || con.isClosed()){
+            if(!isConnected()){
                 Class.forName("oracle.jdbc.driver.OracleDriver");
                 this.con = DriverManager.getConnection(
                         "jdbc:oracle:thin:@ora4.ii.pw.edu.pl:1521/pdb1.ii.pw.edu.pl",
@@ -57,35 +57,42 @@ public class DbHandler {
         try{
             return this.con != null && !this.con.isClosed();
         } catch (SQLException ignored) {}
-
         return false;
     }
 
-    public ResultSet ddlQuery(String query) throws  DdlQueryError, UnavailableDB{
+    private ResultSet ddlQuery(String query, Object... params) throws  DdlQueryError, UnavailableDB{
         getConnection();
-        try {
-            ResultSet rs = con.createStatement().executeQuery(query);
+        try{
+            PreparedStatement stmt = con.prepareStatement(query);
+            for(int i = 0; i < params.length; i++)
+                stmt.setObject(i + 1, params[i]);
+
+            ResultSet rs = stmt.executeQuery();
             return rs;
         } catch (SQLException e){
             throw new DdlQueryError(e);
         }
     }
 
-    public void dmlQuery(String query) throws DmlQueryError, UnavailableDB{
+    private void dmlQuery(String query, Object... params) throws DmlQueryError, UnavailableDB{
         getConnection();
         try {
-            con.createStatement().executeUpdate(query);
+            PreparedStatement stmt = con.prepareStatement(query);
+            for(int i = 0; i < params.length; i++)
+                stmt.setObject(i + 1, params[i]);
+            stmt.executeQuery();
         } catch (SQLException e){
             throw new DmlQueryError(e);
         }
     }
 
-    public void dmlTramsaction(String[] queries) throws  SQLException, TransactionError, UnavailableDB{
+    private void dmlTramsaction(String[] queries, Object... params) throws  SQLException, TransactionError, UnavailableDB{
+        if(queries.length != params.length) throw new Error("invalid param number");
         getConnection();
         con.setAutoCommit(false);
         try{
-            for(String query : queries){
-                con.createStatement().executeUpdate(query);
+            for(int i = 0; i < queries.length; i++){
+                dmlQuery(queries[i], params[i]);
             }
             con.commit();
         } catch (Exception e){
@@ -103,8 +110,7 @@ public class DbHandler {
                 + "JOIN series ON (book.series_id = series.series_id) "
                 + "JOIN language ON (book.language_id = language.language_id)"
                 + "ORDER BY book.date_added DESC";
-        try{
-            ResultSet rs = ddlQuery(query);
+        try(ResultSet rs = ddlQuery(query)){
             while(rs.next()){
                 try{
                     int id = rs.getInt(1);
@@ -132,44 +138,45 @@ public class DbHandler {
             e.printStackTrace();
             System.exit(1);
         }
-
         return books;
     }
 
-    public Book getBook(int book_id) throws DdlQueryError, UnavailableDB, SQLException{
+    public Book getBook(int bookId) throws UnavailableDB{
         String query = "SELECT book.book_id, book.title, book.summary, book.publication_year, book.date_added, "
                 + "book.pages, book.cover, country.name country, series.name series, language.name language "
                 + "FROM book "
                 + "JOIN country ON (book.country_id = country.country_id) "
                 + "JOIN series ON (book.series_id = series.series_id) "
                 + "JOIN language ON (book.language_id = language.language_id) "
-                + "where book.book_id = " + book_id;
-        ResultSet rs = ddlQuery(query);
-        rs.next();
-        int id = rs.getInt(1);
-        String title = rs.getString(2);
-        String summary = rs.getString(3);
-        int publicationYear = rs.getInt(4);
-        Date dateAdded = rs.getDate(5);
-        int pages = rs.getInt(6);
-        String coverSrc = rs.getString(7);
-        String country = rs.getString(8);
-        String series = rs.getString(9);
-        String language = rs.getString(10);
+                + "where book.book_id = ?";
+        Book book = null;
+        try(ResultSet rs = ddlQuery(query, bookId)){
+            rs.next();
+            int id = rs.getInt(1);
+            String title = rs.getString(2);
+            String summary = rs.getString(3);
+            int publicationYear = rs.getInt(4);
+            Date dateAdded = rs.getDate(5);
+            int pages = rs.getInt(6);
+            String coverSrc = rs.getString(7);
+            String country = rs.getString(8);
+            String series = rs.getString(9);
+            String language = rs.getString(10);
 
-        ArrayList<Author> authors = getBookAuthors(id);
-        ArrayList<Genre> genres = getBookGenres(id);
-        Book book = new Book(id, title, summary, publicationYear, dateAdded, pages, coverSrc,
-                country, series, language, authors, genres);
-
+            ArrayList<Author> authors = getBookAuthors(id);
+            ArrayList<Genre> genres = getBookGenres(id);
+            book = new Book(id, title, summary, publicationYear, dateAdded, pages, coverSrc,
+                    country, series, language, authors, genres);
+        } catch (SQLException | DdlQueryError e){
+            e.printStackTrace();
+        }
         return book;
     }
 
     public ArrayList<Genre> getGenres() throws UnavailableDB {
         ArrayList<Genre> genres = new ArrayList<Genre>();
         String query = "select * from genre order by name asc";
-        try{
-            ResultSet rs = ddlQuery(query);
+        try(ResultSet rs = ddlQuery(query)){
             while(rs.next()){
                 try{
                     int id = rs.getInt(1);
@@ -182,21 +189,17 @@ public class DbHandler {
             }
         } catch(DdlQueryError | SQLException e){
             e.printStackTrace();
-            System.exit(1);
         }
-
         return genres;
     }
 
     public String getGenre(int genreId) throws UnavailableDB{
-        String query = "SELECT genre.name FROM genre WHERE genre.id = " + genreId;
+        String query = "SELECT genre.name FROM genre WHERE genre.id = ?";
         String genre = null;
-        try{
-            ResultSet rs = ddlQuery(query);
+        try(ResultSet rs = ddlQuery(query, genreId)){
             genre = rs.getString(1);
         } catch(DdlQueryError | SQLException e){
             e.printStackTrace();
-            System.exit(1);
         }
         return genre;
     }
@@ -206,10 +209,9 @@ public class DbHandler {
                 + "FROM genre "
                 + "JOIN book_genre ON (genre.genre_id = book_genre.genre_id) "
                 + "JOIN book ON (book.book_id = book_genre.book_id) "
-                + "WHERE book.book_id = " + bookId;
+                + "WHERE book.book_id = ?";
         ArrayList<Genre> genres = new ArrayList<Genre>();
-        try{
-            ResultSet rs = ddlQuery(query);
+        try(ResultSet rs = ddlQuery(query, bookId)){
             while (rs.next()){
                 int id = rs.getInt(1);
                 String name = rs.getString(2);
@@ -217,20 +219,18 @@ public class DbHandler {
             }
         } catch(DdlQueryError | SQLException e){
             e.printStackTrace();
-            System.exit(1);
         }
         return genres;
     }
 
-    public ArrayList<Book> getBooksByGenre(int genre_id) throws UnavailableDB{
+    public ArrayList<Book> getBooksByGenre(int genreId) throws UnavailableDB{
         ArrayList<Book> books = new ArrayList<Book>();
         String query = "select book_id, title, summary, publication_year, "
                 + "date_added, pages, cover, c.name, s.name, l.name "
                 + "from book join country c using(country_id) "
                 + "join series s using(series_id) join language l using(language_id) "
-                + "join book_genre using (book_id) join genre using(genre_id) where genre_id = " + genre_id;
-        try{
-            ResultSet rs = ddlQuery(query);
+                + "join book_genre using (book_id) join genre using(genre_id) where genre_id = ?";
+        try(ResultSet rs = ddlQuery(query, genreId)){
             while(rs.next()){
                 try{
                     int id = rs.getInt(1);
@@ -256,21 +256,18 @@ public class DbHandler {
             }
         } catch(DdlQueryError | SQLException e){
             e.printStackTrace();
-            System.exit(1);
         }
         return books;
     }
 
-    public ArrayList<BookInstance> getBookInstances(int book_id) throws UnavailableDB{
+    public ArrayList<BookInstance> getBookInstances(int bookId) throws UnavailableDB{
         ArrayList<BookInstance> bookInstances = new ArrayList<BookInstance>();
         String query = "select book_instance_id, book_id, user_id, s.name "
                 + "from book_instance bk join status s using(status_id) "
-                + "where book_id = " + book_id;
-        try{
-            ResultSet rs = ddlQuery(query);
+                + "where book_id = ?";
+        try(ResultSet rs = ddlQuery(query, bookId)){
             while (rs.next()){
                 int id = rs.getInt(1);
-                int bookId = rs.getInt(2);
                 int userId = rs.getInt(3);
                 String status = rs.getString(4);
                 bookInstances.add(new BookInstance(id, bookId, userId, status));
@@ -282,15 +279,19 @@ public class DbHandler {
         return bookInstances;
     }
 
-    public BookInstance getBookInstance(int book_instance_id) throws UnavailableDB, SQLException, DdlQueryError{
-        String query = "select * from book_instance where book_instance_id = " + book_instance_id;
-        ResultSet rs = ddlQuery(query);
-        rs.next();
-        int id = rs.getInt(1);
-        int bookId = rs.getInt(2);
-        int userId = rs.getInt(3);
-        String status = rs.getString(4);
-        BookInstance bookInstance = new BookInstance(id, bookId, userId, status);
+    public BookInstance getBookInstance(int book_instance_id) throws UnavailableDB{
+        String query = "select * from book_instance where book_instance_id = ?";
+        BookInstance bookInstance = null;
+        try(ResultSet rs = ddlQuery(query, book_instance_id)){
+            rs.next();
+            int id = rs.getInt(1);
+            int bookId = rs.getInt(2);
+            int userId = rs.getInt(3);
+            String status = rs.getString(4);
+            bookInstance = new BookInstance(id, bookId, userId, status);
+        } catch (SQLException | DdlQueryError e){
+            e.printStackTrace();
+        }
         return bookInstance;
     }
 
@@ -302,10 +303,8 @@ public class DbHandler {
                 + "join country c on (b2.country_id = c.country_id) "
                 + "join series s on (b2.series_id = s.series_id) "
                 + "join language l on (b2.language_id = l.language_id) "
-                + "where (b1.book_id = %d)";
-        query = String.format(query, bookId);
-        try{
-            ResultSet rs = ddlQuery(query);
+                + "where (b1.book_id = ?)";
+        try(ResultSet rs = ddlQuery(query, bookId)){
             while(rs.next()){
                 try{
                     int id = rs.getInt(1);
@@ -331,7 +330,6 @@ public class DbHandler {
             }
         } catch(DdlQueryError | SQLException e){
             e.printStackTrace();
-            System.exit(1);
         }
         return books;
     }
@@ -339,8 +337,8 @@ public class DbHandler {
     public ArrayList<Author> getAuthors() throws UnavailableDB{
         ArrayList<Author> authors = new ArrayList<Author>();
         String query = "select author_id, first_name, last_name, birth_year, "
-                     + "nvl(death_year, 0), biography, photo "
-                     + "from author order by last_name asc";
+                + "nvl(death_year, 0), biography, photo "
+                + "from author order by last_name asc";
         try (ResultSet rs = ddlQuery(query)) {
             while(rs.next()){
                 try{
@@ -364,10 +362,9 @@ public class DbHandler {
     }
 
     public Author getAuthor(int authorId) throws UnavailableDB{
-        String query = "select * from author where author_id = " + authorId;
+        String query = "select * from author where author_id = ?";
         Author author = null;
-        try{
-            ResultSet rs = ddlQuery(query);
+        try(ResultSet rs = ddlQuery(query, authorId)){
             if(rs.next()){
                 int id = rs.getInt(1);
                 String firstName = rs.getString(2);
@@ -382,7 +379,6 @@ public class DbHandler {
             }
         } catch(DdlQueryError | SQLException e){
             e.printStackTrace();
-            System.exit(1);
         }
         return author;
     }
@@ -392,10 +388,9 @@ public class DbHandler {
                 + "FROM  author "
                 + "JOIN book_author ON (author.author_id = book_author.author_id) "
                 + "JOIN book ON (book.book_id = book_author.book_id) "
-                + "WHERE book.book_id = " + bookId;
+                + "WHERE book.book_id = ?";
         ArrayList<Author> authors = new ArrayList<Author>();
-        try{
-            ResultSet rs = ddlQuery(query);
+        try(ResultSet rs = ddlQuery(query, bookId)){
             while(rs.next()){
                 int id = rs.getInt(1);
                 String firstName = rs.getString(2);
@@ -408,21 +403,19 @@ public class DbHandler {
             }
         } catch(DdlQueryError | SQLException e){
             e.printStackTrace();
-            System.exit(1);
         }
         return authors;
     }
 
-    public ArrayList<Book> getAuthorBooks(int author_id) throws UnavailableDB{
+    public ArrayList<Book> getAuthorBooks(int authorId) throws UnavailableDB{
         String query = "select book_id, title, summary, publication_year, "
                 + "date_added, pages, cover, c.name, s.name, l.name "
                 + "from book join country c using(country_id) "
                 + "join series s using(series_id) join language l using(language_id) "
                 + "join book_author using (book_id) "
-                + "join author using (author_id) where author_id = " + author_id;
+                + "join author using (author_id) where author_id = ?";
         ArrayList<Book> books = new ArrayList<Book>();
-        try{
-            ResultSet rs = ddlQuery(query);
+        try(ResultSet rs = ddlQuery(query, authorId)){
             while(rs.next()){
                 int id = rs.getInt(1);
                 String title = rs.getString(2);
@@ -444,20 +437,18 @@ public class DbHandler {
         }
         catch (DdlQueryError | SQLException e){
             e.printStackTrace();
-            System.exit(1);
         }
         return books;
     }
 
-    public ArrayList<Genre> getAuthorGenres(int author_id) throws UnavailableDB{
+    public ArrayList<Genre> getAuthorGenres(int authorId) throws UnavailableDB{
         ArrayList<Genre> genres = new ArrayList<Genre>();
         String query = "select distinct genre_id, g.name "
                 + "from genre g join book_genre using (genre_id) "
                 + "join book_author using (book_id) "
                 + "join author using(author_id) "
-                + "where author_id = " + author_id;
-        try{
-            ResultSet rs = ddlQuery(query);
+                + "where author_id = ?";
+        try(ResultSet rs = ddlQuery(query, authorId)){
             while(rs.next()){
                 int id = rs.getInt(1);
                 String name = rs.getString(2);
@@ -466,7 +457,6 @@ public class DbHandler {
         }
         catch (DdlQueryError | SQLException e){
             e.printStackTrace();
-            System.exit(1);
         }
         return genres;
     }
@@ -474,11 +464,8 @@ public class DbHandler {
     public boolean validateUser(String login, String password) throws UnavailableDB{
         login = login.toLowerCase();
 
-        String query = "select password from users where (login='%s')";
-        query = String.format(query, login);
-        ResultSet rs;
-        try {
-            rs = ddlQuery(query);
+        String query = "select password from users where login = ?";
+        try(ResultSet rs = ddlQuery(query, login)){
             rs.next();
             String hashedPassword = rs.getString(1);
             return encoder.matches(password, hashedPassword);
@@ -491,12 +478,11 @@ public class DbHandler {
         return false;
     }
 
-    public ArrayList<User> getUsers() {
+    public ArrayList<User> getUsers() throws UnavailableDB {
         ArrayList<User> users = new ArrayList<User>();
         String query = "select user_id, u.name, surname, login, password, "
-                     + "p.name from users u join permissions p using(permission_id)";
-        try {
-            ResultSet rs = ddlQuery(query);
+                + "p.name from users u join permissions p using(permission_id)";
+        try(ResultSet rs = ddlQuery(query)){
             while(rs.next()){
                 int id = rs.getInt(1);
                 String name = rs.getString(2);
@@ -506,47 +492,55 @@ public class DbHandler {
                 String permission = rs.getString(6);
                 users.add(new User(id, name, surname, login, password, permission));
             }
-        } catch (SQLException | DdlQueryError | UnavailableDB e) {
+        } catch (SQLException | DdlQueryError e) {
             e.printStackTrace();
         }
         return users;
     }
 
-    public User getUserByLogin(String login) throws SQLException, DdlQueryError, UnavailableDB{
-        User user;
+    public User getUserByLogin(String login) throws UnavailableDB{
+        User user = null;
         login = login.toLowerCase();
         String query = "select user_id, u.name, surname, login, password, p.name "
-                + "from users u join permissions p using(permission_id) where u.login='%s'";
-        query = String.format(query, login);
-        ResultSet rs = ddlQuery(query);
-        rs.next();
-        user = new User(rs.getInt(1), rs.getString(2), rs.getString(3), login, rs.getString(5), rs.getString(6));
+                + "from users u join permissions p using(permission_id) where u.login = ?";
+        try(ResultSet rs = ddlQuery(query, login)){
+            rs.next();
+            user = new User(rs.getInt(1), rs.getString(2), rs.getString(3), login, rs.getString(5), rs.getString(6));
+        } catch (SQLException | DdlQueryError e){
+            e.printStackTrace();
+        }
         return user;
     }
 
-    public User createUser(String name, String surname, String login, String password) throws DmlQueryError, UnavailableDB, SQLException, DdlQueryError{
+    public User createUser(String name, String surname, String login, String password) throws UnavailableDB{
         login = login.toLowerCase();
         String hashedPassword = encoder.encode(password);
-        String query = "insert into users values(null, '%s', '%s', '%s', '%s', 2)";
-        query = String.format(query, name, surname, login, hashedPassword);
-        dmlQuery(query);
+        String query = "insert into users values(null, ?, ?, ?, ?, 2)";
+        try{
+            dmlQuery(query, name, surname, login, hashedPassword);
+        } catch (DmlQueryError e){
+            e.printStackTrace();
+        }
         return getUserByLogin(login);
     }
 
-    public boolean isUniqueLogin(String login) throws SQLException, DdlQueryError, UnavailableDB{
+    public boolean isUniqueLogin(String login) throws UnavailableDB{
         login = login.toLowerCase();
-        String query = "select count(*) from users where login = '" + login + "'";
-        ResultSet rs = ddlQuery(query);
-        rs.next();
-        return rs.getInt(1) == 0;
+        String query = "SELECT count(*) FROM users WHERE login = ?";
+        try(ResultSet rs = ddlQuery(query, login)){
+            rs.next();
+            return rs.getInt(1) == 0;
+        } catch (SQLException | DdlQueryError e){
+            e.printStackTrace();
+        }
+        return false;
     }
 
-    public ArrayList<HistoryNode> getHistoryNodes(){
+    public ArrayList<HistoryNode> getHistoryNodes() throws UnavailableDB{
         ArrayList<HistoryNode> historyNodes = new ArrayList<HistoryNode>();
-        String query = "select bih_id, book_instance_id, user_id, borrow_date, "
-                + "nvl(return_date, TO_DATE('2000-01-01', 'yyyy-mm-dd')) from book_instance_history";
-        try{
-            ResultSet rs = ddlQuery(query);
+        String query = "SELECT bih_id, book_instance_id, user_id, borrow_date, "
+                + "nvl(return_date, TO_DATE('2000-01-01', 'yyyy-mm-dd')) FROM book_instance_history";
+        try(ResultSet rs = ddlQuery(query)){
             while(rs.next()){
                 try{
                     int id = rs.getInt(1);
@@ -565,51 +559,35 @@ public class DbHandler {
                     continue;
                 }
             }
-        } catch(DdlQueryError | SQLException | UnavailableDB e){
+        } catch(DdlQueryError | SQLException e){
             e.printStackTrace();
-            System.exit(1);
         }
         return historyNodes;
     }
 
-    public ArrayList<Series> getSeries(){
+    public ArrayList<Series> getSeries() throws UnavailableDB{
         ArrayList<Series> series = new ArrayList<Series>();
         String query = "select * from series";
-        try {
-            ResultSet rs;
-            rs = ddlQuery(query);
+        try(ResultSet rs = ddlQuery(query)) {
             while (rs.next()){
                 int id = rs.getInt(1);
                 String name = rs.getString(2);
                 series.add(new Series(id, name));
             }
-        } catch (DdlQueryError | UnavailableDB e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
+        } catch (DdlQueryError | SQLException e) {
             e.printStackTrace();
         }
         return series;
     }
 
-    public void lendBook(int userId, int bookInstanceId) throws UnavailableDB, DmlQueryError{
+    public void lendBook(int userId, int bookInstanceId) throws UnavailableDB{
         String query = "UPDATE book_instance "
                 + "SET user_id = ?, status_id = 2 "
                 + "WHERE book_instance_id = ? ";
-        PreparedStatement stmt = null;
         try {
-            stmt = con.prepareStatement(query);
-            stmt.setInt(1, userId);
-            stmt.setInt(2, bookInstanceId);
-
-        } catch (SQLException e){
+            dmlQuery(query, userId, bookInstanceId);
+        } catch (DmlQueryError e){
             e.printStackTrace();
-            throw new UnavailableDB(e);
-        }
-        try {
-            stmt.executeUpdate();
-        } catch (SQLException e){
-            e.printStackTrace();
-            throw new DmlQueryError(e);
         }
     }
 
@@ -617,66 +595,34 @@ public class DbHandler {
         String query = "UPDATE book_instance "
                 + "SET user_id = ?, status_id = 0 "
                 + "WHERE book_instance_id = ? ";
-        PreparedStatement stmt = null;
         try {
-            stmt = con.prepareStatement(query);
-            stmt.setNull(1, Types.NUMERIC);
-            stmt.setInt(2, bookInstanceId);
-
-        } catch (SQLException e){
+            dmlQuery(query, bookInstanceId);
+        } catch (DmlQueryError e){
             e.printStackTrace();
-            throw new UnavailableDB(e);
-        }
-        try {
-            stmt.executeUpdate();
-        } catch (SQLException e){
-            e.printStackTrace();
-            throw new DmlQueryError(e);
         }
     }
 
-    public void reserveBook(int bookInstanceId, int userId) throws UnavailableDB, DmlQueryError{
+    public void reserveBook(int bookInstanceId, int userId) throws UnavailableDB{
         String query = "UPDATE book_instance "
                 + "SET user_id = ?, status_id = 1 "
                 + "WHERE book_instance_id = ? ";
-        PreparedStatement stmt = null;
         try {
-            stmt = con.prepareStatement(query);
-            stmt.setInt(1, userId);
-            stmt.setInt(2, bookInstanceId);
-
-        } catch (SQLException e){
+            dmlQuery(query, userId, bookInstanceId);
+        } catch (DmlQueryError e){
             e.printStackTrace();
-            throw new UnavailableDB(e);
-        }
-        try {
-            stmt.executeUpdate();
-        } catch (SQLException e){
-            e.printStackTrace();
-            throw new DmlQueryError(e);
         }
     }
 
     public String getBookInstanceStatus(int bookInstanceId) throws UnavailableDB {
         String status = null;
         String query = "SELECT status.name FROM book_instance "
-                     + "JOIN status using(status_id) "
-                     + "WHERE book_instance.book_instance_id = ?";
-        PreparedStatement stmt = null;
-        try {
-            stmt = con.prepareStatement(query);
-            stmt.setInt(1, bookInstanceId);
-
-        } catch (SQLException e){
-            e.printStackTrace();
-            throw new UnavailableDB(e);
-        }
-        try {
-            ResultSet rs = stmt.executeQuery();
+                + "JOIN status using(status_id) "
+                + "WHERE book_instance.book_instance_id = ?";
+        try(ResultSet rs = ddlQuery(query, bookInstanceId)){
             rs.next();
             status = rs.getString(1);
             return  rs.getString(1);
-        } catch (SQLException e){
+        } catch (SQLException | DdlQueryError e){
             e.printStackTrace();
         }
         return status;
@@ -694,79 +640,121 @@ public class DbHandler {
         String query = "SELECT status.name FROM book_instance "
                 + "JOIN status using(status_id) "
                 + "WHERE book_instance.book_instance_id = ? AND user_id = ?";
-        PreparedStatement stmt = null;
-        try {
-            stmt = con.prepareStatement(query);
-            stmt.setInt(1, bookInstanceId);
-            stmt.setInt(2, userId);
-
-        } catch (SQLException e){
-            e.printStackTrace();
-            throw new UnavailableDB(e);
-        }
-        try {
-            ResultSet rs = stmt.executeQuery();
+        try(ResultSet rs = ddlQuery(query, bookInstanceId, userId)) {
             if (!rs.next()) return false;
             if(rs.getString(1).equals(status)){
                 return true;
             }
             return false;
-        } catch (SQLException e){
+        } catch (SQLException | DdlQueryError e){
             e.printStackTrace();
         }
         return false;
     }
 
-    public void delGenre(int genreId) throws UnavailableDB, DmlQueryError{
-        String delQuery = "DELETE FROM genre WHERE genre_id = ?";
+    public void delGenre(int genreId) throws UnavailableDB{
+        String query = "DELETE FROM genre WHERE genre_id = ?";
         PreparedStatement stmt = null;
-        try {
-            stmt = con.prepareStatement(delQuery);
-            stmt.setInt(1, genreId);
-
-        } catch (SQLException e){
+        try{
+            dmlQuery(query, genreId);
+        } catch (DmlQueryError e){
             e.printStackTrace();
-            throw new UnavailableDB(e);
-        }
-        try {
-            stmt.executeUpdate();
-        } catch (SQLException e){
-            e.printStackTrace();
-            throw new DmlQueryError(e);
         }
     }
 
-    public void addNewGenre(int genreId, String name) throws DmlQueryError, UnavailableDB {
-        String addQuery = "INSERT INTO GENRE VALUES('%s', '%s')";
-        addQuery = String.format(addQuery, genreId, name);
-        dmlQuery(addQuery);
-    }
-
-    public void delSeries(int seriesId) throws UnavailableDB, DmlQueryError{
-        String delQuery = "DELETE FROM series WHERE series_id = ?";
-        PreparedStatement stmt = null;
+    public void addNewGenre(int genreId, String name) throws UnavailableDB {
+        String query = "INSERT INTO genre VALUES(?, ?)";
         try {
-            stmt = con.prepareStatement(delQuery);
-            stmt.setInt(1, seriesId);
-
-        } catch (SQLException e){
+            dmlQuery(query, genreId, name);
+        } catch (DmlQueryError e){
             e.printStackTrace();
-            throw new UnavailableDB(e);
-        }
-        try {
-            stmt.executeUpdate();
-        } catch (SQLException e){
-            e.printStackTrace();
-            throw new DmlQueryError(e);
         }
     }
 
-    public void addNewSeries(int seriesId, String name) throws DmlQueryError, UnavailableDB {
-        String addQuery = "INSERT INTO SERIES VALUES('%s', '%s')";
-        addQuery = String.format(addQuery, seriesId, name);
-        dmlQuery(addQuery);
+    public int getCountryId(String county) throws  UnavailableDB {
+        int countryId = -1;
+        String query = "SELECT country_id from country WHERE name = ?";
+        try(ResultSet rs = ddlQuery(query, county)){
+            rs.next();
+            return rs.getInt(1);
+        } catch (SQLException | DdlQueryError e){
+            e.printStackTrace();
+        }
+        return countryId;
     }
 
+    public int getLanguageId(String county) throws  UnavailableDB {
+        int languageId = -1;
+        String query = "SELECT language_id from language WHERE name = ?";
+        try(ResultSet rs = ddlQuery(query, county)){
+            rs.next();
+            return rs.getInt(1);
+        } catch (SQLException | DdlQueryError e){
+            e.printStackTrace();
+        }
+        return languageId;
+    }
+
+    public int getSeriesId(String county) throws  UnavailableDB {
+        int seriesId = -1;
+        String query = "SELECT series_id from series WHERE name = ?";
+        try(ResultSet rs = ddlQuery(query, county)){
+            rs.next();
+            return rs.getInt(1);
+        } catch (SQLException | DdlQueryError e){
+            e.printStackTrace();
+        }
+        return seriesId;
+    }
+
+    public void addBook(Book book) throws UnavailableDB, TransactionError{
+        getConnection();
+        String insertBook = "INSERT INTO BOOK(TITLE,SUMMARY,PUBLICATION_YEAR,PAGES,COVER,COUNTRY_ID,SERIES_ID,LANGUAGE_ID)"
+                + "VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+        String getBookId = "SELECT max(book_id) FROM book";
+        String insertBookAuthors = "INSERT INTO BOOK_AUTHOR VALUES(?, ?)";
+        String insertBookGenres = "INSERT INTO BOOK_GENRE VALUES(?, ?)";
+        try{
+            con.setAutoCommit(false);
+
+            int countryId = getCountryId(book.getCountry());
+            int languageId = getLanguageId(book.getLanguage());
+            if(book.getSeries().equals("null")){
+                dmlQuery(insertBook, book.getTitle(), book.getSummary(), book.getPublicationYear(), book.getPages(),
+                        book.getCoverSrc(), countryId, null, languageId);
+            } else {
+                int seriesId = getSeriesId(book.getSeries());
+                dmlQuery(insertBook, book.getTitle(), book.getSummary(), book.getPublicationYear(), book.getPages(),
+                        book.getCoverSrc(), countryId, seriesId, languageId);
+            }
+            ResultSet rs = ddlQuery(getBookId);
+            rs.next();
+            int bookId = rs.getInt(1);
+
+            for(Author author : book.getAuthors()){
+                dmlQuery(insertBookAuthors, bookId, author.getId());
+            }
+
+            for(Genre genre: book.getGenres()){
+                dmlQuery(insertBookGenres, bookId, genre.getId());
+            }
+            con.commit();
+        } catch (SQLException | DdlQueryError | DmlQueryError e){
+            try {
+                con.rollback();
+            } catch (SQLException err){
+                err.printStackTrace();
+            }
+            throw new TransactionError(e);
+        }
+        finally {
+            try {
+                con.setAutoCommit(true);
+            } catch (SQLException e){
+                e.printStackTrace();
+            }
+        }
+    }
 
     protected void finalize () {
         closeConnetion();
