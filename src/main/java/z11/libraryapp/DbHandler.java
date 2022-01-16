@@ -813,7 +813,7 @@ public class DbHandler {
     }
 
     public void delAuthor(int authorId) throws UnavailableDB{
-        String query = "DELETE FROM author WHERE language_id = ?";
+        String query = "DELETE FROM author WHERE author_id = ?";
         try {
             dmlQuery(query, authorId);
         } catch (DmlQueryError e){
@@ -896,4 +896,5 @@ public class DbHandler {
     protected void finalize () {
         closeConnetion();
     }
+
 }

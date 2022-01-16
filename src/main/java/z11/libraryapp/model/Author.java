@@ -26,6 +26,16 @@ public class Author {
         this.photoSrc = photoSrc;
     }
 
+    public Author(String firstName, String lastName, int birthYear, int deathYear, String biography, String photoSrc){
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthYear = birthYear;
+        this.deathYear = deathYear;
+        this.biography = biography;
+        this.photoSrc = photoSrc;
+    }
+
+
     public int getId(){
         return this.id;
     }
