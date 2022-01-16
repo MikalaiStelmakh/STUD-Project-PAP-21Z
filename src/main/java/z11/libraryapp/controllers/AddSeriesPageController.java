@@ -46,8 +46,8 @@ public class AddSeriesPageController {
                     informationField.setText("Fill in all the fields");
                 } else {
                     try {
-                        dbManager.addNewSeries(seriesId, seriesName);
-                    } catch (UnavailableDB | DmlQueryError e) {
+                        dbManager.addSeries(seriesName);
+                    } catch (UnavailableDB e) {
                         e.printStackTrace();
                     }
                     try {

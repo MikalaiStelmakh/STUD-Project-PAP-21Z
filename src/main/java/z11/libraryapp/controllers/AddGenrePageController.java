@@ -11,7 +11,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import z11.libraryapp.DbHandler;
-import z11.libraryapp.errors.DmlQueryError;
 import z11.libraryapp.errors.UnavailableDB;
 
 public class AddGenrePageController {
@@ -46,7 +45,7 @@ public class AddGenrePageController {
                     informationField.setText("Fill in all the fields");
                 } else {
                     try {
-                        dbManager.addNewGenre(genreId, genreName);
+                        dbManager.addGenre(genreName);
                     } catch (UnavailableDB e) {
                         e.printStackTrace();
                     }
