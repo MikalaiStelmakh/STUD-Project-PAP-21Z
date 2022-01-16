@@ -39,7 +39,6 @@ public class AddGenrePageController {
 
         addGenreButton.setOnAction(actionEvent -> {
             try {
-                Integer genreId = Integer.parseInt(genreIdTextField.getText());
                 String genreName = genreNameTextField.getText();
                 if (genreName == "") {
                     informationField.setText("Fill in all the fields");
@@ -59,7 +58,6 @@ public class AddGenrePageController {
                     }
                 }
             }catch (NumberFormatException e) {
-                informationField.setText("Write the number of id you want to add");
                 System.err.println("Wrong string format!");
             }
         });
