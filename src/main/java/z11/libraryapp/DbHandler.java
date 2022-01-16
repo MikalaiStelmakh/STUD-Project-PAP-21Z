@@ -7,7 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import  java.sql.PreparedStatement;
-import java.sql.Types;
 
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 
@@ -683,6 +682,19 @@ public class DbHandler {
         return countryId;
     }
 
+    public String getCountryName(int id) throws  UnavailableDB {
+        String name = null;
+        String query = "SELECT name from country WHERE country_id = ?";
+        try(ResultSet rs = ddlQuery(query, id)){
+            rs.next();
+            name = rs.getString(1);
+            return rs.getString(1);
+        } catch (SQLException | DdlQueryError e){
+            e.printStackTrace();
+        }
+        return name;
+    }
+
     public void delSeries(int seriesId) throws UnavailableDB{
         String query = "DELETE FROM series WHERE series_id = ?";
         try {
@@ -714,6 +726,19 @@ public class DbHandler {
         return languageId;
     }
 
+    public String getLanguage(int id) throws  UnavailableDB {
+        String name = null;
+        String query = "SELECT name from country WHERE language_id = ?";
+        try(ResultSet rs = ddlQuery(query, id)){
+            rs.next();
+            name = rs.getString(1);
+            return rs.getString(1);
+        } catch (SQLException | DdlQueryError e){
+            e.printStackTrace();
+        }
+        return name;
+    }
+
     public int getSeriesId(String county) throws  UnavailableDB {
         int seriesId = -1;
         String query = "SELECT series_id from series WHERE name = ?";
@@ -724,6 +749,19 @@ public class DbHandler {
             e.printStackTrace();
         }
         return seriesId;
+    }
+
+    public String getSeriesName(int id) throws  UnavailableDB {
+        String name = null;
+        String query = "SELECT name from country WHERE series_id = ?";
+        try(ResultSet rs = ddlQuery(query, id)){
+            rs.next();
+            name = rs.getString(1);
+            return rs.getString(1);
+        } catch (SQLException | DdlQueryError e){
+            e.printStackTrace();
+        }
+        return name;
     }
 
     public void addBook(Book book) throws UnavailableDB, TransactionError{
