@@ -111,7 +111,7 @@ Po jej zwrocie:
 ## Podział pracy
 Mikalai Stelmakh - tworzenie aplikacji użytkownika, stron logowania oraz rejestracji, dokumentacja
 Denys Savytskyi -
-Roman Ishchuk -
+Roman Ishchuk - Implementacja wstępna, interfejs panelu administracyjnego oraz logowania
 
 ## Kierunek dalszego rozwoju projektu
 Oczywyście nie zdążyliśmy spełnić wszystkie ustawione przez nas na etapie planowania wymagania. Na zaimplementowanie niektórych z nich nie wystarczyło nam czasu, a niektóre okazały się mniej priorytetowe niż pozostałe. Poniżej przedstawiamy listę elementów wartych zaimplementowania i dodania do projektu:
