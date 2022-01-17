@@ -497,6 +497,15 @@ public class DbHandler {
         return users;
     }
 
+    public void delUser(int userId) throws UnavailableDB {
+        String query = "DELETE FROM users WHERE user_id = ?";
+        try {
+            dmlQuery(query, userId);
+        } catch (DmlQueryError e){
+            e.printStackTrace();
+        }
+    }
+
     public User getUserByLogin(String login) throws UnavailableDB{
         User user = null;
         login = login.toLowerCase();
