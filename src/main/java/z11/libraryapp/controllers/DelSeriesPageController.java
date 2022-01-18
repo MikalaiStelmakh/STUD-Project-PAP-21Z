@@ -43,7 +43,7 @@ public class DelSeriesPageController {
 
                 try {
                     dbManager.delSeries(seriesId);
-                } catch (UnavailableDB | DmlQueryError e) {
+                } catch (UnavailableDB e) {
                     e.printStackTrace();
                 }
                 try {
