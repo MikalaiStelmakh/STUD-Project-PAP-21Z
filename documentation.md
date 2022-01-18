@@ -34,15 +34,20 @@ Przeglądanie informacji oraz możliwość dodawania/usuwania:
 Każdy użytkownik może stworzyć własne konto, które będzie używane do logowania do biblioteki oraz wypożyczania książek.
 
 ![SignUp interface](/src/main/resources/z11/libraryapp/img/docs/SignUp.png)
+
 Po zarejestrowaniu informacja o uzytkowniku wysyłana jest do bazy danych, gdzie jest przechowywana do momentu ew. usunięcia użytkownika.
 
 Po zarejestrowaniu użytkownik może zalogować się na swoje konto.
 ![SignIn interface](/src/main/resources/z11/libraryapp/img/docs/SignIn.png)
 
+
+
 Po zalogowaniu się użytkownik jest przekierowywany do aplikacji użytkownika, a szczególnie do strony z książkami
 
 ![MainWindow](/src/main/resources/z11/libraryapp/img/docs/MainWindow.png)
 Na tej stronie dostępne są wszystkie książki przechowywane w bibliotece, 6 ostatnio dodanych książek są dodatkowo wyświetlane jako `Recently Added`
+
+
 
 Następnie użytkownik może albo przejść na stronę konkretnej książki albo do innych stron aplikacji, pokazanych niżej:
 
@@ -51,13 +56,19 @@ Następnie użytkownik może albo przejść na stronę konkretnej książki albo
 ![Authors](/src/main/resources/z11/libraryapp/img/docs/Authors.png)
 oraz strony konkretnego autora,
 
+
+
 ![Author](/src/main/resources/z11/libraryapp/img/docs/Author.png)
 `Genres`
 
 ![Genres](/src/main/resources/z11/libraryapp/img/docs/Genres.png)
 oraz strony konkretnej kategorii.
 
+
+
 ![Genre](/src/main/resources/z11/libraryapp/img/docs/Genre.png)
+
+
 
 Jeśli użytkownik chce zobaczyć informację na temat konkretnej książki, dostaje następującą stronę:
 
@@ -80,9 +91,13 @@ Po rezerwacji książki:
 
 ![ReservedBook](/src/main/resources/z11/libraryapp/img/docs/ReservedBook.png)
 
+
+
 Po jej wynajęciu:
 
 ![BorrowedBook](/src/main/resources/z11/libraryapp/img/docs/BorrowedBook.png)
+
+
 
 Po jej zwrocie:
 
