@@ -33,8 +33,7 @@ Przeglądanie informacji oraz możliwość dodawania/usuwania:
 ## Opis rozwiązania
 Każdy użytkownik może stworzyć własne konto, które będzie używane do logowania do biblioteki oraz wypożyczania książek.
 
-*[Screen strony rejestracji]*
-<!-- ![SignUp interface](/src/main/resources/z11/libraryapp/img/docs/SignUp.png) -->
+![SignUp interface](/src/main/resources/z11/libraryapp/img/docs/SignUp.png)
 Po zarejestrowaniu informacja o uzytkowniku wysyłana jest do bazy danych, gdzie jest przechowywana do momentu ew. usunięcia użytkownika.
 
 Po zarejestrowaniu użytkownik może zalogować się na swoje konto.
@@ -42,33 +41,27 @@ Po zarejestrowaniu użytkownik może zalogować się na swoje konto.
 
 Po zalogowaniu się użytkownik jest przekierowywany do aplikacji użytkownika, a szczególnie do strony z książkami
 
-*[Screen strony 'books']*
-<!-- ![Books ](/src/main/resources/z11/libraryapp/img/docs/Books.png) -->
+![MainWindow](/src/main/resources/z11/libraryapp/img/docs/MainWindow.png)
 Na tej stronie dostępne są wszystkie książki przechowywane w bibliotece, 6 ostatnio dodanych książek są dodatkowo wyświetlane jako `Recently Added`
 
 Następnie użytkownik może albo przejść na stronę konkretnej książki albo do innych stron aplikacji, pokazanych niżej:
 
 `Authors`
 
-*[Screen strony 'authors']*
-<!-- ![Authors](/src/main/resources/z11/libraryapp/img/docs/Authors.png) -->
+![Authors](/src/main/resources/z11/libraryapp/img/docs/Authors.png)
 oraz strony konkretnego autora,
 
-*[Screen strony 'authorView']*
-<!-- ![Author](/src/main/resources/z11/libraryapp/img/docs/Author.png) -->
+![Author](/src/main/resources/z11/libraryapp/img/docs/Author.png)
 `Genres`
 
-*[Screen strony 'Genres']*
-<!-- ![Genres](/src/main/resources/z11/libraryapp/img/docs/Genres.png) -->
+![Genres](/src/main/resources/z11/libraryapp/img/docs/Genres.png)
 oraz strony konkretnej kategorii.
 
-*[Screen strony 'GenreView']*
-<!-- ![Genre](/src/main/resources/z11/libraryapp/img/docs/Genre.png) -->
+![Genre](/src/main/resources/z11/libraryapp/img/docs/Genre.png)
 
 Jeśli użytkownik chce zobaczyć informację na temat konkretnej książki, dostaje następującą stronę:
 
-*[Screen strony 'bookView']*
-<!-- ![Book](/src/main/resources/z11/libraryapp/img/docs/Book.png) -->
+![Book](/src/main/resources/z11/libraryapp/img/docs/Book.png)
 Oprócz informacji o tej książce użytkownik ma możliwość rezerwacji tej książki dla jej późniejszego wynajęcia.
 
 Założyliśmy, że nasza biblioteka będzie miała na swoim terenie skaner do obsługi wynajęcia/zwracania książek, dzięki czemu nie potrzebujemy w naszej bibliotece żadnych ludzi do jej obsługi. Działa to w następujący sposób:
@@ -79,39 +72,36 @@ Założyliśmy, że nasza biblioteka będzie miała na swoim terenie skaner do o
 
 W celu symulacji takiego skanera zrobiliśmy osobną aplikację na Androida, która jako parametry pobiera id użytkownika i id książki i za pomocą brokera MQTT wysyła dane na serwer o jej wynajęciu/zwracaniu. Poniżej pokazany jest wygląd tej aplikacji:
 
-*[Screen aplikacji mobilnej]*
-<!-- ![AndroidApp](/src/main/resources/z11/libraryapp/img/docs/AndroidApp.png) -->
+![AndroidApp](/src/main/resources/z11/libraryapp/img/docs/AndroidApp.jpg)
 
 Zmianę statusu książki użytkownik może zaobserwować na stronie `Reading` aplikacji użytkownika.
 
 Po rezerwacji książki:
 
-*[Screen strony 'Reading' z zarezerwowaną książką]*
-<!-- ![ReservedBook](/src/main/resources/z11/libraryapp/img/docs/ReservedBook.png) -->
+![ReservedBook](/src/main/resources/z11/libraryapp/img/docs/ReservedBook.png)
 
 Po jej wynajęciu:
 
-*[Screen strony 'Reading' z wynajętą książką]*
-<!-- ![BorrowedBook](/src/main/resources/z11/libraryapp/img/docs/BorrowedBook.png) -->
+![BorrowedBook](/src/main/resources/z11/libraryapp/img/docs/BorrowedBook.png)
 
 Po jej zwrocie:
 
-*[Screen strony 'Reading' ze zwróconą książką]*
-<!-- ![ReturnedBook](/src/main/resources/z11/libraryapp/img/docs/ReturnedBook.png) -->
+![ReturnedBook](/src/main/resources/z11/libraryapp/img/docs/ReturnedBook.png)
 
 ## Baza Danych
 ### Model ER
-*[Model ER]*
+*`[TODO]`*
 <!-- ![ERModel](/src/main/resources/z11/libraryapp/img/docs/ERModel.png) -->
 
 ### Model Relacyjny
-*[Model Relacyjny]*
-<!-- ![RelativeModel](/src/main/resources/z11/libraryapp/img/docs/RelativeModel.png) -->
+![RelativeModel](/src/main/resources/z11/libraryapp/img/docs/RelativeModel.png)
 
 ## Podział pracy
-Mikalai Stelmakh - tworzenie aplikacji użytkownika, stron logowania oraz rejestracji, dokumentacja
-Denys Savytskyi - baza danych oraz klasa do jej obsługi z poziomu javy, stworzenie aplikacji mobilnej do sumylacji odbioru/zwrotu książek
-Roman Ishchuk - Implementacja wstępna, interfejs panelu administracyjnego oraz logowania
+**Mikalai Stelmakh** - stworzenie aplikacji użytkownika, stron logowania oraz rejestracji, dokumentacja
+
+**Denys Savytskyi** - baza danych oraz klasa do jej obsługi z poziomu javy, stworzenie aplikacji mobilnej do sumylacji odbioru/zwrotu książek
+
+**Roman Ishchuk** - Implementacja wstępna, interfejs panelu administracyjnego oraz logowania
 
 ## Kierunek dalszego rozwoju projektu
 Oczywyście nie zdążyliśmy spełnić wszystkie ustawione przez nas na etapie planowania wymagania. Na zaimplementowanie niektórych z nich nie wystarczyło nam czasu, a niektóre okazały się mniej priorytetowe niż pozostałe. Poniżej przedstawiamy listę elementów wartych zaimplementowania i dodania do projektu:
