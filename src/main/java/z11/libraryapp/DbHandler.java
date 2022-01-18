@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import  java.sql.PreparedStatement;
+import java.sql.Types;
 
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 
@@ -570,6 +571,15 @@ public class DbHandler {
         return users;
     }
 
+    public void delUser(int userId) throws UnavailableDB {
+        String query = "DELETE FROM users WHERE user_id = ?";
+        try {
+            dmlQuery(query, userId);
+        } catch (DmlQueryError e){
+            e.printStackTrace();
+        }
+    }
+
     public User getUserByLogin(String login) throws UnavailableDB{
         User user = null;
         login = login.toLowerCase();
@@ -794,6 +804,19 @@ public class DbHandler {
         return countryId;
     }
 
+    public String getCountryName(int id) throws  UnavailableDB {
+        String name = null;
+        String query = "SELECT name from country WHERE country_id = ?";
+        try(ResultSet rs = ddlQuery(query, id)){
+            rs.next();
+            name = rs.getString(1);
+            return rs.getString(1);
+        } catch (SQLException | DdlQueryError e){
+            e.printStackTrace();
+        }
+        return name;
+    }
+
     public void delSeries(int seriesId) throws UnavailableDB{
         String query = "DELETE FROM series WHERE series_id = ?";
         try {
@@ -825,6 +848,19 @@ public class DbHandler {
         return languageId;
     }
 
+    public String getLanguage(int id) throws  UnavailableDB {
+        String name = null;
+        String query = "SELECT name from country WHERE language_id = ?";
+        try(ResultSet rs = ddlQuery(query, id)){
+            rs.next();
+            name = rs.getString(1);
+            return rs.getString(1);
+        } catch (SQLException | DdlQueryError e){
+            e.printStackTrace();
+        }
+        return name;
+    }
+
     public int getSeriesId(String series) throws  UnavailableDB {
         int seriesId = -1;
         String query = "SELECT series_id from series WHERE name = ?";
@@ -835,6 +871,19 @@ public class DbHandler {
             e.printStackTrace();
         }
         return seriesId;
+    }
+
+    public String getSeriesName(int id) throws  UnavailableDB {
+        String name = null;
+        String query = "SELECT name from country WHERE series_id = ?";
+        try(ResultSet rs = ddlQuery(query, id)){
+            rs.next();
+            name = rs.getString(1);
+            return rs.getString(1);
+        } catch (SQLException | DdlQueryError e){
+            e.printStackTrace();
+        }
+        return name;
     }
 
     public void addBook(int id, String title, String summary, int publicationYear, int pages,
@@ -932,8 +981,15 @@ public class DbHandler {
     public void addAuthor(Author author) throws UnavailableDB {
         String query = "INSERT INTO author VALUES(null, ?, ?, ?, ?, ?, ?)";
         try {
-            dmlQuery(query, author.getFirstName(), author.getLastName(), author.getBirthYear(), author.getDeathYear(),
-                     author.getBiography(), author.getPhotoSrc());
+            if(author.getDeathYear() == -1){
+                dmlQuery(query, author.getFirstName(), author.getLastName(), author.getBirthYear(), null,
+                        author.getBiography(), author.getPhotoSrc());
+            }
+            else{
+                dmlQuery(query, author.getFirstName(), author.getLastName(), author.getBirthYear(),
+                        author.getDeathYear(), author.getBiography(), author.getPhotoSrc());
+            }
+
         } catch (DmlQueryError e){
             e.printStackTrace();
         }
@@ -1033,4 +1089,5 @@ public class DbHandler {
     protected void finalize () {
         closeConnetion();
     }
+
 }

@@ -8,9 +8,7 @@
 <AnchorPane prefHeight="167.0" prefWidth="796.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="z11.libraryapp.controllers.AddGenrePageController">
    <children>
       <Label layoutX="29.0" layoutY="28.0" text="Add new Genre" />
-      <Label layoutX="29.0" layoutY="84.0" prefHeight="18.0" prefWidth="18.0" text="id:" />
       <Label layoutX="282.0" layoutY="85.0" text="name:" />
-      <TextField fx:id="genreIdTextField" layoutX="64.0" layoutY="81.0" />
       <TextField fx:id="genreNameTextField" layoutX="338.0" layoutY="81.0" />
       <Button fx:id="addGenreButton" layoutX="569.0" layoutY="81.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="82.0" text="Add Genre" />
       <Label fx:id="informationField" layoutX="64.0" layoutY="119.0" prefHeight="18.0" prefWidth="426.0" textFill="#ac2a1e" />

@@ -40,7 +40,6 @@ public class AddSeriesPageController {
 
         addSeriesButton.setOnAction(actionEvent -> {
             try {
-                Integer seriesId = Integer.parseInt(seriesIdTextField.getText());
                 String seriesName = seriesNameTextField.getText();
                 if (seriesName == "") {
                     informationField.setText("Fill in all the fields");
@@ -60,7 +59,6 @@ public class AddSeriesPageController {
                     }
                 }
             }catch (NumberFormatException e) {
-                informationField.setText("Write the number of id you want to add");
                 System.err.println("Wrong string format!");
             }
         });

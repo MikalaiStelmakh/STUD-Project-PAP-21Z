@@ -171,5 +171,29 @@ public class AdminUserController {
                 e.printStackTrace();
             }
         });
+
+        addButton.setOnAction(actionEvent -> {
+
+            try {
+                Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/z11/libraryapp/fxml/AddUserPage.fxml")));
+                Stage stage = (Stage) addButton.getScene().getWindow();
+                stage.setScene(scene);
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        deleteButton.setOnAction(actionEvent -> {
+
+            try {
+                Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/z11/libraryapp/fxml/DelUserPage.fxml")));
+                Stage stage = (Stage) deleteButton.getScene().getWindow();
+                stage.setScene(scene);
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 }
