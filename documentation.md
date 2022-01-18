@@ -76,10 +76,10 @@ Jeśli użytkownik chce zobaczyć informację na temat konkretnej książki, dos
 Oprócz informacji o tej książce użytkownik ma możliwość rezerwacji tej książki dla jej późniejszego wynajęcia.
 
 Założyliśmy, że nasza biblioteka będzie miała na swoim terenie skaner do obsługi wynajęcia/zwracania książek, dzięki czemu nie potrzebujemy w naszej bibliotece żadnych ludzi do jej obsługi. Działa to w następujący sposób:
-- Użytkownik rezerwuje książkę i dostaje jej unikalny identyfikator,
-- Przychodzi do biblioteki i wyszukuje zarezerwowanej przez siebie książkę,
-- Skanuje na kasie książkę oraz 'kartę czytelnika',
-- Jeśli rezerwacja danej książki dla tego użytkownika istnieje, dostaje jej w wypożyczenie.
+1. Użytkownik rezerwuje książkę i dostaje jej unikalny identyfikator,
+1. Przychodzi do biblioteki i wyszukuje zarezerwowanej przez siebie książkę,
+1. Skanuje na kasie książkę oraz 'kartę czytelnika',
+1. Jeśli rezerwacja danej książki dla tego użytkownika istnieje, dostaje jej w wypożyczenie.
 
 W celu symulacji takiego skanera zrobiliśmy osobną aplikację na Androida, która jako parametry pobiera id użytkownika i id książki i za pomocą brokera MQTT wysyła dane na serwer o jej wynajęciu/zwracaniu. Poniżej pokazany jest wygląd tej aplikacji:
 
