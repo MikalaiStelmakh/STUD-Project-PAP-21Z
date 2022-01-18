@@ -690,9 +690,9 @@ public class DbHandler {
         }
     }
 
-    public void returnBook(int bookInstanceId) throws UnavailableDB, DmlQueryError{
+    public void returnBook(int bookInstanceId) throws UnavailableDB{
         String query = "UPDATE book_instance "
-                + "SET user_id = ?, status_id = 0 "
+                + "SET user_id = null, status_id = 0 "
                 + "WHERE book_instance_id = ? ";
         try {
             dmlQuery(query, bookInstanceId);
