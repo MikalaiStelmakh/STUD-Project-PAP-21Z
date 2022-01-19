@@ -123,5 +123,4 @@ Oczywyście nie zdążyliśmy spełnić wszystkie ustawione przez nas na etapie 
 - Dodanie do strony wyszukiwania możliwość filtracji wyników wyszukiwania po wszystkich atrybutach książki/autora,
 - Dodanie mechanizmu rekomendacji książek/autorów dla poszczególnych użytkowników na podstawie ich zainteresowań,
 - Dodanie możliwości dla użytkownika usunięcia swojego konta,
-- ...
 
