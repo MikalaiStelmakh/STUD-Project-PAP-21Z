@@ -111,6 +111,19 @@ Po jej zwrocie:
 ### Model Relacyjny
 ![RelativeModel](/src/main/resources/z11/libraryapp/img/docs/RelativeModel.png)
 
+### Admin panel
+Wygodne przeglądanie informacji w panelu administracyjnym:
+![ViewUsersInAdminPanel](/src/main/resources/z11/libraryapp/img/docs/ViewUsersInAdminPanel.png)
+
+
+Łatwe dodawanie i usuwanie informacji w panelu administracyjnym:
+![AddNewUsersInAdminPanel](/src/main/resources/z11/libraryapp/img/docs/AddNewUsersInAdminPanel.png)
+
+
+![DeleteUsersInAdminPanel](/src/main/resources/z11/libraryapp/img/docs/DeleteUsersInAdminPanel.png)
+
+
+
 ## Podział pracy
 **Mikalai Stelmakh** - stworzenie aplikacji użytkownika, stron logowania oraz rejestracji, dokumentacja
 
