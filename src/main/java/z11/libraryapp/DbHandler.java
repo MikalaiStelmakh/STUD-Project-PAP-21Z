@@ -1086,6 +1086,25 @@ public class DbHandler {
         }
     }
 
+    public ArrayList<EmailAdmin> getEmailAdmin() throws UnavailableDB {
+        ArrayList<EmailAdmin> emailAdmins = new ArrayList<EmailAdmin>();
+        String query = "select * from admin_email";
+        try(ResultSet rs = ddlQuery(query)){
+            while(rs.next()){
+                try{
+                    int id = rs.getInt(1);
+                    String email = rs.getString(2);
+                    emailAdmins.add(new EmailAdmin(id, email));
+                }
+                catch(SQLException ignored){
+                }
+            }
+        } catch(DdlQueryError | SQLException e){
+            e.printStackTrace();
+        }
+        return emailAdmins;
+    }
+
     protected void finalize () {
         closeConnetion();
     }

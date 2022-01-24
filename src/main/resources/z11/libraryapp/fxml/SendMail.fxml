@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="167.0" prefWidth="453.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="z11.libraryapp.controllers.SendMailController">
+    <children>
+        <Label layoutX="164.0" layoutY="34.0" text="Write your admin id or email" />
+        <TextField fx:id="emailTextField" layoutX="154.0" layoutY="70.0" prefHeight="26.0" prefWidth="171.0" />
+        <Label fx:id="informationField" layoutX="53.0" layoutY="52.0" prefHeight="18.0" prefWidth="426.0" textFill="#ac2a1e" />
+      <MenuButton fx:id="button" layoutX="340.0" layoutY="71.0" mnemonicParsing="false" text="Search by">
+        <items>
+          <MenuItem fx:id="button1" mnemonicParsing="false" text="email" />
+          <MenuItem fx:id="button2" mnemonicParsing="false" text="admin id" />
+        </items>
+      </MenuButton>
+    </children>
+</AnchorPane>

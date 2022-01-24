@@ -39,6 +39,15 @@ public class SignInController {
     private PasswordField passwordField;
 
     @FXML
+    private Label firstButton;
+
+    @FXML
+    private Label thirdButton;
+
+    @FXML
+    private Label secondButton;
+
+    @FXML
     private Button logInButton;
 
     @FXML
@@ -125,5 +134,23 @@ public class SignInController {
         else if (event.getCode().equals(KeyCode.UP)){
             loginField.requestFocus();
         }
+    }
+
+    @FXML
+    void initialize() {
+        firstButton.setOnMousePressed(mouseEvent  -> {
+            secondButton.setOnMousePressed(mouseEvent1 -> {
+                thirdButton.setOnMousePressed(mouseEvent2 -> {
+                    try {
+                        Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/z11/libraryapp/fxml/SendMail.fxml")));
+                        Stage stage = (Stage) thirdButton.getScene().getWindow();
+                        stage.setScene(scene);
+                        stage.show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
+            });
+        });
     }
 }

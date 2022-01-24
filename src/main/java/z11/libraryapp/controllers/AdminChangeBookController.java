@@ -20,7 +20,9 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import z11.libraryapp.DbHandler;
+import z11.libraryapp.errors.TransactionError;
 import z11.libraryapp.errors.UnavailableDB;
+import z11.libraryapp.model.Author;
 import z11.libraryapp.model.Book;
 import z11.libraryapp.model.Genre;
 
@@ -179,6 +181,17 @@ public class AdminChangeBookController {
                 e.printStackTrace();
             }
         });
-    }
 
+        changesBook.setOnAction(actionEvent -> {
+
+            try {
+                Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/z11/libraryapp/fxml/AdminChangeBook.fxml")));
+                Stage stage = (Stage) changesBook.getScene().getWindow();
+                stage.setScene(scene);
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
 }

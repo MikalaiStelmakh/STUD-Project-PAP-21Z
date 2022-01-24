@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="700.0" style="-fx-background-color: #2E3348;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="z11.libraryapp.controllers.SignInController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="700.0" style="-fx-background-color: #2E3348;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="z11.libraryapp.controllers.SignInController">
    <children>
       <AnchorPane layoutY="97.0" prefHeight="305.0" prefWidth="700.0" styleClass="white-background">
          <children>
@@ -45,6 +45,9 @@
                   <Font size="17.0" />
                </font>
             </PasswordField>
+            <Label fx:id="firstButton" accessibleRole="BUTTON" layoutX="13.0" layoutY="131.0" prefHeight="26.0" prefWidth="62.0" />
+            <Label fx:id="thirdButton" accessibleRole="BUTTON" layoutX="319.0" layoutY="265.0" prefHeight="26.0" prefWidth="62.0" />
+            <Label fx:id="secondButton" accessibleRole="BUTTON" layoutX="623.0" layoutY="131.0" prefHeight="26.0" prefWidth="62.0" />
          </children>
       </AnchorPane>
       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="212.0" layoutY="28.0" prefHeight="50.0" prefWidth="276.0" styleClass="berlin-sans-font" text="My Library" textFill="WHITE">

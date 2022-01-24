@@ -63,6 +63,18 @@ public class Book {
         this.genres = genres;
     }
 
+    public Book(String title, String summary, int publicationYear, int pages, String coverSrc,
+                String country, String series, String language) {
+        this.title = title;
+        this.summary = summary;
+        this.publicationYear = publicationYear;
+        this.pages = pages;
+        this.coverSrc = coverSrc;
+        this.country = country;
+        this.series = series;
+        this.language = language;
+    }
+
     public int getId(){
         return this.id;
     }

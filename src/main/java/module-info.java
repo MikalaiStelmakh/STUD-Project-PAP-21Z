@@ -8,9 +8,10 @@ module LibraryApp {
     requires org.junit.platform.engine;
     requires org.junit.platform.launcher;
     requires org.junit.jupiter;
+    requires mail;
+    requires activation;
 
     opens z11.libraryapp to javafx.fxml;
-    opens z11.tests to org.junit.platform.commons;
     exports z11.libraryapp;
     exports z11.libraryapp.model;
     exports z11.libraryapp.controllers;
