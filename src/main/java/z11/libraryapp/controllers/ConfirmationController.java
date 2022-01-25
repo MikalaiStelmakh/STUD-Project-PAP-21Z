@@ -59,7 +59,7 @@ public class ConfirmationController {
 
         } else {
             informationField.setText("Wrong code");
-            codeReview();
+            //codeReview();
         }
     }
 

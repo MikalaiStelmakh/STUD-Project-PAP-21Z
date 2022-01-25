@@ -19,9 +19,9 @@ public class SendEmail {
     public int SendMail(String email){
         int rand = randomCode();
         String to = email;
-        String from = "@gmail.com";
+        String from = "tankist.sliv@gmail.com";
         String host = "smtp.gmail.com";
-        String pass = "";
+        String pass = "libraryapp";
 
         Properties properties = System.getProperties();
         properties.setProperty("mail.transport.protocol", "smtp");
@@ -42,8 +42,8 @@ public class SendEmail {
         Session session = Session.getDefaultInstance(properties,
                 new javax.mail.Authenticator() {
                     protected PasswordAuthentication getPasswordAuthentication() {
-                        final String user = "@gmail.com";
-                        final String password = "";
+                        final String user = "tankist.sliv@gmail.com";
+                        final String password = "libraryapp";
                         return new PasswordAuthentication(user,password);
                     }
                 });

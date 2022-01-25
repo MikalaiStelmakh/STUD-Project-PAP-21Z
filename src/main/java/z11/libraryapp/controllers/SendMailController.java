@@ -48,7 +48,10 @@ public class SendMailController {
     private MenuItem button2;
 
 
-    public String EmailAdmin (String mail) {
+    public String EmailAdmin () {
+
+        String email = emailTextField.getText();
+
 
         DbHandler dbManager = null;
         try {
@@ -64,10 +67,10 @@ public class SendMailController {
         }
         for (int i = 0; i< emailAdmin1.size(); i++){
             EmailAdmin emailAdmin = emailAdmin1.get(i);
-            if (!Objects.equals(mail, emailAdmin.getEmail())) {
+            if (!Objects.equals(email, emailAdmin.getEmail())) {
                 informationField.setText("error email");
             }
-            if (Objects.equals(mail, emailAdmin.getEmail())) {
+            if (Objects.equals(email, emailAdmin.getEmail())) {
                 try {
                     Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/z11/libraryapp/fxml/ConfirmationPage.fxml")));
                     Stage stage = (Stage) button.getScene().getWindow();
@@ -76,9 +79,17 @@ public class SendMailController {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            } return mail;
+
+                SendEmail sendEmail = new SendEmail();
+                int number = sendEmail.SendMail(email);
+                try (PrintStream out = new PrintStream(new FileOutputStream("filename.txt"))) {
+                    out.print(number);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            } return email;
         }
-        if (mail == "") {
+        if (email == "") {
             informationField.setText("Fill in the fields");
         } return null;
 
@@ -89,14 +100,7 @@ public class SendMailController {
         button1.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                String email = emailTextField.getText();
-                SendEmail sendEmail = new SendEmail();
-                int number = sendEmail.SendMail(EmailAdmin(email));
-                try (PrintStream out = new PrintStream(new FileOutputStream("filename.txt"))) {
-                    out.print(number);
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
+                String newEmail = EmailAdmin();
             }
         });
 
