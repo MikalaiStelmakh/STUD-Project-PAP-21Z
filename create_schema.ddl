@@ -166,6 +166,10 @@ BEGIN
 
     INSERT INTO book(title, summary, publication_year, pages, cover, country_id, language_id)
         VALUES(p_title, p_summary, p_publication_year, p_pages, p_cover_src, v_country_id, v_language_id);
+EXCEPTION
+    WHEN no_data_found THEN
+        dbms_output.put_line ('Invalid name of country or/and language.');
+        RAISE; 
 END;
 /
 
