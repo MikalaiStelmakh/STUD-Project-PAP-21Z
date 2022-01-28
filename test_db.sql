@@ -134,12 +134,39 @@ DELETE FROM language WHERE language_id = 5;
 INSERT INTO country VALUES(null, 'Germany');
 DELETE FROM country WHERE name = 'Germany';
 
+-- test format_text function
+create or replace procedure test_format_text(p_text varchar2)
+as
+    v_formatted_text varchar2(100);
+begin
+    select format_text(p_text)
+    into v_formatted_text
+    from dual;
+    
+    dbms_output.put_line('Text: ' || p_text);
+    dbms_output.put_line('Formatted text: ' || v_formatted_text);
+end;
+/
+exec test_format_text('lowercase');
+exec test_format_text('UPPERCASE');
+exec test_format_text('teXt');
+exec test_format_text('Text');
 
+-- test add_book procedure
+-- success (existing country & language)
+exec add_book('Book name','Some summary', 1969, 256, 'DuneMessiah.jpg', 'United Kingdom', 'English');
+exec add_book('Book name 1','Some summary 1', 2005, 300, 'DuneMessiah.jpg', 'United States', 'Polish');      
+-- fail (wrong country/language name, raises an exception)
+exec add_book('Book name','Some summary', 1969, 256, 'DuneMessiah.jpg', 'Kingdom', 'English');
+exec add_book('Book name 1','Some summary 1', 2005, 300, 'DuneMessiah.jpg', 'United States', 'Pol'); 
 
+-- test lend_book procedure
+-- success (this book_instance is reserved by this user)
+exec lend_book(72, 8);
+-- fail (book is already in use by this or other user, raises an exception)
+exec lend_book(72, 17);
+-- fail (book is not reserved by this user, raises an exception)
+exec lend_book(72, 1);
 
-                
-
-
-                
 
 
