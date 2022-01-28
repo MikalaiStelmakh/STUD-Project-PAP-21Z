@@ -168,5 +168,7 @@ exec lend_book(72, 17);
 -- fail (book is not reserved by this user, raises an exception)
 exec lend_book(72, 1);
 
-
+-- test tg_admins trigger
+-- fail (there are already two admins)
+insert into users values (null, 'test', 'test', 'test', '123', 1);
 
