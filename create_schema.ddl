@@ -200,3 +200,18 @@ BEGIN
     END IF;
 END write_to_history;
 /
+
+CREATE OR REPLACE TRIGGER tg_admins
+BEFORE INSERT OR UPDATE of permission_id ON users 
+FOR EACH ROW
+DECLARE
+    v_permission_id INTEGER;
+    v_count INTEGER;
+BEGIN
+    SELECT count(user_id) INTO v_count FROM users WHERE permission_id = 1;
+
+    IF (v_count >= 2 AND :new.permission_id = 1) THEN 
+        RAISE_APPLICATION_ERROR(-20001, 'Wieciej niz dwa administratora'); 
+    END IF;
+END;
+/
