@@ -171,52 +171,34 @@ END;
 
 CREATE OR REPLACE PROCEDURE lend_book(p_user_id NUMBER, p_book_instance_id NUMBER)
 AS
-    v_left_books NUMBER;
-    v_day_diff NUMBER;
-    c_max_lends_in_row NUMBER := 3;
-    c_min_left_books NUMBER := 0;
+    e_book_in_use EXCEPTION;
+    PRAGMA exception_init( e_book_in_use, -20001 );
+    e_book_not_reserved EXCEPTION;
+    PRAGMA exception_init( e_book_not_reserved, -20002 );
+    v_user_id   NUMBER;
+    v_status    status.name%TYPE;
+
 BEGIN
-    SELECT count(book_instance_id) INTO v_left_books FROM book_instance
-        JOIN status USING(status_id)
-        WHERE status.name = 'AVAILABLE';
-
-    IF v_left_books = 0 THEN
-        SELECT max(return_date) - min(return_date) INTO v_day_diff FROM (SELECT return_date FROM book_instance_history
-            JOIN book_instance USING(book_instance_id)
-            WHERE book_instance_history.user_id = 0 AND book_instance.book_id = (SELECT book_id FROM book_instance WHERE book_instance_id = 0)
-            ORDER BY return_date DESC)
-            FETCH NEXT c_max_lends_in_row ROWS ONLY;
-
-        IF v_day_diff > c_max_lends_in_row * 30 THEN
-            UPDATE book_instance SET user_id = p_user_id, status_id = 2 WHERE book_instance_id = p_book_instance_id;
-        END IF;
-    ELSE
-        UPDATE book_instance SET user_id = p_user_id, status_id = 2 WHERE book_instance_id = p_book_instance_id;
-    END IF;
+    select user_id, s.name
+    into v_user_id, v_status
+    from book_instance join status s using(status_id)
+    where book_instance_id = p_book_instance_id;
+    
+    if v_user_id <> p_user_id then
+        raise e_book_in_use;
+    elsif v_status <> 'RESERVED' then
+        raise e_book_not_reserved;
+    else
+        update book_instance set user_id = p_user_id, status_id = 2 where book_instance_id = p_book_instance_id;
+    end if;
+EXCEPTION
+    WHEN e_book_in_use THEN
+        dbms_output.put_line ('Book is already in use.');
+        RAISE; 
+    WHEN e_book_not_reserved THEN
+        dbms_output.put_line ('Book is not reserved by this user.');
+        RAISE; 
 END;
-/
-
-CREATE OR REPLACE TRIGGER write_to_history
-AFTER UPDATE OF user_id ON book_instance
-FOR EACH ROW
-WHEN(new.status_id != old.status_id)
-DECLARE
-    v_curr_date DATE;
-    v_lent_id NUMBER;
-    v_available_id NUMBER;
-BEGIN
-    SELECT status.status_id INTO v_lent_id FROM status WHERE name = 'LENT';
-    SELECT status.status_id INTO v_available_id FROM status WHERE name = 'AVAILABLE';
-    select SYSDATE INTO v_curr_date from dual;
-
-    IF :new.status_id = v_lent_id THEN --lent
-        INSERT INTO book_instance_history(book_instance_id, user_id, borrow_date) VALUES(:new.book_instance_id , :new.user_id, v_curr_date);
-    ELSIF :new.status_id = v_available_id THEN --returned
-        UPDATE book_instance_history
-        SET return_date = v_curr_date
-        WHERE book_instance_id = :new.book_instance_id;
-    END IF;
-END write_to_history;
 /
 
 CREATE OR REPLACE TRIGGER tg_admins
