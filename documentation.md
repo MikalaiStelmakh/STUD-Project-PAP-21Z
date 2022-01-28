@@ -105,11 +105,10 @@ Po jej zwrocie:
 
 ## Baza Danych
 ### Model ER
-*`[TODO]`*
-<!-- ![ERModel](/src/main/resources/z11/libraryapp/img/docs/ERModel.png) -->
+![ERModel](/src/main/resources/z11/libraryapp/img/docs/LogicalModel.svg)
 
 ### Model Relacyjny
-![RelativeModel](/src/main/resources/z11/libraryapp/img/docs/RelativeModel.png)
+![RelativeModel](/src/main/resources/z11/libraryapp/img/docs/RelativeModel.svg)
 
 ### Admin panel
 Wygodne przeglądanie informacji w panelu administracyjnym:
