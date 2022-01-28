@@ -228,13 +228,23 @@ CREATE OR REPLACE TRIGGER tg_admins
 BEFORE INSERT OR UPDATE of permission_id ON users 
 FOR EACH ROW
 DECLARE
-    v_permission_id INTEGER;
-    v_count INTEGER;
+    e_too_many_admins EXCEPTION;
+    PRAGMA exception_init( e_too_many_admins, -20001 );
+    v_admin_permission_id NUMBER;
+    v_permission_id NUMBER;
+    v_count NUMBER;
+    c_admins_limit CONSTANT NUMBER:=2;
 BEGIN
-    SELECT count(user_id) INTO v_count FROM users WHERE permission_id = 1;
+    SELECT permission_id INTO v_admin_permission_id FROM permissions where name = 'Admin';
+    SELECT count(user_id) INTO v_count FROM users WHERE permission_id = v_admin_permission_id;
 
-    IF (v_count >= 2 AND :new.permission_id = 1) THEN 
-        RAISE_APPLICATION_ERROR(-20001, 'Wieciej niz dwa administratora'); 
+    IF (v_count >= c_admins_limit AND :new.permission_id = v_admin_permission_id) THEN 
+        RAISE e_too_many_admins;
     END IF;
-END;
+EXCEPTION
+    WHEN e_too_many_admins THEN
+        dbms_output.put_line ('Too many admins (limit: ' || c_admins_limit || ').');
+        RAISE; 
+
+END tg_admins;
 /
