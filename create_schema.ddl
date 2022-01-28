@@ -141,28 +141,24 @@ END;
 
 CREATE OR REPLACE PROCEDURE add_book(p_title VARCHAR2, p_summary VARCHAR2, p_publication_year NUMBER, p_pages NUMBER, p_cover_src VARCHAR2, p_country VARCHAR2, p_language VARCHAR2)
 AS
-    v_formated_string VARCHAR2(255);
+    v_country_exists NUMBER;
+    v_language_exists NUMBER;
     v_language_id NUMBER;
     v_country_id NUMBER;
 BEGIN
-    SELECT format_text(p_country) INTO v_formated_string FROM dual;
-    SELECT count(country_id) INTO v_country_id from country WHERE country.name = v_formated_string;
-    IF v_language_id = 0 THEN
-        INSERT INTO country VALUES(null, v_formated_string) RETURNING country_id INTO v_country_id;
+    SELECT count(country_id) INTO v_country_exists from country WHERE country.name = p_country;
+    IF v_country_exists = 0 THEN
+        RAISE no_data_found;
     ELSE
-        SELECT country_id INTO v_country_id from country WHERE country.name = v_formated_string;
+        SELECT country_id INTO v_country_id from country WHERE country.name LIKE p_country;
     END IF;
 
-    SELECT format_text(p_language) INTO v_formated_string FROM dual;
-    SELECT count(language_id) INTO v_language_id from language WHERE language.name = v_formated_string;
-    IF v_language_id = 0 THEN
-        INSERT INTO language VALUES(null, v_formated_string) RETURNING language_id INTO v_language_id;
+    SELECT count(language_id) INTO v_language_exists from language WHERE language.name = p_language;
+    IF v_language_exists = 0 THEN
+        RAISE no_data_found;
     ELSE
-        SELECT language_id INTO v_language_id from language WHERE language.name = v_formated_string;
+        SELECT language_id INTO v_language_id from language WHERE language.name LIKE p_language;
     END IF;
-
-
-    SELECT language_id INTO v_language_id from language WHERE language.name = format_text(p_language);
 
     INSERT INTO book(title, summary, publication_year, pages, cover, country_id, language_id)
         VALUES(p_title, p_summary, p_publication_year, p_pages, p_cover_src, v_country_id, v_language_id);
