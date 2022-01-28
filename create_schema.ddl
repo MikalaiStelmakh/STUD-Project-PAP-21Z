@@ -201,6 +201,29 @@ EXCEPTION
 END;
 /
 
+CREATE OR REPLACE TRIGGER write_to_history
+AFTER UPDATE OF user_id ON book_instance
+FOR EACH ROW
+WHEN(new.status_id != old.status_id)
+DECLARE
+    v_curr_date DATE;
+    v_lent_id NUMBER;
+    v_available_id NUMBER;
+BEGIN
+    SELECT status.status_id INTO v_lent_id FROM status WHERE name = 'LENT';
+    SELECT status.status_id INTO v_available_id FROM status WHERE name = 'AVAILABLE';
+    select SYSDATE INTO v_curr_date from dual;
+
+    IF :new.status_id = v_lent_id THEN --lent
+        INSERT INTO book_instance_history(book_instance_id, user_id, borrow_date) VALUES(:new.book_instance_id , :new.user_id, v_curr_date);
+    ELSIF :new.status_id = v_available_id THEN --returned
+        UPDATE book_instance_history
+        SET return_date = v_curr_date
+        WHERE book_instance_id = :new.book_instance_id;
+    END IF;
+END write_to_history;
+/
+
 CREATE OR REPLACE TRIGGER tg_admins
 BEFORE INSERT OR UPDATE of permission_id ON users 
 FOR EACH ROW
