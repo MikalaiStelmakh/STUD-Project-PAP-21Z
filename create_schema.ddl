@@ -121,6 +121,24 @@ BEGIN
 END;
 /
 
+CREATE OR REPLACE FUNCTION procent (p_sid INTEGER)
+RETURN NUMBER
+AS
+v_count_b_s INTEGER;
+v_count_b INTEGER;
+v_count_p INTEGER;
+BEGIN
+    SELECT count(book_instance_id) INTO v_count_b
+    FROM book_instance;
+    
+    SELECT count(book_instance_id) INTO v_count_b_s
+    FROM book_instance where status_id = p_sid;
+    
+    v_count_p := v_count_b_s / v_count_b * 100;
+    RETURN v_count_p;
+END;
+/
+
 CREATE OR REPLACE PROCEDURE add_book(p_title VARCHAR2, p_summary VARCHAR2, p_publication_year NUMBER, p_pages NUMBER, p_cover_src VARCHAR2, p_country VARCHAR2, p_language VARCHAR2)
 AS
     v_formated_string VARCHAR2(255);
